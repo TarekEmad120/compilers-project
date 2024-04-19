@@ -36,6 +36,8 @@ int line_num = 1;
 "}" {return RBRACE;}
 "(" {return LPAREN;}
 ")" {return RPAREN;}
+"[" {return LBRACKET;}
+"]" {return RBRACKET;}
 ";" {return SEMICOLON;}
 ":" {return COLON;}
 "," {return COMMA;}
