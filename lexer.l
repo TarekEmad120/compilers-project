@@ -3,14 +3,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-
+#include "y.tab.h"
 
 void yyerror(char *s);
 int yylex(void);
 int line_num = 1;
 
 %}
+
+
 
 %%
 "if" {return IF;}
@@ -24,7 +25,7 @@ int line_num = 1;
 "break" {return BREAK;}
 "continue" {return CONTINUE;}
 "return" {return RETURN;}
-"int" {return INT;}
+"int" {printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext); return INT;}
 "float" {return FLOAT;}
 "char" {return CHAR;}
 "string" {return STRING;}
@@ -46,7 +47,9 @@ int line_num = 1;
 "*" {return MULT;}
 "/" {return DIV;}
 "%" {return MOD;}
-"=" {return ASSIGN;}
+"=" {
+    printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext);
+    return ASSIGN;}
 "==" {return EQ;}
 "!=" {return NE;}
 "<" {return LT;}
@@ -58,10 +61,6 @@ int line_num = 1;
 "!" {return NOT;}
 "++" {return INC;}
 "--" {return DEC;}
-"+=" {return PLUSEQ;}
-"-=" {return MINUSEQ;}
-"*=" {return MULTEQ;}
-"/=" {return DIVEQ;}
 "#" {return HASH;}
 "error" {return ERROR;}
 "pragma" {return PRAGMA;}
@@ -77,12 +76,15 @@ int line_num = 1;
 
 
 
-
-[a-zA-Z_][a-zA-Z0-9_]* {yylval.sval = strdup(yytext); return IDENTIFIER;}
-[0-9]+ {yylval.ival = atoi(yytext); return INT_CONST;}
+[a-zA-Z_][a-zA-Z0-9_]* {yylval.sval = strdup(yytext); 
+printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext);
+return IDENTIFIER;}
+[0-9]+ {yylval.ival = atoi(yytext);
+printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext);
+return INT_CONST;}
 [0-9]+\.[0-9]+ {yylval.fval = atof(yytext); return FLOAT_CONST;}
 
-\".*\" {yylval.sval = strdup(yytext); return STRING_VAL}
+\".*\" {yylval.sval = strdup(yytext); return STRING_VAL;}
 
 
 \'[a-zA-Z0-9]\' {yylval.cval = yytext[1]; return CHAR_VAL;}
@@ -97,13 +99,7 @@ int line_num = 1;
 
 
 %%
-int yywrap(void)
+int yywrap()
 {
     return 1;
 }
-
-void yyerror(char *s)
-{
-    fprintf(stderr, "%s at line %d\n", s, line_num);
-}
-

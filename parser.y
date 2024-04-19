@@ -2,42 +2,57 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    extern FILE *yyin;
-    extern int yylex();
-    extern int yylineno;
-    extern void yyerror(char *s);
+    // extern FILE *yyin;
+    // extern int yylex();
+    // extern int yylineno;
+    void yyerror(char *);
+    int yylex(void);
 %}
-%token IDENTIFIER
+
+%union {
+    int ival;
+    float fval;
+    char cval;
+    char *sval;
+}
+
+%token <ival> INT_CONST
+%token <fval> FLOAT_CONST
+%token <cval> CHAR_VAL
+%token <sval> STRING_VAL
+%token <sval> IDENTIFIER
+
+/* %token IDENTIFIER */
 %token EQ GT LT GE LE NE
 %token PLUSEQ MINUSEQ MULTEQ DIVEQ INC DEC
 %token ASSIGN
-%token IF ELSE WHILE FOR DO SWITCH CASE DEFAULT BREAK CONTINUE RETURN INT FLOAT CHAR STRING VOID MAIN PRINTF SCANF LBRACE RBRACE LPAREN RPAREN SEMICOLON COLON COMMA HASH ERROR PRAGMA EXTERN STATIC CONST VOLATILE REGISTER UNSIGNED TRUE FALSE INT_CONST FLOAT_CONST STRING_VAL CHAR_VAL COMMENT LBRACKET RBRACKET
+%token IF ELSE WHILE FOR DO SWITCH CASE DEFAULT BREAK CONTINUE RETURN INT FLOAT CHAR STRING VOID MAIN PRINTF SCANF LBRACE RBRACE LPAREN RPAREN SEMICOLON COLON COMMA HASH ERROR PRAGMA EXTERN STATIC CONST VOLATILE REGISTER UNSIGNED TRUE FALSE COMMENT LBRACKET RBRACKET
 %nonassoc OR NOT AND
 %left PLUS MINUS MULT DIV MOD
 
-%type INT  FLOAT  CHAR  STRING  VOID
+
 
 
 %%
 program :
-    declaration_list
+    declaration_list{printf("program\n");}
     ;
 declaration_list:
-                  declaration_list  declaration
-                | declaration
+                  declaration_list  declaration{printf("declaration_list\n");}
+                | declaration {printf("declaration\n");}
                 ;
 declaration:
-                  variable_declaration
+                  variable_declaration{printf("variable_declaration\n");}
                 | function_declaration
                 ;
 
 variable_declaration:
-                      type_specifier  variable_declaration_list
+                      type_specifier  variable_declaration_list{printf("variable_declaration2\n");}
                       ;
 
 scoped_variable_declaration:
                                 STATIC type_specifier  variable_declaration_list SEMICOLON
-                              | type_specifier  variable_declaration_list SEMICOLON
+                              | type_specifier  variable_declaration_list SEMICOLON {printf("scoped_variable_declaration\n");}
                               | CONST type_specifier  variable_declaration_list SEMICOLON
                               | VOLATILE type_specifier  variable_declaration_list SEMICOLON
                               | REGISTER type_specifier  variable_declaration_list SEMICOLON
@@ -46,7 +61,7 @@ scoped_variable_declaration:
 
 variable_declaration_list:
                             variable_declaration_list  COMMA  variable_declaration_value
-                          | variable_declaration_value
+                          | variable_declaration_value{printf("variable_declaration_value\n");}
                           ;
 
 variable_declaration_value:
@@ -54,12 +69,12 @@ variable_declaration_value:
                             ;
 
 variable_declaration_id:
-                            IDENTIFIER
+                            IDENTIFIER {printf("identifier\n");}
                             | IDENTIFIER LBRACKET INT_CONST RBRACKET
                             ;
 
 type_specifier:
-                  INT
+                  INT {printf("int\n");}
                 | FLOAT
                 | CHAR
                 | VOID
@@ -95,7 +110,7 @@ parameter_id_list:
                   ;
 
 parameter_id:
-                IDENTIFIER
+                IDENTIFIER {printf("parameter_id\n");}
               | IDENTIFIER LBRACKET RBRACKET
               ;
 
@@ -155,7 +170,7 @@ continue_statement:
                     ;
 
 expression:
-              mu_table ASSIGN expression
+              mu_table ASSIGN expression{printf("expression\n");}
             | mu_table PLUSEQ expression
             | mu_table MINUSEQ expression
             | mu_table MULTEQ expression
@@ -228,7 +243,7 @@ factor:
         ;
 
 mu_table:
-        IDENTIFIER
+        IDENTIFIER {printf("identifier\n");}
         | IDENTIFIER LBRACE expression RBRACE
         ;
 
@@ -293,6 +308,10 @@ IDENTIFIER
 //FUNCTION DEFINATION IN C LANGUAGE */
 
 %%
+
+void yyerror(char *s) {
+    fprintf(stderr, "%s\n", s);
+}
 
 
 int main(){
