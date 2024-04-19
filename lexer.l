@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <y.tab.h>
-#include <parser.tab.h>
+
+
 
 void yyerror(char *s);
 int yylex(void);

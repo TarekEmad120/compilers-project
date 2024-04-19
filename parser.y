@@ -9,7 +9,7 @@
 %}
 %token IDENTIFIER
 %token EQ GT LT GE LE NE
-%token PLUSEQ MINUSEQ MULTEQ DIVEQ
+%token PLUSEQ MINUSEQ MULTEQ DIVEQ INC DEC
 %token ASSIGN
 %token IF ELSE WHILE FOR DO SWITCH CASE DEFAULT BREAK CONTINUE RETURN INT FLOAT CHAR STRING VOID MAIN PRINTF SCANF LBRACE RBRACE LPAREN RPAREN SEMICOLON COLON COMMA HASH ERROR PRAGMA EXTERN STATIC CONST VOLATILE REGISTER UNSIGNED TRUE FALSE INT_CONST FLOAT_CONST STRING_VAL CHAR_VAL COMMENT LBRACKET RBRACKET
 %nonassoc OR NOT AND
@@ -36,12 +36,12 @@ variable_declaration:
                       ;
 
 scoped_variable_declaration:
-                                STATIC type_specifier  scoped_variable_declaration_list SEMICOLON
-                              | type_specifier  scoped_variable_declaration_list SEMICOLON
-                              | CONST type_specifier  scoped_variable_declaration_list SEMICOLON
-                              | VOLATILE type_specifier  scoped_variable_declaration_list SEMICOLON
-                              | REGISTER type_specifier  scoped_variable_declaration_list SEMICOLON
-                              | EXTERN type_specifier  scoped_variable_declaration_list SEMICOLON
+                                STATIC type_specifier  variable_declaration_list SEMICOLON
+                              | type_specifier  variable_declaration_list SEMICOLON
+                              | CONST type_specifier  variable_declaration_list SEMICOLON
+                              | VOLATILE type_specifier  variable_declaration_list SEMICOLON
+                              | REGISTER type_specifier  variable_declaration_list SEMICOLON
+                              | EXTERN type_specifier  variable_declaration_list SEMICOLON
                               ;
 
 variable_declaration_list:
@@ -155,13 +155,13 @@ continue_statement:
                     ;
 
 expression:
-              mutable ASSIGN expression
-            | mutable PLUSEQ expression
-            | mutable MINUSEQ expression
-            | mutable MULTEQ expression
-            | mutable DIVEQ expression
-            | mutable INC
-            | mutable DEC
+              mu_table ASSIGN expression
+            | mu_table PLUSEQ expression
+            | mu_table MINUSEQ expression
+            | mu_table MULTEQ expression
+            | mu_table DIVEQ expression
+            | mu_table INC
+            | mu_table DEC
             | simple_expression
             ;
 
@@ -181,8 +181,8 @@ unary_relational_expression:
                             ;
 
 relational_expression:
-                        minmaxExp  relop  minmaxExp
-                      | minmaxExp
+                        sumExp  relop  sumExp
+                      | sumExp
                       ;
 
 relop:
@@ -194,18 +194,66 @@ relop:
       | LE
       ;
 
-minmaxExp:
-            minmaxExp  PLUS  term
-          | minmaxExp  MINUS  term
-          | term
-          | sumExp
+sumExp:
+            sumExp  sumOp  mulExp
+          | mulExp  
           ;
 
+sumOp:
+      PLUS
+      | MINUS
+      ;
 
+mulExp:
+        mulExp mulOP mulExp
+        | unary_Exp
+        ;
 
+mulOP:
+      MULT
+      | DIV
+      | MOD
+      ;
+unary_Exp:
+          unary_op unary_Exp
+          | factor
+          ;
+unary_op:
+        MULT
+        | MINUS
+        ;
+factor:
+        immu_table 
+        |mu_table
+        ;
 
+mu_table:
+        IDENTIFIER
+        | IDENTIFIER LBRACE expression RBRACE
+        ;
 
-
+immu_table:
+          LPAREN expression RPAREN
+          | call
+          | constant
+          ;
+call: 
+    IDENTIFIER LPAREN args RPAREN
+    ;
+args:
+      arg_list
+      |
+      ;
+arg_list:
+        arg_list COMMA expression 
+        | expression
+        ;            
+constant:
+        INT_CONST 
+        | FLOAT_CONST
+        | STRING_VAL
+        | CHAR_VAL
+        ;
 //FUNCTION DECLATION IN C LANGUAGE
 /*
 10. funDecl → typeSpec IDENTIFIER ( parms ) stmt | IDENTIFIER ( parms ) stmt
@@ -245,3 +293,9 @@ IDENTIFIER
 //FUNCTION DEFINATION IN C LANGUAGE */
 
 %%
+
+
+int main(){
+  yyparse(); 
+  return 0; 
+}
