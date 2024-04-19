@@ -1,7 +1,5 @@
 %{
 
-
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -39,6 +37,7 @@ int line_num = 1;
 "(" {return LPAREN;}
 ")" {return RPAREN;}
 ";" {return SEMICOLON;}
+":" {return COLON;}
 "," {return COMMA;}
 "+" {return PLUS;}
 "-" {return MINUS;}
@@ -68,6 +67,9 @@ int line_num = 1;
 "unsigned" {return UNSIGNED;}
 "true" {return TRUE;}
 "false" {return FALSE;}
+
+
+
 
 [a-zA-Z_][a-zA-Z0-9_]* {yylval.sval = strdup(yytext); return ID;}
 [0-9]+ {yylval.ival = atoi(yytext); return INT_CONST;}
