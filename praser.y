@@ -8,13 +8,16 @@
     extern void yyerror(char *s);
 %}
 %token IDENTIFIER
-%token IF ELSE WHILE FOR DO SWITCH CASE DEFAULT BREAK CONTINUE RETURN INT FLOAT CHAR STRING VOID MAIN PRINTF SCANF LBRACE RBRACE LPAREN RPAREN SEMICOLON COLON COMMA HASH ERROR PRAGMA EXTERN STATIC CONST VOLATILE REGISTER UNSIGNED TRUE FALSE ID INT_CONST FLOAT_CONST STRING_VAL CHAR_VAL COMMENT LBRACKET RBRACKET
+%token EQ GT LT GE LE NE
+%token PLUSEQ MINUSEQ MULTEQ DIVEQ
+%token ASSIGN
+%token IF ELSE WHILE FOR DO SWITCH CASE DEFAULT BREAK CONTINUE RETURN INT FLOAT CHAR STRING VOID MAIN PRINTF SCANF LBRACE RBRACE LPAREN RPAREN SEMICOLON COLON COMMA HASH ERROR PRAGMA EXTERN STATIC CONST VOLATILE REGISTER UNSIGNED TRUE FALSE INT_CONST FLOAT_CONST STRING_VAL CHAR_VAL COMMENT LBRACKET RBRACKET
 %nonassoc OR NOT AND
 %left PLUS MINUS MULT DIV MOD
 
 %type INT  FLOAT  CHAR  STRING  VOID
 
-%start statement
+
 %%
 program :
     declaration_list
@@ -54,6 +57,149 @@ variable_declaration_id:
                             IDENTIFIER
                             | IDENTIFIER LBRACKET INT_CONST RBRACKET
                             ;
+
+type_specifier:
+                  INT
+                | FLOAT
+                | CHAR
+                | VOID
+                ;
+
+function_declaration:
+                        type_specifier  IDENTIFIER LPAREN parameters RPAREN statement
+                      | IDENTIFIER LPAREN parameter_list RPAREN statement
+                      ;
+
+// int add(int, int);
+// int add(int a, int b);
+// int add(int a, int b , int c , int d)
+// int add(int a, b , c ,d)
+
+parameters:
+              parameter_list
+            | /* empty */
+            ;
+
+parameter_list:     // int a, int b , int c , int d
+                  parameter_list  COMMA  parameter_type_list
+                | parameter_type_list
+                ;
+
+parameter_type_list:
+                      type_specifier  parameter_id_list
+                    ;
+
+parameter_id_list:
+                    parameter_id_list  COMMA  parameter_id  // int add(int a, b , c ,d)
+                  | parameter_id
+                  ;
+
+parameter_id:
+                IDENTIFIER
+              | IDENTIFIER LBRACKET RBRACKET
+              ;
+
+statement:
+            expression_statement    
+          | compound_statement
+          | selection_statement
+          | iteration_statement
+          | return_statement
+          | break_statement
+          | continue_statement
+          ;
+
+expression_statement:
+                         expression SEMICOLON
+                      |  SEMICOLON
+                      ;
+
+compound_statement:
+                      LBRACE  local_declarations  statement_list  RBRACE
+                    ;
+
+local_declarations:
+                      local_declarations  scoped_variable_declaration
+                      |  /* empty */
+                      ;
+
+statement_list:
+                  statement_list  statement
+                |  /* empty */
+                ;
+
+selection_statement:
+                      IF expression statement
+                    | IF expression statement ELSE statement
+                    /* | SWITCH LPAREN expression RPAREN statement */
+                    ;
+// switch case is not implemented yet
+
+iteration_statement:
+                      WHILE expression statement
+                    | DO statement WHILE expression SEMICOLON
+                    | FOR LPAREN expression_statement expression_statement expression RPAREN statement
+                    ;
+
+return_statement:
+                    RETURN SEMICOLON
+                  | RETURN expression SEMICOLON
+                  ;
+
+break_statement:
+                  BREAK SEMICOLON
+                ;  
+
+continue_statement:
+                      CONTINUE SEMICOLON
+                    ;
+
+expression:
+              mutable ASSIGN expression
+            | mutable PLUSEQ expression
+            | mutable MINUSEQ expression
+            | mutable MULTEQ expression
+            | mutable DIVEQ expression
+            | mutable INC
+            | mutable DEC
+            | simple_expression
+            ;
+
+simple_expression:
+                    simple_expression  OR  and_expression
+                  | and_expression
+                  ;
+
+and_expression:
+                  and_expression  AND  unary_relational_expression
+                | unary_relational_expression
+                ;
+
+unary_relational_expression:
+                              NOT unary_relational_expression
+                            | relational_expression
+                            ;
+
+relational_expression:
+                        minmaxExp  relop  minmaxExp
+                      | minmaxExp
+                      ;
+
+relop:
+        EQ
+      | NE
+      | GT
+      | LT
+      | GE
+      | LE
+      ;
+
+minmaxExp:
+            minmaxExp  PLUS  term
+          | minmaxExp  MINUS  term
+          | term
+          | sumExp
+          ;
 
 
 

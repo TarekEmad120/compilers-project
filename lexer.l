@@ -58,6 +58,10 @@ int line_num = 1;
 "!" {return NOT;}
 "++" {return INC;}
 "--" {return DEC;}
+"+=" {return PLUSEQ;}
+"-=" {return MINUSEQ;}
+"*=" {return MULTEQ;}
+"/=" {return DIVEQ;}
 "#" {return HASH;}
 "error" {return ERROR;}
 "pragma" {return PRAGMA;}
@@ -73,7 +77,8 @@ int line_num = 1;
 
 
 
-[a-zA-Z_][a-zA-Z0-9_]* {yylval.sval = strdup(yytext); return ID;}
+
+[a-zA-Z_][a-zA-Z0-9_]* {yylval.sval = strdup(yytext); return IDENTIFIER;}
 [0-9]+ {yylval.ival = atoi(yytext); return INT_CONST;}
 [0-9]+\.[0-9]+ {yylval.fval = atof(yytext); return FLOAT_CONST;}
 
