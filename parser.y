@@ -246,7 +246,7 @@ factor:
 
 mu_table:
         IDENTIFIER {printf("identifier\n");}
-        | IDENTIFIER LBRACE expression RBRACE
+        | IDENTIFIER LBRACKET expression RBRACKET
         ;
 
 immu_table:

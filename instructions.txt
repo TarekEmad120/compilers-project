@@ -1,5 +1,6 @@
 int main(){
-    for(x;x<3; x++){
-        
-    }
+   if x==y
+   {
+    
+   }
 }

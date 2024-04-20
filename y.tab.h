@@ -54,79 +54,72 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    IDENTIFIER = 258,              /* IDENTIFIER  */
-    I_CONSTANT = 259,              /* I_CONSTANT  */
-    F_CONSTANT = 260,              /* F_CONSTANT  */
-    STRING_LITERAL = 261,          /* STRING_LITERAL  */
-    FUNC_NAME = 262,               /* FUNC_NAME  */
-    SIZEOF = 263,                  /* SIZEOF  */
-    PTR_OP = 264,                  /* PTR_OP  */
-    INC_OP = 265,                  /* INC_OP  */
-    DEC_OP = 266,                  /* DEC_OP  */
-    LEFT_OP = 267,                 /* LEFT_OP  */
-    RIGHT_OP = 268,                /* RIGHT_OP  */
-    LE_OP = 269,                   /* LE_OP  */
-    GE_OP = 270,                   /* GE_OP  */
-    EQ_OP = 271,                   /* EQ_OP  */
-    NE_OP = 272,                   /* NE_OP  */
-    AND_OP = 273,                  /* AND_OP  */
-    OR_OP = 274,                   /* OR_OP  */
-    MUL_ASSIGN = 275,              /* MUL_ASSIGN  */
-    DIV_ASSIGN = 276,              /* DIV_ASSIGN  */
-    MOD_ASSIGN = 277,              /* MOD_ASSIGN  */
-    ADD_ASSIGN = 278,              /* ADD_ASSIGN  */
-    SUB_ASSIGN = 279,              /* SUB_ASSIGN  */
-    LEFT_ASSIGN = 280,             /* LEFT_ASSIGN  */
-    RIGHT_ASSIGN = 281,            /* RIGHT_ASSIGN  */
-    AND_ASSIGN = 282,              /* AND_ASSIGN  */
-    XOR_ASSIGN = 283,              /* XOR_ASSIGN  */
-    OR_ASSIGN = 284,               /* OR_ASSIGN  */
-    TYPEDEF_NAME = 285,            /* TYPEDEF_NAME  */
-    ENUMERATION_CONSTANT = 286,    /* ENUMERATION_CONSTANT  */
-    TYPEDEF = 287,                 /* TYPEDEF  */
-    EXTERN = 288,                  /* EXTERN  */
-    STATIC = 289,                  /* STATIC  */
-    AUTO = 290,                    /* AUTO  */
-    REGISTER = 291,                /* REGISTER  */
-    INLINE = 292,                  /* INLINE  */
-    CONST = 293,                   /* CONST  */
-    RESTRICT = 294,                /* RESTRICT  */
-    VOLATILE = 295,                /* VOLATILE  */
-    BOOL = 296,                    /* BOOL  */
-    CHAR = 297,                    /* CHAR  */
-    SHORT = 298,                   /* SHORT  */
-    INT = 299,                     /* INT  */
-    LONG = 300,                    /* LONG  */
-    SIGNED = 301,                  /* SIGNED  */
-    UNSIGNED = 302,                /* UNSIGNED  */
-    FLOAT = 303,                   /* FLOAT  */
-    DOUBLE = 304,                  /* DOUBLE  */
-    VOID = 305,                    /* VOID  */
-    COMPLEX = 306,                 /* COMPLEX  */
-    IMAGINARY = 307,               /* IMAGINARY  */
-    STRUCT = 308,                  /* STRUCT  */
-    UNION = 309,                   /* UNION  */
-    ENUM = 310,                    /* ENUM  */
-    ELLIPSIS = 311,                /* ELLIPSIS  */
-    CASE = 312,                    /* CASE  */
-    DEFAULT = 313,                 /* DEFAULT  */
-    IF = 314,                      /* IF  */
-    ELSE = 315,                    /* ELSE  */
-    SWITCH = 316,                  /* SWITCH  */
-    WHILE = 317,                   /* WHILE  */
-    DO = 318,                      /* DO  */
-    FOR = 319,                     /* FOR  */
-    GOTO = 320,                    /* GOTO  */
-    CONTINUE = 321,                /* CONTINUE  */
-    BREAK = 322,                   /* BREAK  */
-    RETURN = 323,                  /* RETURN  */
-    ALIGNAS = 324,                 /* ALIGNAS  */
-    ALIGNOF = 325,                 /* ALIGNOF  */
-    ATOMIC = 326,                  /* ATOMIC  */
-    GENERIC = 327,                 /* GENERIC  */
-    NORETURN = 328,                /* NORETURN  */
-    STATIC_ASSERT = 329,           /* STATIC_ASSERT  */
-    THREAD_LOCAL = 330             /* THREAD_LOCAL  */
+    INT_CONST = 258,               /* INT_CONST  */
+    FLOAT_CONST = 259,             /* FLOAT_CONST  */
+    CHAR_VAL = 260,                /* CHAR_VAL  */
+    STRING_VAL = 261,              /* STRING_VAL  */
+    IDENTIFIER = 262,              /* IDENTIFIER  */
+    EQ = 263,                      /* EQ  */
+    GT = 264,                      /* GT  */
+    LT = 265,                      /* LT  */
+    GE = 266,                      /* GE  */
+    LE = 267,                      /* LE  */
+    NE = 268,                      /* NE  */
+    PLUSEQ = 269,                  /* PLUSEQ  */
+    MINUSEQ = 270,                 /* MINUSEQ  */
+    MULTEQ = 271,                  /* MULTEQ  */
+    DIVEQ = 272,                   /* DIVEQ  */
+    INC = 273,                     /* INC  */
+    DEC = 274,                     /* DEC  */
+    ASSIGN = 275,                  /* ASSIGN  */
+    IF = 276,                      /* IF  */
+    ELSE = 277,                    /* ELSE  */
+    WHILE = 278,                   /* WHILE  */
+    FOR = 279,                     /* FOR  */
+    DO = 280,                      /* DO  */
+    SWITCH = 281,                  /* SWITCH  */
+    CASE = 282,                    /* CASE  */
+    DEFAULT = 283,                 /* DEFAULT  */
+    BREAK = 284,                   /* BREAK  */
+    CONTINUE = 285,                /* CONTINUE  */
+    RETURN = 286,                  /* RETURN  */
+    INT = 287,                     /* INT  */
+    FLOAT = 288,                   /* FLOAT  */
+    CHAR = 289,                    /* CHAR  */
+    STRING = 290,                  /* STRING  */
+    VOID = 291,                    /* VOID  */
+    MAIN = 292,                    /* MAIN  */
+    PRINTF = 293,                  /* PRINTF  */
+    SCANF = 294,                   /* SCANF  */
+    LBRACE = 295,                  /* LBRACE  */
+    RBRACE = 296,                  /* RBRACE  */
+    LPAREN = 297,                  /* LPAREN  */
+    RPAREN = 298,                  /* RPAREN  */
+    SEMICOLON = 299,               /* SEMICOLON  */
+    COLON = 300,                   /* COLON  */
+    COMMA = 301,                   /* COMMA  */
+    HASH = 302,                    /* HASH  */
+    ERROR = 303,                   /* ERROR  */
+    PRAGMA = 304,                  /* PRAGMA  */
+    EXTERN = 305,                  /* EXTERN  */
+    STATIC = 306,                  /* STATIC  */
+    CONST = 307,                   /* CONST  */
+    VOLATILE = 308,                /* VOLATILE  */
+    REGISTER = 309,                /* REGISTER  */
+    UNSIGNED = 310,                /* UNSIGNED  */
+    TRUE = 311,                    /* TRUE  */
+    FALSE = 312,                   /* FALSE  */
+    COMMENT = 313,                 /* COMMENT  */
+    LBRACKET = 314,                /* LBRACKET  */
+    RBRACKET = 315,                /* RBRACKET  */
+    OR = 316,                      /* OR  */
+    NOT = 317,                     /* NOT  */
+    AND = 318,                     /* AND  */
+    PLUS = 319,                    /* PLUS  */
+    MINUS = 320,                   /* MINUS  */
+    MULT = 321,                    /* MULT  */
+    DIV = 322,                     /* DIV  */
+    MOD = 323                      /* MOD  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -135,83 +128,88 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define IDENTIFIER 258
-#define I_CONSTANT 259
-#define F_CONSTANT 260
-#define STRING_LITERAL 261
-#define FUNC_NAME 262
-#define SIZEOF 263
-#define PTR_OP 264
-#define INC_OP 265
-#define DEC_OP 266
-#define LEFT_OP 267
-#define RIGHT_OP 268
-#define LE_OP 269
-#define GE_OP 270
-#define EQ_OP 271
-#define NE_OP 272
-#define AND_OP 273
-#define OR_OP 274
-#define MUL_ASSIGN 275
-#define DIV_ASSIGN 276
-#define MOD_ASSIGN 277
-#define ADD_ASSIGN 278
-#define SUB_ASSIGN 279
-#define LEFT_ASSIGN 280
-#define RIGHT_ASSIGN 281
-#define AND_ASSIGN 282
-#define XOR_ASSIGN 283
-#define OR_ASSIGN 284
-#define TYPEDEF_NAME 285
-#define ENUMERATION_CONSTANT 286
-#define TYPEDEF 287
-#define EXTERN 288
-#define STATIC 289
-#define AUTO 290
-#define REGISTER 291
-#define INLINE 292
-#define CONST 293
-#define RESTRICT 294
-#define VOLATILE 295
-#define BOOL 296
-#define CHAR 297
-#define SHORT 298
-#define INT 299
-#define LONG 300
-#define SIGNED 301
-#define UNSIGNED 302
-#define FLOAT 303
-#define DOUBLE 304
-#define VOID 305
-#define COMPLEX 306
-#define IMAGINARY 307
-#define STRUCT 308
-#define UNION 309
-#define ENUM 310
-#define ELLIPSIS 311
-#define CASE 312
-#define DEFAULT 313
-#define IF 314
-#define ELSE 315
-#define SWITCH 316
-#define WHILE 317
-#define DO 318
-#define FOR 319
-#define GOTO 320
-#define CONTINUE 321
-#define BREAK 322
-#define RETURN 323
-#define ALIGNAS 324
-#define ALIGNOF 325
-#define ATOMIC 326
-#define GENERIC 327
-#define NORETURN 328
-#define STATIC_ASSERT 329
-#define THREAD_LOCAL 330
+#define INT_CONST 258
+#define FLOAT_CONST 259
+#define CHAR_VAL 260
+#define STRING_VAL 261
+#define IDENTIFIER 262
+#define EQ 263
+#define GT 264
+#define LT 265
+#define GE 266
+#define LE 267
+#define NE 268
+#define PLUSEQ 269
+#define MINUSEQ 270
+#define MULTEQ 271
+#define DIVEQ 272
+#define INC 273
+#define DEC 274
+#define ASSIGN 275
+#define IF 276
+#define ELSE 277
+#define WHILE 278
+#define FOR 279
+#define DO 280
+#define SWITCH 281
+#define CASE 282
+#define DEFAULT 283
+#define BREAK 284
+#define CONTINUE 285
+#define RETURN 286
+#define INT 287
+#define FLOAT 288
+#define CHAR 289
+#define STRING 290
+#define VOID 291
+#define MAIN 292
+#define PRINTF 293
+#define SCANF 294
+#define LBRACE 295
+#define RBRACE 296
+#define LPAREN 297
+#define RPAREN 298
+#define SEMICOLON 299
+#define COLON 300
+#define COMMA 301
+#define HASH 302
+#define ERROR 303
+#define PRAGMA 304
+#define EXTERN 305
+#define STATIC 306
+#define CONST 307
+#define VOLATILE 308
+#define REGISTER 309
+#define UNSIGNED 310
+#define TRUE 311
+#define FALSE 312
+#define COMMENT 313
+#define LBRACKET 314
+#define RBRACKET 315
+#define OR 316
+#define NOT 317
+#define AND 318
+#define PLUS 319
+#define MINUS 320
+#define MULT 321
+#define DIV 322
+#define MOD 323
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 12 "parser.y"
+
+    int ival;
+    float fval;
+    char cval;
+    char *sval;
+
+#line 210 "y.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

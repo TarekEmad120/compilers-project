@@ -1,7 +1,12 @@
 %{
-#include <stdio.h>
-extern int yylex();
-extern void yyerror(const char *s);
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+    // extern FILE *yyin;
+    // extern int yylex();
+    // extern int yylineno;
+    void yyerror(char *);
+    int yylex(void);
 %}
 
 %token	IDENTIFIER I_CONSTANT F_CONSTANT STRING_LITERAL FUNC_NAME SIZEOF
@@ -27,7 +32,6 @@ extern void yyerror(const char *s);
 primary_expression
 	: IDENTIFIER
 	| constant
-	| string
 	| '(' expression ')'
 	| generic_selection
 	;
@@ -38,14 +42,8 @@ constant
 	| ENUMERATION_CONSTANT	/* after it has been defined as such */
 	;
 
-enumeration_constant		/* before it has been defined as such */
-	: IDENTIFIER
-	;
 
-string
-	: STRING_LITERAL
-	| FUNC_NAME
-	;
+
 
 generic_selection
 	: GENERIC '(' assignment_expression ',' generic_assoc_list ')'
@@ -246,32 +244,15 @@ type_specifier
 	| COMPLEX
 	| IMAGINARY	  	/* non-mandated extension */
 	| atomic_type_specifier
-	| struct_or_union_specifier
-	| enum_specifier
 	| TYPEDEF_NAME		/* after it has been defined as such */
 	;
 
-struct_or_union_specifier
-	: struct_or_union '{' struct_declaration_list '}'
-	| struct_or_union IDENTIFIER '{' struct_declaration_list '}'
-	| struct_or_union IDENTIFIER
-	;
 
-struct_or_union
-	: STRUCT
-	| UNION
-	;
 
-struct_declaration_list
-	: struct_declaration
-	| struct_declaration_list struct_declaration
-	;
 
-struct_declaration
-	: specifier_qualifier_list ';'	/* for anonymous struct/union */
-	| specifier_qualifier_list struct_declarator_list ';'
-	| static_assert_declaration
-	;
+
+
+
 
 specifier_qualifier_list
 	: type_specifier specifier_qualifier_list
@@ -280,34 +261,10 @@ specifier_qualifier_list
 	| type_qualifier
 	;
 
-struct_declarator_list
-	: struct_declarator
-	| struct_declarator_list ',' struct_declarator
-	;
 
-struct_declarator
-	: ':' constant_expression
-	| declarator ':' constant_expression
-	| declarator
-	;
 
-enum_specifier
-	: ENUM '{' enumerator_list '}'
-	| ENUM '{' enumerator_list ',' '}'
-	| ENUM IDENTIFIER '{' enumerator_list '}'
-	| ENUM IDENTIFIER '{' enumerator_list ',' '}'
-	| ENUM IDENTIFIER
-	;
 
-enumerator_list
-	: enumerator
-	| enumerator_list ',' enumerator
-	;
 
-enumerator	/* identifiers must be flagged as ENUMERATION_CONSTANT */
-	: enumeration_constant '=' constant_expression
-	| enumeration_constant
-	;
 
 atomic_type_specifier
 	: ATOMIC '(' type_name ')'
@@ -531,10 +488,12 @@ declaration_list
 	;
 
 %%
-#include <stdio.h>
+void yyerror(char *s) {
+    fprintf(stderr, "%s\n", s);
+}
 
-void yyerror(const char *s)
-{
-	fflush(stdout);
-	fprintf(stderr, "*** %s\n", s);
+
+int main(){
+  yyparse(); 
+  return 0; 
 }
