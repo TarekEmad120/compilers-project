@@ -142,12 +142,12 @@ compound_statement:
 
 local_declarations:
                       local_declarations  scoped_variable_declaration   {printf("local_declarations  scoped_variable_declaration \n");}
-                      |  /* empty */    {printf("/* empty */ ");}
+                      |  /* empty */    {printf("/* empty local_declarations */ \n");}
                       ;
 
 statement_list:
-                  statement_list  statement   {printf("statement_list  statement");}
-                |  /* empty */          {printf("/* empty */   \n");}
+                  statement_list  statement   {printf("statement_list  statement \n");}
+                |  /* empty */          {printf("/* empty */  statement_list  \n");}
                 ;
 
 selection_statement:
@@ -208,14 +208,14 @@ relational_expression:
                       ;
 minmaxEXP:
           minmaxEXP minmaxlop sumExp    {printf("minmaxEXP minmaxlop sumExp \n");}
-          | sumExp    {printf(" sumExp \n");}
+          | sumExp    {printf(" sumExp1 \n");}
           ; 
 minmaxlop:
           MINOP     {printf(" MINOP \n");}
           | MAXOP    {printf(" MAXOP \n");}
           ;
 relop:
-        EQ    {printf(" EQ \n");}
+        EQ    {printf(" E55Q \n");}
       | NE   {printf(" NE \n");}
       | GT   {printf(" GT \n");}
       | LT   {printf(" LT \n");}
@@ -258,7 +258,8 @@ factor:
 
 mu_table:
         IDENTIFIER {printf("identifier\n");}
-        | IDENTIFIER LBRACE expression RBRACE {printf("identIDENTIFIER LBRACE expression RBRACEifier\n");}
+        | IDENTIFIER LBRACKET expression RBRACKET {printf("identIDENTIFIER LBRACE expression RBRACEifier\n");}
+
         ;
 
 immu_table:
