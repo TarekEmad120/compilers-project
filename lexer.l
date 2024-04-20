@@ -79,17 +79,17 @@ int line_num = 1;
 
 
 [a-zA-Z_]([a-zA-Z0-9_])* {yylval.sval = strdup(yytext); 
-printf("TOKEN: UNKNOWN, IDENTIFIER: %s\n", yytext);
+printf("TOKEN: yasser, IDENTIFIER: %s\n", yytext);
 return IDENTIFIER;}
 [0-9]+ {yylval.ival = atoi(yytext);
-printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext);
+printf("TOKEN: tarek, VALUE: %s\n", yytext);
 return INT_CONST;}
-[0-9]+\.[0-9]+ {yylval.fval = atof(yytext); printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext); return FLOAT_CONST;}
+[0-9]+\.[0-9]+ {yylval.fval = atof(yytext); printf("TOKEN: snow, VALUE: %s\n", yytext); return FLOAT_CONST;}
 
-\".*\" {yylval.sval = strdup(yytext); return STRING_VAL;}
+\".*\" {yylval.sval = strdup(yytext); printf("elblf: %s\n", yytext); return STRING_VAL;}
 
 
-\'[a-zA-Z0-9]\' |[0-9]+  {yylval.cval = yytext[1]; return CHAR_VAL;}
+\'[a-zA-Z0-9]\'  {yylval.cval = yytext[1]; printf("TOKEN: UNKNOWN char, VALUE: %s\n", yytext); return CHAR_VAL;}
 
 
 "//".* {return COMMENT;}

@@ -3,6 +3,14 @@ int dec(int x)
     return x++;
 }
 
+void essam()
+{
+
+    int x=5;
+    char p = '5';
+    const int a=6;
+}
+
 extern int x=4;
 
 
@@ -32,7 +40,7 @@ int main()
 
     
     
-    while (x--) || ( m && z) && (z || x)
+    while ((x--) || ( m && z) && (z || x))
     {
 
 
@@ -76,6 +84,15 @@ int main()
 
     }
 
-  
+    c==7;
+
+    switch (x)
+    {
+        case 1 : x=15;
+        case 2 : x=15;
+        case 3 : x= 15*15*x*l/4/y;
+        default : 14;
+
+    }
  return 0;
 }

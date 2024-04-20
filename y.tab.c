@@ -1626,7 +1626,7 @@ yyreduce:
 
   case 20: /* type_specifier: INT  */
 #line 82 "parser.y"
-                      {printf("int\n");}
+                    {printf("int\n");}
 #line 1631 "y.tab.c"
     break;
 
