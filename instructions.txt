@@ -1,10 +1,81 @@
+int dec(int x)
+{
+    return x++;
+}
+
+extern int x=4;
 
 
-int main(){
+int main()
+{
 
-    if y==m
+    const int x;
+    const int x= 5;
+    const float l=5;
+    const char a=5;
+
+
+    int x= d && d ;
+    int x=l+8;
+    int x=x+y;
+
+    int x=l-8;
+    int x=x-y;
+
+    int x=l*8;
+    int x=x*y;
+
+    int x=l/8;
+    int x=x/y;
+    
+    float w = (x*y)*(x+10)/s +10 ;
+
+    
+    
+    while (x--) || ( m && z) && (z || x)
     {
-        
-    }
- 
+
+
+        int x=8;
+        if (x==2)  && (z==s || f==s )
+        {
+
+            int n=5;
+  
+            dec(x,y);
+
+
+              n++;
+
+            while (x--)
+            {
+                m++;
+            }
+            do 
+            {
+                m=5;
+                n=l;
+            }
+            while (x++);
+
+            return 25;
+
+        }
+        x--;
+
+
+        if (x==5)
+        {
+            break ;
+        }
+        if(x==9)
+        {
+            hello;
+            continue ;
+        }
+
+    }
+
+  
+ return 0;
 }
