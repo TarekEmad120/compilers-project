@@ -115,11 +115,13 @@ extern int yydebug;
     OR = 316,                      /* OR  */
     NOT = 317,                     /* NOT  */
     AND = 318,                     /* AND  */
-    PLUS = 319,                    /* PLUS  */
-    MINUS = 320,                   /* MINUS  */
-    MULT = 321,                    /* MULT  */
-    DIV = 322,                     /* DIV  */
-    MOD = 323                      /* MOD  */
+    MINOP = 319,                   /* MINOP  */
+    MAXOP = 320,                   /* MAXOP  */
+    PLUS = 321,                    /* PLUS  */
+    MINUS = 322,                   /* MINUS  */
+    MULT = 323,                    /* MULT  */
+    DIV = 324,                     /* DIV  */
+    MOD = 325                      /* MOD  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -189,11 +191,13 @@ extern int yydebug;
 #define OR 316
 #define NOT 317
 #define AND 318
-#define PLUS 319
-#define MINUS 320
-#define MULT 321
-#define DIV 322
-#define MOD 323
+#define MINOP 319
+#define MAXOP 320
+#define PLUS 321
+#define MINUS 322
+#define MULT 323
+#define DIV 324
+#define MOD 325
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -206,7 +210,7 @@ union YYSTYPE
     char cval;
     char *sval;
 
-#line 210 "y.tab.h"
+#line 214 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

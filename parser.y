@@ -28,8 +28,8 @@
 %token PLUSEQ MINUSEQ MULTEQ DIVEQ INC DEC IDENTIFIER
 %token ASSIGN
 %token IF ELSE WHILE FOR DO SWITCH CASE DEFAULT BREAK CONTINUE RETURN INT FLOAT CHAR STRING VOID MAIN PRINTF SCANF LBRACE RBRACE LPAREN RPAREN SEMICOLON COLON COMMA HASH ERROR PRAGMA EXTERN STATIC CONST VOLATILE REGISTER UNSIGNED TRUE FALSE COMMENT LBRACKET RBRACKET
-%nonassoc OR NOT AND
-%left PLUS MINUS MULT DIV MOD
+%nonassoc OR NOT AND MINOP MAXOP 
+%left PLUS MINUS MULT DIV MOD 
 
 
 
@@ -49,8 +49,9 @@ declaration:
                 ;
 
 variable_declaration:
-                      type_specifier  variable_declaration_list {printf("variable_declaration2\n");}
-                      | scoped_variable_declaration
+                      type_specifier  variable_declaration_list SEMICOLON {printf("variable_declaration2\n");}
+                      | EXTERN type_specifier  variable_declaration_list SEMICOLON
+                      //| scoped_variable_declaration
                       ;
 
 scoped_variable_declaration:
@@ -59,47 +60,50 @@ scoped_variable_declaration:
                               | CONST type_specifier  variable_declaration_list SEMICOLON
                               | VOLATILE type_specifier  variable_declaration_list SEMICOLON
                               | REGISTER type_specifier  variable_declaration_list SEMICOLON
-                              | EXTERN type_specifier  variable_declaration_list SEMICOLON
                               ;
 
 variable_declaration_list:
-                            variable_declaration_list  COMMA  variable_declaration_value
+                            variable_declaration_list  COMMA  variable_declaration_value {printf(" variable_declaration_list  COMMA  variable_declaration_value\n");}
                           | variable_declaration_value{printf("variable_declaration_value\n");}
                           ;
 
 variable_declaration_value:
-                            variable_declaration_id |variable_declaration_id ASSIGN simple_expression 
+                            //should be COLON
+                            variable_declaration_id    {printf("variable_declaration_id \n");}
+                            |variable_declaration_id ASSIGN simple_expression   {printf("variable_declaration_id ASSIGN simple_expression\n");}
                             ;
 
 variable_declaration_id:
                             IDENTIFIER {printf("identifier\n");}
-                            | IDENTIFIER LBRACKET INT_CONST RBRACKET
+                            | IDENTIFIER LBRACKET INT_CONST RBRACKET  {printf("IDENTIFIER LBRACKET INT_CONST RBRACKET\n");}
                             ;
 
 type_specifier:
                   INT {printf("int\n");}
-                | FLOAT
-                | CHAR
-                | VOID
+                | FLOAT  {printf("FLOAT\n");}
+                | CHAR   {printf("CHAR\n");}
+                | VOID    {printf("VOID\n");}
                 ;
 
 function_declaration:
                         type_specifier  IDENTIFIER  LPAREN parameters RPAREN  statement {printf("type_specifier  IDENTIFIER LPAREN parameters RPAREN statement\n");}
-                      | IDENTIFIER LPAREN parameter_list RPAREN statement
+                      | IDENTIFIER LPAREN parameter_list RPAREN statement{printf("IDENTIFIER LPAREN parameter_list RPAREN statement\n");}
                       ;
 
 // int add(int, int);
 // int add(int a, int b);
 // int add(int a, int b , int c , int d)
-// int add(int a, b , c ,d)
+// int ant(int bat, cat[]; bool dog, elk; int fox; char gnu)
+
 
 parameters:
               parameter_list {printf("NO PARAMETERS");}
             | /* NULL */
             ;
 
-parameter_list:     // int a, int b , int c , int d
-                  parameter_list  COMMA  parameter_type_list {printf("  parameter_list  COMMA  parameter_type_list\n");}
+parameter_list: // int a, int b , int c , int d
+                // should  comma
+                  parameter_list  SEMICOLON  parameter_type_list {printf("  parameter_list  COMMA  parameter_type_list\n");}
                 | parameter_type_list {printf("  parameter_type_list\n");}
                 ;
 
@@ -147,8 +151,8 @@ statement_list:
                 ;
 
 selection_statement:
-                      IF simple_expression statement   {printf(" IF expression statement\n");}
-                    | IF simple_expression statement ELSE statement  {printf("IF expression statement ELSE statement\n");}
+                      IF    simple_expression   statement   {printf(" IF simple_expression statement\n");}
+                    | IF   simple_expression   statement ELSE statement  {printf("IF simple_expression statement ELSE statement\n");}
                     /* | SWITCH LPAREN expression RPAREN statement */  
                     ;
 // switch case is not implemented yet
@@ -173,104 +177,111 @@ continue_statement:
                     ;
 
 expression:
-              mu_table ASSIGN expression{printf("expression\n");}
-            | mu_table PLUSEQ expression
-            | mu_table MINUSEQ expression
-            | mu_table MULTEQ expression
-            | mu_table DIVEQ expression
-            | mu_table INC
-            | mu_table DEC
-            | simple_expression
+              mu_table ASSIGN expression{printf("mu_table ASSIGN expression\n");}
+            | mu_table PLUSEQ expression  {printf("mu_table PLUSEQ expression\n");}
+            | mu_table MINUSEQ expression  {printf("mu_table MINUSEQ expression \n");}
+            | mu_table MULTEQ expression   {printf("mu_table MULTEQ expression \n");}
+            | mu_table DIVEQ expression    {printf("mu_table DIVEQ expression   \n");}
+            | mu_table INC             {printf("mu_table INC    \n");}
+            | mu_table DEC     {printf("mu_table DEC\n");}
+            | simple_expression    {printf("simple_expression\n");}
             ;
 
 simple_expression:
-                    simple_expression  OR  and_expression
-                  | and_expression
+                    simple_expression  OR  and_expression  {printf("simple_expression  OR  and_expression\n");}
+                  | and_expression   {printf(" and_expression\n");}
                   ;
 
 and_expression:
-                  and_expression  AND  unary_relational_expression
-                | unary_relational_expression
+                  and_expression  AND  unary_relational_expression  {printf(" and_expression  AND  unary_relational_expression\n");}
+                | unary_relational_expression   {printf(" unary_relational_expression \n");}
                 ;
 
 unary_relational_expression:
-                              NOT unary_relational_expression
-                            | relational_expression
+                              NOT unary_relational_expression   {printf(" NOT unary_relational_expression \n");}
+                            | relational_expression     {printf(" relational_expression   \n");}
                             ;
 
 relational_expression:
-                        sumExp  relop  sumExp
-                      | sumExp
+                        minmaxEXP  relop  minmaxEXP   {printf(" minmaxEXP  relop  minmaxEXP  \n");}
+                      | minmaxEXP      {printf("  minmaxEXP  \n");}
                       ;
-
+minmaxEXP:
+          minmaxEXP minmaxlop sumExp    {printf("minmaxEXP minmaxlop sumExp \n");}
+          | sumExp    {printf(" sumExp \n");}
+          ; 
+minmaxlop:
+          MINOP     {printf(" MINOP \n");}
+          | MAXOP    {printf(" MAXOP \n");}
+          ;
 relop:
-        EQ
-      | NE
-      | GT
-      | LT
-      | GE
-      | LE
+        EQ    {printf(" EQ \n");}
+      | NE   {printf(" NE \n");}
+      | GT   {printf(" GT \n");}
+      | LT   {printf(" LT \n");}
+      | GE   {printf(" GE \n");}
+      | LE   {printf(" LE \n");}
       ;
 
 sumExp:
-            sumExp  sumOp  mulExp
-          | mulExp  
+            sumExp  sumOp  mulExp   {printf("sumExp  sumOp  mulExp \n");}
+          | mulExp      {printf("mulExp \n");}
           ;
 
 sumOp:
-      PLUS
-      | MINUS
+      PLUS    {printf(" PLUS \n");}
+      | MINUS   {printf(" MINUS \n");}
       ;
 
 mulExp:
-        mulExp mulOP mulExp
-        | unary_Exp
+        mulExp mulOP mulExp    {printf("  mulExp mulOP mulExp \n");}
+        | unary_Exp    {printf(" unary_Exp\n");}
         ;
 
 mulOP:
-      MULT
-      | DIV
-      | MOD
+      MULT     {printf(" MULT\n");}
+      | DIV     {printf(" DIV\n");}
+      | MOD     {printf(" MOD\n");}
       ;
 unary_Exp:
-          unary_op unary_Exp
-          | factor
+          unary_op unary_Exp   {printf("unary_op unary_Exp\n");}
+          | factor   {printf("factor\n");}
           ;
 unary_op:
-        MULT
-        | MINUS
+        MULT  {printf("MULT\n");}
+        | MINUS   {printf("MINUS\n");}
         ;
 factor:
-        immu_table 
-        |mu_table
+        immu_table  {printf("immu_table\n");}
+        |mu_table {printf("mu_table\n");}
         ;
 
 mu_table:
         IDENTIFIER {printf("identifier\n");}
-        | IDENTIFIER LBRACE expression RBRACE
+        | IDENTIFIER LBRACE expression RBRACE {printf("identIDENTIFIER LBRACE expression RBRACEifier\n");}
         ;
 
 immu_table:
-          LPAREN expression RPAREN
-          | call
-          | constant
+          LPAREN expression RPAREN   {printf(" LPAREN expression RPAREN\n");}
+          | call     {printf(" call\n");}
+          | constant   {printf(" constant\n");}
           ;
 call: 
-    IDENTIFIER LPAREN args RPAREN
+    IDENTIFIER LPAREN args RPAREN    {printf(" IDENTIFIER LPAREN args RPAREN\n");}
     ;
 args:
-      arg_list
+      arg_list   {printf("arg_list\n");}
       |
       ;
 arg_list:
-        arg_list COMMA expression 
-        | expression
+        arg_list COMMA expression     {printf(" arg_list COMMA expression\n");}
+        | expression    {printf(" expression\n");}
         ;            
 constant:
-        INT_CONST 
-        | FLOAT_CONST
-        | STRING_VAL
-        | CHAR_VAL
+        INT_CONST     {printf("   INT_CONST  \n");}
+        | FLOAT_CONST   {printf("   FLOAT_CONST  \n");}
+        | STRING_VAL    {printf("   STRING_VAL  \n");}
+        | CHAR_VAL   {printf("   CHAR_VAL  \n");}
         ;
 
 %%

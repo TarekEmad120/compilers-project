@@ -53,6 +53,8 @@ int line_num = 1;
 "==" {return EQ;}
 "!=" {return NE;}
 "<" {return LT;}
+":<:" {return MINOP;}
+":>:" {return MAXOP;}
 "<=" {return LE;}
 ">" {return GT;}
 ">=" {return GE;}
