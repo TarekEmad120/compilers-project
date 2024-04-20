@@ -158,8 +158,8 @@ selection_statement:
 // switch case is not implemented yet
 
 iteration_statement:
-                      WHILE expression statement {printf("WHILE expression statement\n");}
-                    | DO statement WHILE expression SEMICOLON {printf("DO statement WHILE expression SEMICOLON\n");}
+                      WHILE simple_expression statement {printf("WHILE expression statement\n");}
+                    | DO statement WHILE simple_expression SEMICOLON {printf("DO statement WHILE expression SEMICOLON\n");}
                     | FOR LPAREN expression_statement expression_statement expression RPAREN statement {printf("FOR LPAREN expression_statement expression_statement expression RPAREN statement\n");}
                     ;
 
