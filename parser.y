@@ -129,7 +129,13 @@ statement:
           | return_statement        {printf("return_statement\n");}
           | break_statement         {printf("break_statement\n");}
           | continue_statement      {printf("continue_statement\n");}
+          | case_statement          {printf("case_statement\n");}
           ;
+
+case_statement:
+                CASE INT_CONST COLON statement_list {printf("CASE INT_CONST COLON statement_list\n");}
+              | DEFAULT COLON statement_list {printf("DEFAULT COLON statement_list\n");}
+              ;
 
 expression_statement:
                          expression SEMICOLON   {printf(" expression SEMICOLON \n");}
@@ -153,7 +159,7 @@ statement_list:
 selection_statement:
                       IF    simple_expression   statement   {printf(" IF simple_expression statement\n");}
                     | IF   simple_expression   statement ELSE statement  {printf("IF simple_expression statement ELSE statement\n");}
-                    /* | SWITCH LPAREN expression RPAREN statement */  
+                    | SWITCH LPAREN expression RPAREN statement 
                     ;
 // switch case is not implemented yet
 
