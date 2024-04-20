@@ -30,13 +30,13 @@ int line_num = 1;
 "char" {return CHAR;}
 "string" {return STRING;}
 "void" {return VOID;}
-
+"main" {return MAIN;}
 "printf" {return PRINTF;}
 "scanf" {return SCANF;}
 "{" {return LBRACE;}
 "}" {return RBRACE;}
-"(" {printf("TOKEN: LPAREN, VALUE: %s\n", yytext);return LPAREN;}
-")" {printf("TOKEN: RPAREN, VALUE: %s\n", yytext);return RPAREN;}
+"(" {return LPAREN;}
+")" {return RPAREN;}
 "[" {return LBRACKET;}
 "]" {return RBRACKET;}
 ";" {return SEMICOLON;}
@@ -48,13 +48,11 @@ int line_num = 1;
 "/" {return DIV;}
 "%" {return MOD;}
 "=" {
-    printf("TOKEN: ASSIGN, VALUE: %s\n", yytext);
+    printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext);
     return ASSIGN;}
 "==" {return EQ;}
 "!=" {return NE;}
 "<" {return LT;}
-":<:" {return MINOP;}
-":>:" {return MAXOP;}
 "<=" {return LE;}
 ">" {return GT;}
 ">=" {return GE;}
@@ -78,18 +76,18 @@ int line_num = 1;
 
 
 
-[a-zA-Z_]([a-zA-Z0-9_])* {yylval.sval = strdup(yytext); 
-printf("TOKEN: UNKNOWN, IDENTIFIER: %s\n", yytext);
+[a-zA-Z_][a-zA-Z0-9_]* {yylval.sval = strdup(yytext); 
+printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext);
 return IDENTIFIER;}
 [0-9]+ {yylval.ival = atoi(yytext);
 printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext);
 return INT_CONST;}
-[0-9]+\.[0-9]+ {yylval.fval = atof(yytext); printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext); return FLOAT_CONST;}
+[0-9]+\.[0-9]+ {yylval.fval = atof(yytext); return FLOAT_CONST;}
 
 \".*\" {yylval.sval = strdup(yytext); return STRING_VAL;}
 
 
-\'[a-zA-Z0-9]\' |[0-9]+  {yylval.cval = yytext[1]; return CHAR_VAL;}
+\'[a-zA-Z0-9]\' {yylval.cval = yytext[1]; return CHAR_VAL;}
 
 
 "//".* {return COMMENT;}

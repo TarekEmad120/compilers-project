@@ -1,10 +1,5 @@
-
-
 int main(){
-
-    if m==y
-    {
+    for(x;x<3; x++){
         
     }
- 
 }

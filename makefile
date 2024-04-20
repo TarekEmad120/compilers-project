@@ -4,8 +4,9 @@ build:
 		gcc y.tab.c lex.yy.c -o a
 
 
-run: a.out
-	./a.out < instructions.txt
+run: a.exe
+#		./a.exe < input.txt
+		./a.exe < input.txt 
 
 clean:
 	rm -f a.out y.tab.c lex.yy.c y.tab.h
