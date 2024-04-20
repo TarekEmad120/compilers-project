@@ -58,19 +58,19 @@ extern int yydebug;
     FLOAT_CONST = 259,             /* FLOAT_CONST  */
     CHAR_VAL = 260,                /* CHAR_VAL  */
     STRING_VAL = 261,              /* STRING_VAL  */
-    IDENTIFIER = 262,              /* IDENTIFIER  */
-    EQ = 263,                      /* EQ  */
-    GT = 264,                      /* GT  */
-    LT = 265,                      /* LT  */
-    GE = 266,                      /* GE  */
-    LE = 267,                      /* LE  */
-    NE = 268,                      /* NE  */
-    PLUSEQ = 269,                  /* PLUSEQ  */
-    MINUSEQ = 270,                 /* MINUSEQ  */
-    MULTEQ = 271,                  /* MULTEQ  */
-    DIVEQ = 272,                   /* DIVEQ  */
-    INC = 273,                     /* INC  */
-    DEC = 274,                     /* DEC  */
+    EQ = 262,                      /* EQ  */
+    GT = 263,                      /* GT  */
+    LT = 264,                      /* LT  */
+    GE = 265,                      /* GE  */
+    LE = 266,                      /* LE  */
+    NE = 267,                      /* NE  */
+    PLUSEQ = 268,                  /* PLUSEQ  */
+    MINUSEQ = 269,                 /* MINUSEQ  */
+    MULTEQ = 270,                  /* MULTEQ  */
+    DIVEQ = 271,                   /* DIVEQ  */
+    INC = 272,                     /* INC  */
+    DEC = 273,                     /* DEC  */
+    IDENTIFIER = 274,              /* IDENTIFIER  */
     ASSIGN = 275,                  /* ASSIGN  */
     IF = 276,                      /* IF  */
     ELSE = 277,                    /* ELSE  */
@@ -132,19 +132,19 @@ extern int yydebug;
 #define FLOAT_CONST 259
 #define CHAR_VAL 260
 #define STRING_VAL 261
-#define IDENTIFIER 262
-#define EQ 263
-#define GT 264
-#define LT 265
-#define GE 266
-#define LE 267
-#define NE 268
-#define PLUSEQ 269
-#define MINUSEQ 270
-#define MULTEQ 271
-#define DIVEQ 272
-#define INC 273
-#define DEC 274
+#define EQ 262
+#define GT 263
+#define LT 264
+#define GE 265
+#define LE 266
+#define NE 267
+#define PLUSEQ 268
+#define MINUSEQ 269
+#define MULTEQ 270
+#define DIVEQ 271
+#define INC 272
+#define DEC 273
+#define IDENTIFIER 274
 #define ASSIGN 275
 #define IF 276
 #define ELSE 277
@@ -199,10 +199,10 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 12 "parser.y"
+#line 13 "parser.y"
 
-    int ival;
     float fval;
+    int ival;
     char cval;
     char *sval;
 

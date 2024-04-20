@@ -2,6 +2,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <unistd.h>
     // extern FILE *yyin;
     // extern int yylex();
     // extern int yylineno;
@@ -10,8 +11,8 @@
 %}
 
 %union {
-    int ival;
     float fval;
+    int ival;
     char cval;
     char *sval;
 }
@@ -20,11 +21,11 @@
 %token <fval> FLOAT_CONST
 %token <cval> CHAR_VAL
 %token <sval> STRING_VAL
-%token <sval> IDENTIFIER
+
 
 /* %token IDENTIFIER */
 %token EQ GT LT GE LE NE
-%token PLUSEQ MINUSEQ MULTEQ DIVEQ INC DEC
+%token PLUSEQ MINUSEQ MULTEQ DIVEQ INC DEC IDENTIFIER
 %token ASSIGN
 %token IF ELSE WHILE FOR DO SWITCH CASE DEFAULT BREAK CONTINUE RETURN INT FLOAT CHAR STRING VOID MAIN PRINTF SCANF LBRACE RBRACE LPAREN RPAREN SEMICOLON COLON COMMA HASH ERROR PRAGMA EXTERN STATIC CONST VOLATILE REGISTER UNSIGNED TRUE FALSE COMMENT LBRACKET RBRACKET
 %nonassoc OR NOT AND
@@ -42,12 +43,14 @@ declaration_list:
                 | declaration {printf("declaration\n");}
                 ;
 declaration:
-                  variable_declaration{printf("variable_declaration\n");}
-                | function_declaration
+                  
+                 function_declaration{printf("function_declaration\n");}
+                | variable_declaration{printf("variable_declaration\n");}
                 ;
 
 variable_declaration:
                       type_specifier  variable_declaration_list{printf("variable_declaration2\n");}
+                      | scoped_variable_declaration
                       ;
 
 scoped_variable_declaration:
@@ -65,7 +68,7 @@ variable_declaration_list:
                           ;
 
 variable_declaration_value:
-                            variable_declaration_id |variable_declaration_id COLON simple_expression
+                            variable_declaration_id |variable_declaration_id ASSIGN simple_expression 
                             ;
 
 variable_declaration_id:
@@ -81,7 +84,7 @@ type_specifier:
                 ;
 
 function_declaration:
-                        type_specifier  IDENTIFIER LPAREN parameters RPAREN statement
+                        type_specifier  IDENTIFIER  LPAREN parameters RPAREN  statement {printf("type_specifier  IDENTIFIER LPAREN parameters RPAREN statement\n");}
                       | IDENTIFIER LPAREN parameter_list RPAREN statement
                       ;
 
@@ -91,82 +94,82 @@ function_declaration:
 // int add(int a, b , c ,d)
 
 parameters:
-              parameter_list
-            | /* empty */
+              parameter_list {printf("NO PARAMETERS");}
+            | /* NULL */
             ;
 
 parameter_list:     // int a, int b , int c , int d
-                  parameter_list  COMMA  parameter_type_list
-                | parameter_type_list
+                  parameter_list  COMMA  parameter_type_list {printf("  parameter_list  COMMA  parameter_type_list\n");}
+                | parameter_type_list {printf("  parameter_type_list\n");}
                 ;
 
 parameter_type_list:
-                      type_specifier  parameter_id_list
+                      type_specifier  parameter_id_list {printf("type_specifier  parameter_id_list\n");}
                     ;
 
 parameter_id_list:
-                    parameter_id_list  COMMA  parameter_id  // int add(int a, b , c ,d)
-                  | parameter_id
+                    parameter_id_list // COMMA  parameter_id  // int add(int a, b , c ,d)
+                  | parameter_id {printf("parameter_id\n");}
                   ;
 
 parameter_id:
-                IDENTIFIER {printf("parameter_id\n");}
+                IDENTIFIER {printf("IDENTIFIER\n");}
               | IDENTIFIER LBRACKET RBRACKET
               ;
 
 statement:
-            expression_statement    
-          | compound_statement
-          | selection_statement
-          | iteration_statement
-          | return_statement
-          | break_statement
-          | continue_statement
+            expression_statement    {printf("expression_statement\n");}
+          | compound_statement      {printf("compound_statement\n");}
+          | selection_statement     {printf("selection_statement\n");}
+          | iteration_statement     {printf("iteration_statement\n");}
+          | return_statement        {printf("return_statement\n");}
+          | break_statement         {printf("break_statement\n");}
+          | continue_statement      {printf("continue_statement\n");}
           ;
 
 expression_statement:
-                         expression SEMICOLON
-                      |  SEMICOLON
+                         expression SEMICOLON   {printf(" expression SEMICOLON \n");}
+                      |  SEMICOLON   {printf("SEMICOLON\n");}
                       ;
 
 compound_statement:
-                      LBRACE  local_declarations  statement_list  RBRACE
+                      LBRACE  local_declarations  statement_list  RBRACE  {printf("  LBRACE  local_declarations  statement_list  RBRACE\n");}
                     ;
 
 local_declarations:
-                      local_declarations  scoped_variable_declaration
-                      |  /* empty */
+                      local_declarations  scoped_variable_declaration   {printf("local_declarations  scoped_variable_declaration \n");}
+                      |  /* empty */    {printf("/* empty */ ");}
                       ;
 
 statement_list:
-                  statement_list  statement
-                |  /* empty */
+                  statement_list  statement   {printf("statement_list  statement");}
+                |  /* empty */          {printf("/* empty */   \n");}
                 ;
 
 selection_statement:
-                      IF expression statement
-                    | IF expression statement ELSE statement
-                    /* | SWITCH LPAREN expression RPAREN statement */
+                      IF expression statement   {printf(" IF expression statement\n");}
+                    | IF expression statement ELSE statement  {printf("IF expression statement ELSE statement\n");}
+                    /* | SWITCH LPAREN expression RPAREN statement */  
                     ;
 // switch case is not implemented yet
 
 iteration_statement:
-                      WHILE expression statement
-                    | DO statement WHILE expression SEMICOLON
-                    | FOR LPAREN expression_statement expression_statement expression RPAREN statement
+                      WHILE expression statement {printf("WHILE expression statement\n");}
+                    | DO statement WHILE expression SEMICOLON {printf("DO statement WHILE expression SEMICOLON\n");}
+                    | FOR LPAREN expression_statement expression_statement expression RPAREN statement {printf("FOR LPAREN expression_statement expression_statement expression RPAREN statement\n");}
                     ;
 
 return_statement:
-                    RETURN SEMICOLON
-                  | RETURN expression SEMICOLON
+                    RETURN SEMICOLON {printf("RETURN SEMICOLON \n");}
+                  | RETURN expression SEMICOLON {printf("RETURN expression SEMICOLON\n");}
                   ;
 
 break_statement:
-                  BREAK SEMICOLON
+                  BREAK SEMICOLON {printf("BREAK SEMICOLON \n");}
                 ;  
 
 continue_statement:
-                      CONTINUE SEMICOLON
+                      CONTINUE SEMICOLON {printf("ONTINUE SEMICOLON\n");}
                     ;
 
 expression:
@@ -269,43 +272,6 @@ constant:
         | STRING_VAL
         | CHAR_VAL
         ;
-//FUNCTION DECLATION IN C LANGUAGE
-/*
-10. funDecl → typeSpec IDENTIFIER ( parms ) stmt | IDENTIFIER ( parms ) stmt
-11. parms → parmList | 
-12. parmList → parmList ; parmTypeList | parmTypeList
-13. parmTypeList → typeSpec parmIdList
-2
-14. parmIdList → parmIdList , parmId | parmId
-15. parmId → IDENTIFIER | IDENTIFIER [ ]
-*/
-/* function_prototype:
-type  IDENTIFIER LPAREN parameter_list RPAREN statement
-| IDENTIFIER LPAREN parameter_list RPAREN statement
-| VOID IDENTIFIER LPAREN parameter_list RPAREN statement
-| IDENTIFIER LPAREN parameter_list RPAREN statement
-;
-
-parameter_list:
-parameter_list SEMICOLON parameter_type_list
-| parameter_type_list
-;
-
-parameter_type_list:
-type parameter_id_list
-;
-
-parameter_id_list:
-parameter_id_list COMMA parameter_id
-| parameter_id
-;
-
-parameter_id:
-IDENTIFIER
-| IDENTIFIER LBRACKET RBRACKET
-;
-
-//FUNCTION DEFINATION IN C LANGUAGE */
 
 %%
 
