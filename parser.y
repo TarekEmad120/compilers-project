@@ -49,7 +49,7 @@ declaration:
                 ;
 
 variable_declaration:
-                      type_specifier  variable_declaration_list{printf("variable_declaration2\n");}
+                      type_specifier  variable_declaration_list {printf("variable_declaration2\n");}
                       | scoped_variable_declaration
                       ;
 
@@ -106,9 +106,9 @@ parameter_list:     // int a, int b , int c , int d
 parameter_type_list:
                       type_specifier  parameter_id_list {printf("type_specifier  parameter_id_list\n");}
                     ;
-
+// COMMA  parameter_id  // int add(int a, b , c ,d)
 parameter_id_list:
-                    parameter_id_list // COMMA  parameter_id  // int add(int a, b , c ,d)
+                    parameter_id_list 
                   | parameter_id {printf("parameter_id\n");}
                   ;
 
@@ -147,8 +147,8 @@ statement_list:
                 ;
 
 selection_statement:
-                      IF expression statement   {printf(" IF expression statement\n");}
-                    | IF expression statement ELSE statement  {printf("IF expression statement ELSE statement\n");}
+                      IF simple_expression statement   {printf(" IF expression statement\n");}
+                    | IF simple_expression statement ELSE statement  {printf("IF expression statement ELSE statement\n");}
                     /* | SWITCH LPAREN expression RPAREN statement */  
                     ;
 // switch case is not implemented yet

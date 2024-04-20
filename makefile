@@ -5,7 +5,7 @@ build:
 
 
 run: a.out
-	./a.out
+	./a.out < instructions.txt
 
 clean:
 	rm -f a.out y.tab.c lex.yy.c y.tab.h
