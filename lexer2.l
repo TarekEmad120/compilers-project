@@ -67,6 +67,10 @@ static int check_type(void);
 
 [0-9]+		{printf ("I_CONSTANT\n");  return I_CONSTANT ;}
 
+[0-9]*\.[0-9]+		{printf ("F_CONSTANT\n");  return F_CONSTANT ;}
+[0-9]+\.[0-9]*		{printf ("F_CONSTANT\n");  return F_CONSTANT ;}
+[0-9]+\.[0-9]+		{printf ("F_CONSTANT\n");  return F_CONSTANT ;}
+
 \'[a-zA-Z0-9]\'  { printf ("C_CONSTANT\n"); return C_CONSTANT;  }
 \'[a-zA-Z0-9]*\' { printf ("C_CONSTANT\n"); return C_CONSTANT;  }
 

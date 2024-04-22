@@ -49,7 +49,8 @@ constant
 	  } else {
 		//return syntax_error("Invalid character constant");
 		yyerror("Invalid character constant");
-		
+		//exit the program
+		exit(1);
 	  }
 	}		/* after it has been defined as such */
 	;
