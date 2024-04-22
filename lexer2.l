@@ -1,13 +1,13 @@
 %{
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "y.tab.h"
+// #include <stdio.h>
+// #include <string.h>
+// #include <stdlib.h>
+// #include "y.tab.h"
 
-void yyerror(char *s);
-int yylex(void);
-int line_num = 1;
+// void yyerror(char *s);
+// int yylex(void);
+// int line_num = 1;
 
 %}
 %e  1019
@@ -37,7 +37,9 @@ WS  [ \t\v\n\f]
 #include <stdio.h>
 #include "y.tab.h"
 
-extern void yyerror(const char *);  /* prints grammar violation message */
+void yyerror(char *s);
+int yylex(void);
+int line_num = 1;/* prints grammar violation message */
 
 extern int sym_type(const char *);  /* returns type from symbol table */
 
