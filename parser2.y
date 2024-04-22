@@ -12,7 +12,7 @@
 
 
 
-%token	IDENTIFIER I_CONSTANT F_CONSTANT STRING_LITERAL FUNC_NAME
+%token	IDENTIFIER I_CONSTANT F_CONSTANT STRING_LITERAL FUNC_NAME C_CONSTANT
 
 %token	 EXTERN STATIC
 %token	CONST VOLATILE
@@ -29,8 +29,8 @@
 %%
 
 primary_expression
-	: IDENTIFIER
-	| constant
+	: IDENTIFIER {printf("identifier");}
+	| constant {printf("constant");}
 	| string
 	| '(' exp ')'
 	;
@@ -38,6 +38,7 @@ primary_expression
 constant
 	: I_CONSTANT		/* includes character_constant */
 	| F_CONSTANT/* after it has been defined as such */
+	| C_CONSTANT {printf("C_Constant %s\n")   ;}		/* after it has been defined as such */
 	;
 
 
@@ -52,14 +53,14 @@ string
 
 postfix_expression
 	: primary_expression
-	| postfix_expression '[' exp ']'
-	| postfix_expression '(' ')'
-	| postfix_expression '(' argument_expression_list ')'
-	| postfix_expression '.' IDENTIFIER
-	| postfix_expression INC_OP
-	| postfix_expression DEC_OP
-	| '(' type_name ')' '{' initializer_list '}'
-	| '(' type_name ')' '{' initializer_list ',' '}'
+	| postfix_expression '[' exp ']'// array access
+	| postfix_expression '(' ')'// function call
+	| postfix_expression '(' argument_expression_list ')'// function call
+	| postfix_expression '.' IDENTIFIER//member access
+	| postfix_expression INC_OP//postfix increment
+	| postfix_expression DEC_OP//postfix decrement
+	| '(' type_name ')' '{' initializer_list '}'// type cast
+	| '(' type_name ')' '{' initializer_list ',' '}'// type cast
 	;
 
 argument_expression_list
@@ -68,10 +69,10 @@ argument_expression_list
 	;
 
 unary_expression
-	: postfix_expression
-	| INC_OP unary_expression
+	: postfix_expression// postfix
+	| INC_OP unary_expression// prefix increment
 	| DEC_OP unary_expression
-	| unary_operator cast_expression
+	| unary_operator cast_expression// unary operator
 	;
 
 unary_operator
@@ -178,8 +179,8 @@ constant_expression
 	;
 
 declaration
-	: declaration_specifiers ';'
-	| declaration_specifiers init_declarator_list ';'
+	: declaration_specifiers ';'// type declaration
+	| declaration_specifiers init_declarator_list ';'// type declaration with initialization
 	;
 
 declaration_specifiers
@@ -192,8 +193,8 @@ declaration_specifiers
 	;
 
 init_declarator_list
-	: init_declarator
-	| init_declarator_list ',' init_declarator
+	: init_declarator// initialization
+	| init_declarator_list ',' init_declarator // initialization list
 	;
 
 init_declarator
@@ -278,7 +279,7 @@ parameter_declaration
 	;
 
 identifier_list
-	: IDENTIFIER
+	: IDENTIFIER {printf("identifier");}
 	| identifier_list ',' IDENTIFIER
 	;
 

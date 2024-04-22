@@ -59,46 +59,47 @@ extern int yydebug;
     F_CONSTANT = 260,              /* F_CONSTANT  */
     STRING_LITERAL = 261,          /* STRING_LITERAL  */
     FUNC_NAME = 262,               /* FUNC_NAME  */
-    EXTERN = 263,                  /* EXTERN  */
-    STATIC = 264,                  /* STATIC  */
-    CONST = 265,                   /* CONST  */
-    VOLATILE = 266,                /* VOLATILE  */
-    BOOL = 267,                    /* BOOL  */
-    SHORT = 268,                   /* SHORT  */
-    INT = 269,                     /* INT  */
-    LONG = 270,                    /* LONG  */
-    FLOAT = 271,                   /* FLOAT  */
-    VOID = 272,                    /* VOID  */
-    CHAR = 273,                    /* CHAR  */
-    CASE = 274,                    /* CASE  */
-    DEFAULT = 275,                 /* DEFAULT  */
-    IF = 276,                      /* IF  */
-    ELSE = 277,                    /* ELSE  */
-    SWITCH = 278,                  /* SWITCH  */
-    WHILE = 279,                   /* WHILE  */
-    DO = 280,                      /* DO  */
-    FOR = 281,                     /* FOR  */
-    CONTINUE = 282,                /* CONTINUE  */
-    BREAK = 283,                   /* BREAK  */
-    RETURN = 284,                  /* RETURN  */
-    INC_OP = 285,                  /* INC_OP  */
-    DEC_OP = 286,                  /* DEC_OP  */
-    LEFT_OP = 287,                 /* LEFT_OP  */
-    RIGHT_OP = 288,                /* RIGHT_OP  */
-    LE_OP = 289,                   /* LE_OP  */
-    GE_OP = 290,                   /* GE_OP  */
-    EQ_OP = 291,                   /* EQ_OP  */
-    NE_OP = 292,                   /* NE_OP  */
-    AND_OP = 293,                  /* AND_OP  */
-    OR_OP = 294,                   /* OR_OP  */
-    MUL_ASSIGN = 295,              /* MUL_ASSIGN  */
-    DIV_ASSIGN = 296,              /* DIV_ASSIGN  */
-    MOD_ASSIGN = 297,              /* MOD_ASSIGN  */
-    ADD_ASSIGN = 298,              /* ADD_ASSIGN  */
-    SUB_ASSIGN = 299,              /* SUB_ASSIGN  */
-    AND_ASSIGN = 300,              /* AND_ASSIGN  */
-    XOR_ASSIGN = 301,              /* XOR_ASSIGN  */
-    OR_ASSIGN = 302                /* OR_ASSIGN  */
+    C_CONSTANT = 263,              /* C_CONSTANT  */
+    EXTERN = 264,                  /* EXTERN  */
+    STATIC = 265,                  /* STATIC  */
+    CONST = 266,                   /* CONST  */
+    VOLATILE = 267,                /* VOLATILE  */
+    BOOL = 268,                    /* BOOL  */
+    SHORT = 269,                   /* SHORT  */
+    INT = 270,                     /* INT  */
+    LONG = 271,                    /* LONG  */
+    FLOAT = 272,                   /* FLOAT  */
+    VOID = 273,                    /* VOID  */
+    CHAR = 274,                    /* CHAR  */
+    CASE = 275,                    /* CASE  */
+    DEFAULT = 276,                 /* DEFAULT  */
+    IF = 277,                      /* IF  */
+    ELSE = 278,                    /* ELSE  */
+    SWITCH = 279,                  /* SWITCH  */
+    WHILE = 280,                   /* WHILE  */
+    DO = 281,                      /* DO  */
+    FOR = 282,                     /* FOR  */
+    CONTINUE = 283,                /* CONTINUE  */
+    BREAK = 284,                   /* BREAK  */
+    RETURN = 285,                  /* RETURN  */
+    INC_OP = 286,                  /* INC_OP  */
+    DEC_OP = 287,                  /* DEC_OP  */
+    LEFT_OP = 288,                 /* LEFT_OP  */
+    RIGHT_OP = 289,                /* RIGHT_OP  */
+    LE_OP = 290,                   /* LE_OP  */
+    GE_OP = 291,                   /* GE_OP  */
+    EQ_OP = 292,                   /* EQ_OP  */
+    NE_OP = 293,                   /* NE_OP  */
+    AND_OP = 294,                  /* AND_OP  */
+    OR_OP = 295,                   /* OR_OP  */
+    MUL_ASSIGN = 296,              /* MUL_ASSIGN  */
+    DIV_ASSIGN = 297,              /* DIV_ASSIGN  */
+    MOD_ASSIGN = 298,              /* MOD_ASSIGN  */
+    ADD_ASSIGN = 299,              /* ADD_ASSIGN  */
+    SUB_ASSIGN = 300,              /* SUB_ASSIGN  */
+    AND_ASSIGN = 301,              /* AND_ASSIGN  */
+    XOR_ASSIGN = 302,              /* XOR_ASSIGN  */
+    OR_ASSIGN = 303                /* OR_ASSIGN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -112,46 +113,47 @@ extern int yydebug;
 #define F_CONSTANT 260
 #define STRING_LITERAL 261
 #define FUNC_NAME 262
-#define EXTERN 263
-#define STATIC 264
-#define CONST 265
-#define VOLATILE 266
-#define BOOL 267
-#define SHORT 268
-#define INT 269
-#define LONG 270
-#define FLOAT 271
-#define VOID 272
-#define CHAR 273
-#define CASE 274
-#define DEFAULT 275
-#define IF 276
-#define ELSE 277
-#define SWITCH 278
-#define WHILE 279
-#define DO 280
-#define FOR 281
-#define CONTINUE 282
-#define BREAK 283
-#define RETURN 284
-#define INC_OP 285
-#define DEC_OP 286
-#define LEFT_OP 287
-#define RIGHT_OP 288
-#define LE_OP 289
-#define GE_OP 290
-#define EQ_OP 291
-#define NE_OP 292
-#define AND_OP 293
-#define OR_OP 294
-#define MUL_ASSIGN 295
-#define DIV_ASSIGN 296
-#define MOD_ASSIGN 297
-#define ADD_ASSIGN 298
-#define SUB_ASSIGN 299
-#define AND_ASSIGN 300
-#define XOR_ASSIGN 301
-#define OR_ASSIGN 302
+#define C_CONSTANT 263
+#define EXTERN 264
+#define STATIC 265
+#define CONST 266
+#define VOLATILE 267
+#define BOOL 268
+#define SHORT 269
+#define INT 270
+#define LONG 271
+#define FLOAT 272
+#define VOID 273
+#define CHAR 274
+#define CASE 275
+#define DEFAULT 276
+#define IF 277
+#define ELSE 278
+#define SWITCH 279
+#define WHILE 280
+#define DO 281
+#define FOR 282
+#define CONTINUE 283
+#define BREAK 284
+#define RETURN 285
+#define INC_OP 286
+#define DEC_OP 287
+#define LEFT_OP 288
+#define RIGHT_OP 289
+#define LE_OP 290
+#define GE_OP 291
+#define EQ_OP 292
+#define NE_OP 293
+#define AND_OP 294
+#define OR_OP 295
+#define MUL_ASSIGN 296
+#define DIV_ASSIGN 297
+#define MOD_ASSIGN 298
+#define ADD_ASSIGN 299
+#define SUB_ASSIGN 300
+#define AND_ASSIGN 301
+#define XOR_ASSIGN 302
+#define OR_ASSIGN 303
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

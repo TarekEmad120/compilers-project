@@ -31,6 +31,7 @@ extern int sym_type(const char *);  /* returns type from symbol table */
 
 static void comment(void);
 static int check_type(void);
+
 %}
 
 
@@ -40,7 +41,7 @@ static int check_type(void);
 
 "break"					{ return(BREAK); }
 "case"					{ return(CASE); }
-"char"					{ return(CHAR); }
+"char"					{ return(CHAR); printf ("CHAR");}
 "const"					{ return(CONST); }
 "continue"				{ return(CONTINUE); }
 "default"				{ return(DEFAULT); }
@@ -62,23 +63,11 @@ static int check_type(void);
 
 
 
-[a-zA-Z_]([a-zA-Z0-9_])*					{ return check_type(); }
+[a-zA-Z_]([a-zA-Z0-9_])*					{printf("Identifier\n"); return check_type();  }
 
-[0-9]+		{ return I_CONSTANT; }
+[0-9]+		{printf ("I_CONSTANT\n");  ;return I_CONSTANT ;}
 
-[0-9]+\.[0-9]+			{ return F_CONSTANT; }
-
-[0-9]+[eE][0-9]+		{ return F_CONSTANT; }
-
-[0-9]+[eE][0-9]+[fFlL]		{ return F_CONSTANT; }
-
-[0-9]+\.[0-9]+[eE][0-9]+	{ return F_CONSTANT; }
-
-[0-9]+\.[0-9]+[eE][0-9]+[fFlL]	{ return F_CONSTANT; }
-
-0[xX][0-9a-fA-F]+		{ return I_CONSTANT; }
-
-\'[a-zA-Z0-9]\'  { return I_CONSTANT; }
+\'[a-zA-Z0-9]\'  { printf ("C_CONSTANT\n"); return C_CONSTANT;  }
 
 \"[^\"\n]*\"		{ return STRING_LITERAL; }
 
@@ -157,10 +146,10 @@ static void comment(void)
 
 static int check_type(void)
 {
-    switch (sym_type(yytext))
-    {
-    default:                          /* includes undefined */
+        printf("Identifier\n");
+                         /* includes undefined */
         return IDENTIFIER;
-    }
+
 }
+
 
