@@ -63,11 +63,12 @@ static int check_type(void);
 
 
 
-[a-zA-Z_]([a-zA-Z0-9_])*					{printf("Identifier\n"); return check_type();  }
+[a-zA-Z_]([a-zA-Z0-9_])*					{printf("Identifier"); return check_type();  }
 
-[0-9]+		{printf ("I_CONSTANT\n");  ;return I_CONSTANT ;}
+[0-9]+		{printf ("I_CONSTANT\n");  return I_CONSTANT ;}
 
 \'[a-zA-Z0-9]\'  { printf ("C_CONSTANT\n"); return C_CONSTANT;  }
+\'[a-zA-Z0-9]*\' { printf ("C_CONSTANT\n"); return C_CONSTANT;  }
 
 \"[^\"\n]*\"		{ return STRING_LITERAL; }
 
@@ -146,7 +147,7 @@ static void comment(void)
 
 static int check_type(void)
 {
-        printf("Identifier\n");
+        printf("Identifier");
                          /* includes undefined */
         return IDENTIFIER;
 

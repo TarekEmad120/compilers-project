@@ -8,6 +8,7 @@
     // extern int yylineno;
     void yyerror(char *);
     int yylex(void);
+	extern char* yytext;
 %}
 
 
@@ -31,14 +32,26 @@
 primary_expression
 	: IDENTIFIER {printf("identifier");}
 	| constant {printf("constant");}
-	| string
+	| string {printf("string");}
 	| '(' exp ')'
 	;
 
 constant
-	: I_CONSTANT		/* includes character_constant */
-	| F_CONSTANT/* after it has been defined as such */
-	| C_CONSTANT {printf("C_Constant %s\n")   ;}		/* after it has been defined as such */
+	: I_CONSTANT {
+		//check if it has single quotes withone character in it only
+
+	}		/* includes character_constant */
+	| F_CONSTANT /* after it has been defined as such */
+	| C_CONSTANT {printf("C_Constant %s\n")   ;
+	//check if it has single quotes withone character in it only
+	  if (strlen(yytext) == 3 && yytext[0] == '\'' && yytext[2] == '\'') {
+		printf("Character constant: %s\n", yytext);
+	  } else {
+		//return syntax_error("Invalid character constant");
+		yyerror("Invalid character constant");
+		
+	  }
+	}		/* after it has been defined as such */
 	;
 
 
@@ -52,27 +65,27 @@ string
 
 
 postfix_expression
-	: primary_expression
-	| postfix_expression '[' exp ']'// array access
-	| postfix_expression '(' ')'// function call
-	| postfix_expression '(' argument_expression_list ')'// function call
+	: primary_expression{printf("primary_expression");}
+	| postfix_expression '[' exp ']'  { printf("postfix exp exp"); }// array access{}
+	| postfix_expression '(' ')' {printf("postfix_expression()");}
+	| postfix_expression '(' argument_expression_list ')' {printf("postfix_expression()");}
 	| postfix_expression '.' IDENTIFIER//member access
 	| postfix_expression INC_OP//postfix increment
 	| postfix_expression DEC_OP//postfix decrement
-	| '(' type_name ')' '{' initializer_list '}'// type cast
-	| '(' type_name ')' '{' initializer_list ',' '}'// type cast
+	| '(' type_name ')' '{' initializer_list '}' {printf("type name");}
+	| '(' type_name ')' '{' initializer_list ',' '}' {printf("type name");}
 	;
 
 argument_expression_list
-	: assignment_exp
-	| argument_expression_list ',' assignment_exp
+	: assignment_exp {printf("assignment_exp\n");}
+	| argument_expression_list ',' assignment_exp {printf("assignment_exp1 list, exp\n");}
 	;
 
 unary_expression
-	: postfix_expression// postfix
-	| INC_OP unary_expression// prefix increment
+	: postfix_expression {printf("postfix_expression\n");}
+	| INC_OP unary_expression{printf("INC_OP unary_expression\n");}
 	| DEC_OP unary_expression
-	| unary_operator cast_expression// unary operator
+	| unary_operator cast_expression {printf("unary_operator cast_expression\n");}
 	;
 
 unary_operator
@@ -85,7 +98,7 @@ unary_operator
 	;
 
 cast_expression
-	: unary_expression
+	: unary_expression {printf("unary_expression\n");}
 	| '(' type_name ')' cast_expression
 	;
 
@@ -153,8 +166,8 @@ condition_exp
 	;
 
 assignment_exp
-	: condition_exp
-	| unary_expression assignment_operator assignment_exp
+	: condition_exp {printf("condition_exp");}
+	| unary_expression assignment_operator assignment_exp {printf("unary_expression assignment_operator assignment_exp");}
 	;
 
 assignment_operator
@@ -170,12 +183,12 @@ assignment_operator
 	;
 
 exp
-	: assignment_exp
+	: assignment_exp {printf("assignment_exp\n");}
 	| exp ',' assignment_exp
 	;
 
 constant_expression
-	: condition_exp	/* with constraints */
+	: condition_exp	{printf("condition_exp in constant\n");}
 	;
 
 declaration
@@ -198,7 +211,7 @@ init_declarator_list
 	;
 
 init_declarator
-	: declarator '=' initializer
+	: declarator '=' initializer {printf("declarator = initializer\n");}
 	| declarator
 	;
 
@@ -209,9 +222,9 @@ storage_class_specifier
 
 type_specifier
 	: VOID
-	| CHAR
+	| CHAR {printf("char");}
 	| SHORT
-	| INT
+	| INT {printf("int");}
 	| LONG
 	| FLOAT
 	| BOOL 	/* non-mandated extension */
@@ -220,7 +233,7 @@ type_specifier
 
 
 specifier_qualifier_list
-	: type_specifier specifier_qualifier_list
+	: type_specifier specifier_qualifier_list {printf("type_specifier specifier_qualifier_list\n");}
 	| type_specifier
 	| type_qualifier specifier_qualifier_list
 	| type_qualifier
@@ -243,7 +256,7 @@ declarator
 	;
 
 direct_declarator
-	: IDENTIFIER
+	: IDENTIFIER {printf(" directidentifier");}
 	| '(' declarator ')'
 	| direct_declarator '[' ']'
 	| direct_declarator '[' STATIC type_qualifier_list assignment_exp ']'
@@ -268,7 +281,7 @@ parameter_type_list
 	;
 
 parameter_list
-	: parameter_declaration
+	: parameter_declaration 
 	| parameter_list ',' parameter_declaration
 	;
 
@@ -315,30 +328,30 @@ direct_abstract_declarator
 	;
 
 initializer
-	: '{' initializer_list '}'
-	| '{' initializer_list ',' '}'
-	| assignment_exp
+	: '{' initializer_list '}' {printf("initializer_list\n");}
+	| '{' initializer_list ',' '}'	{printf("initializer_list 2\n");}
+	| assignment_exp {printf("assignment_exp\n");}
 	;
 
 initializer_list
-	: designation initializer
-	| initializer
-	| initializer_list ',' designation initializer
-	| initializer_list ',' initializer
+	: designation initializer {printf("designation initializer\n");}
+	| initializer {printf("initializer\n");}
+	| initializer_list ',' designation initializer {printf("initializer_list , designation initializer\n");}
+	| initializer_list ',' initializer {printf("initializer_list , initializer\n");}
 	;
 
 designation
-	: designator_list '='
+	: designator_list '=' {printf("designator_list =\n");}
 	;
 
 designator_list
-	: designator
-	| designator_list designator
+	: designator {printf("designator\n");}
+	| designator_list designator {printf("designator_list designator\n");}
 	;
 
 designator
-	: '[' constant_expression ']'
-	| '.' IDENTIFIER
+	: '[' constant_expression ']' {printf("constant_expression\n");}
+	| '.' IDENTIFIER {printf(" desgIDENTIFIER\n");}
 	;
 
 
@@ -369,7 +382,7 @@ block_item_list
 	;
 
 block_item
-	: declaration
+	: declaration {printf("declaration\n");}
 	| stmt
 	;
 
@@ -378,7 +391,7 @@ exp_stmt
 	| exp ';'
 	;
 
-selection_stmt
+selection_stmt 
 	:IF '(' exp ')' stmt
     |IF '(' exp ')' stmt ELSE stmt
 	| SWITCH '(' exp ')' stmt
@@ -402,13 +415,13 @@ jmp_stmt
 	;
 
 translation_unit
-	: external_declaration
+	: external_declaration {printf("external_declaration\n");}
 	| translation_unit external_declaration
 	;
 
 external_declaration
 	: func_def
-	| declaration
+	| declaration {printf("declaration\n");}
 	;
 
 func_def
@@ -417,7 +430,7 @@ func_def
 	;
 
 declaration_list
-	: declaration
+	: declaration {printf("declaration\n");}
 	| declaration_list declaration
 	;
 
