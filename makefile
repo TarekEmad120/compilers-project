@@ -1,6 +1,6 @@
 build: 
-		bison --yacc parser.y -d
-		flex lexer.l
+		bison --yacc parser2.y -d
+		flex lexer2.l
 		gcc y.tab.c lex.yy.c -o a
 
 
