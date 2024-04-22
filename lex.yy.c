@@ -1,5 +1,5 @@
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -564,8 +564,8 @@ void yyerror(char *s);
 int yylex(void);
 int line_num = 1;
 
-#line 567 "lex.yy.c"
 #line 568 "lex.yy.c"
+#line 569 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -784,7 +784,7 @@ YY_DECL
 	{
 #line 16 "lexer.l"
 
-#line 787 "lex.yy.c"
+#line 788 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1132,28 +1132,31 @@ case 58:
 YY_RULE_SETUP
 #line 81 "lexer.l"
 {yylval.sval = strdup(yytext); 
-printf("TOKEN: UNKNOWN, IDENTIFIER: %s\n", yytext);
+printf("TOKEN: yasser, IDENTIFIER: %s\n", yytext);
 return IDENTIFIER;}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
 #line 84 "lexer.l"
 {yylval.ival = atoi(yytext);
-printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext);
+printf("TOKEN: tarek, VALUE: %s\n", yytext);
 return INT_CONST;}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
 #line 87 "lexer.l"
-{yylval.fval = atof(yytext); printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext); return FLOAT_CONST;}
+{yylval.fval = atof(yytext); printf("TOKEN: snow, VALUE: %s\n", yytext); return FLOAT_CONST;}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
 #line 89 "lexer.l"
-{yylval.sval = strdup(yytext); return STRING_VAL;}
+{yylval.sval = strdup(yytext); printf("elblf: %s\n", yytext); return STRING_VAL;}
 	YY_BREAK
 case 62:
-#line 93 "lexer.l"
+YY_RULE_SETUP
+#line 92 "lexer.l"
+{yylval.cval = yytext[1]; printf("TOKEN: UNKNOWN char, VALUE: %s\n", yytext); return CHAR_VAL;}
+	YY_BREAK
 case 63:
 YY_RULE_SETUP
 #line 95 "lexer.l"
@@ -1180,7 +1183,7 @@ YY_RULE_SETUP
 #line 103 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1183 "lex.yy.c"
+#line 1187 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

@@ -79,7 +79,7 @@ variable_declaration_id:
                             ;
 
 type_specifier:
-                  INT {printf("int\n");}
+                INT {printf("int\n");}
                 | FLOAT  {printf("FLOAT\n");}
                 | CHAR   {printf("CHAR\n");}
                 | VOID    {printf("VOID\n");}
