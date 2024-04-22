@@ -112,7 +112,7 @@ parameter_type_list:
                     ;
 // COMMA  parameter_id  // int add(int a, b , c ,d)
 parameter_id_list:
-                    parameter_id_list 
+                    parameter_id_list COMMA  parameter_id {printf("parameter_id_list  COMMA  parameter_id\n");}
                   | parameter_id {printf("parameter_id\n");}
                   ;
 
@@ -259,21 +259,26 @@ unary_op:
         ;
 factor:
         immu_table  {printf("immu_table\n");}
-        |mu_table {printf("mu_table\n");}
+        | mu_table {printf("mu_table\n");}
         ;
 
 mu_table:
-        IDENTIFIER {printf("identifier\n");}
-        | IDENTIFIER LBRACKET expression RBRACKET {printf("identIDENTIFIER LBRACE expression RBRACEifier\n");}
+        id_or_call {printf("identifier\n");}
+        | id_or_call LBRACKET expression RBRACKET {printf("identifier LBRACE expression RBRACE\n");}
+        ;
 
+id_or_call:
+        IDENTIFIER {printf("identifier\n");}
+        | call {printf("call\n");}
         ;
 
 immu_table:
-          LPAREN expression RPAREN   {printf(" LPAREN expression RPAREN\n");}
-          | call     {printf(" call\n");}
-          | constant   {printf(" constant\n");}
-          ;
-call: 
+        LPAREN expression RPAREN   {printf(" LPAREN expression RPAREN\n");}
+        | call     {printf(" call\n");}
+        | constant   {printf(" constant\n");}
+        ;
+
+call:
     IDENTIFIER LPAREN args RPAREN    {printf(" IDENTIFIER LPAREN args RPAREN\n");}
     ;
 args:
@@ -283,7 +288,7 @@ args:
 arg_list:
         arg_list COMMA expression     {printf(" arg_list COMMA expression\n");}
         | expression    {printf(" expression\n");}
-        ;            
+        ;
 constant:
         INT_CONST     {printf("   INT_CONST  \n");}
         | FLOAT_CONST   {printf("   FLOAT_CONST  \n");}
