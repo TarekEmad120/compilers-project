@@ -97,6 +97,8 @@ static int check_type(void);
 "_Thread_local"                         { return THREAD_LOCAL; }
 "__func__"                              { return FUNC_NAME; }
 
+
+
 {L}{A}*					{ return check_type(); }
 
 {HP}{H}+{IS}?				{ return I_CONSTANT; }

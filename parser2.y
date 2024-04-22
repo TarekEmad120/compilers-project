@@ -252,6 +252,8 @@ specifier_qualifier_list
 
 
 
+
+
 type_qualifier
 	: CONST
 	| VOLATILE
