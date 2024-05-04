@@ -1,9 +1,0 @@
-Name: String
-Type: constint
-Scope: 1
-Used: true
-Initialized: true
-Is Function: true
-Arg Count: 2
-Arg Types: float int 
-

@@ -43,9 +43,7 @@
 %%
 
 translation_unit
-	: external_declaration {
-            createnode(ptr,myVariable++);
-	}
+	: external_declaration
 	| translation_unit external_declaration
 	;
 
@@ -233,7 +231,7 @@ declaration_specifiers
 	: storage_class_specifier declaration_specifiers
 	| storage_class_specifier
 	| type_specifier declaration_specifiers
-	| type_specifier
+	| type_specifier { type = $0; }
 	| type_qualifier declaration_specifiers
 	| type_qualifier
 	;
@@ -289,7 +287,7 @@ declarator
 	;
 
 direct_declarator
-	: IDENTIFIER {printf(" directidentifier");}
+	: IDENTIFIER { name = $0; }
 	| '(' declarator ')'
 	| direct_declarator '[' ']'
 	| direct_declarator '[' STATIC type_qualifier_list assignment_exp ']'
@@ -420,8 +418,12 @@ block_item
 	;
 
 exp_stmt
-	: ';'
-	| exp ';'
+	: ';' 
+	| exp ';' {
+		struct SymbolData *ptr = initalizesymboldata(type, name , 0, true, true, true, 2, &count);
+    		createnode(ptr, count++);
+			
+		}
 	;
 
 selection_stmt 
@@ -468,6 +470,6 @@ void yyerror(char *s) {
 int main(){
 	
   yyparse(); 
-
+	printSymbolTable();
   return 0; 
 }
