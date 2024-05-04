@@ -7,7 +7,7 @@ void essam()
 {
 
     int x=5;
-    char p = 'jhlhkj';
+    
     const int a=6;
 }
 
@@ -45,7 +45,7 @@ int main()
 
 
         int x=8;
-        if (x==2)  && (z==s || f==s )
+        if ((x==2)  && (z==s || f==s ))
         {
 
             int n=5;

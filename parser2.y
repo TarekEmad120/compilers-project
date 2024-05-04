@@ -3,12 +3,16 @@
     #include <stdlib.h>
     #include <string.h>
     #include <unistd.h>
+	#include "symboltable.h"
     // extern FILE *yyin;
     // extern int yylex();
     // extern int yylineno;
+	int myVariable = 0;
     void yyerror(char *);
     int yylex(void);
 	extern char* yytext;
+
+	
 %}
 
 
@@ -30,7 +34,9 @@
 %%
 
 primary_expression
-	: IDENTIFIER {printf("identifier");}
+	: IDENTIFIER {printf("identifier");
+	
+	}
 	| constant {printf("constant");}
 	| string {printf("string");}
 	| '(' exp ')'
@@ -39,10 +45,11 @@ primary_expression
 constant
 	: I_CONSTANT {
 		//check if it has single quotes withone character in it only
-
+	myFunction();
 	}		/* includes character_constant */
 	| F_CONSTANT /* after it has been defined as such */
-	| C_CONSTANT {printf("C_Constant %s\n")   ;
+	| C_CONSTANT {printf("C_Constant %s\n")   ;myVariable++;
+	
 	//check if it has single quotes withone character in it only
 	  if (strlen(yytext) == 3 && yytext[0] == '\'' && yytext[2] == '\'') {
 		printf("Character constant: %s\n", yytext);
@@ -66,10 +73,10 @@ string
 
 
 postfix_expression
-	: primary_expression{printf("primary_expression");}
-	| postfix_expression '[' exp ']'  { printf("postfix exp exp"); }// array access{}
-	| postfix_expression '(' ')' {printf("postfix_expression()");}
-	| postfix_expression '(' argument_expression_list ')' {printf("postfix_expression()");}
+	: primary_expression{printf("primary_expression");myFunction();}
+	| postfix_expression '[' exp ']'  { printf("postfix exp exp");myFunction(); }// array access{}
+	| postfix_expression '(' ')' {printf("postfix_expression()");myFunction();}
+	| postfix_expression '(' argument_expression_list ')' {printf("postfix_expression()");myFunction();}
 	| postfix_expression '.' IDENTIFIER//member access
 	| postfix_expression INC_OP//postfix increment
 	| postfix_expression DEC_OP//postfix decrement
@@ -416,13 +423,13 @@ jmp_stmt
 	;
 
 translation_unit
-	: external_declaration {printf("external_declaration\n");}
+	: external_declaration {printf("external_declaration\n"); printSymbolTable();}
 	| translation_unit external_declaration
 	;
 
 external_declaration
 	: func_def
-	| declaration {printf("declaration\n");}
+	| declaration {printf("declaration\n");printSymbolTable();}
 	;
 
 func_def

@@ -1,5 +1,5 @@
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -553,7 +553,7 @@ char *yytext;
 // int yylex(void);
 // int line_num = 1;
 
-#line 556 "lex.yy.c"
+#line 557 "lex.yy.c"
 #line 21 "lexer2.l"
 #include <stdio.h>
 #include "y.tab.h"
@@ -569,8 +569,8 @@ extern int sym_type(const char *);  /* returns type from symbol table */
 static void comment(void);
 static int check_type(void);
 
-#line 572 "lex.yy.c"
 #line 573 "lex.yy.c"
+#line 574 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -789,7 +789,7 @@ YY_DECL
 	{
 #line 38 "lexer2.l"
 
-#line 792 "lex.yy.c"
+#line 793 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1227,7 +1227,7 @@ YY_RULE_SETUP
 #line 125 "lexer2.l"
 ECHO;
 	YY_BREAK
-#line 1230 "lex.yy.c"
+#line 1231 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

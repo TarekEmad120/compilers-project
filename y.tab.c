@@ -73,14 +73,18 @@
     #include <stdlib.h>
     #include <string.h>
     #include <unistd.h>
+	#include "symboltable.h"
     // extern FILE *yyin;
     // extern int yylex();
     // extern int yylineno;
+	int myVariable = 0;
     void yyerror(char *);
     int yylex(void);
 	extern char* yytext;
 
-#line 84 "y.tab.c"
+	
+
+#line 88 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -767,26 +771,26 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    33,    33,    34,    35,    36,    40,    44,    45,    61,
-      62,    69,    70,    71,    72,    73,    74,    75,    76,    77,
-      81,    82,    86,    87,    88,    89,    93,    94,    95,    96,
-      97,    98,   102,   103,   107,   108,   109,   110,   114,   115,
-     116,   120,   121,   122,   126,   127,   128,   129,   130,   134,
-     135,   136,   140,   141,   145,   146,   150,   151,   155,   156,
-     160,   161,   165,   166,   170,   171,   175,   176,   177,   178,
-     179,   180,   181,   182,   183,   187,   188,   192,   196,   197,
-     201,   202,   203,   204,   205,   206,   210,   211,   215,   216,
-     220,   221,   225,   226,   227,   228,   229,   230,   231,   237,
-     238,   239,   240,   248,   249,   256,   260,   261,   262,   263,
-     264,   265,   266,   267,   268,   269,   270,   271,   275,   276,
-     281,   285,   286,   290,   291,   292,   296,   297,   301,   302,
-     306,   310,   311,   312,   313,   314,   315,   316,   317,   318,
-     319,   320,   321,   322,   323,   324,   325,   326,   327,   328,
-     332,   333,   334,   338,   339,   340,   341,   345,   349,   350,
-     354,   355,   361,   362,   363,   364,   365,   366,   370,   371,
-     372,   376,   377,   381,   382,   386,   387,   391,   392,   396,
-     397,   398,   403,   404,   405,   406,   407,   408,   412,   413,
-     414,   415,   419,   420,   424,   425,   429,   430,   434,   435
+       0,    37,    37,    40,    41,    42,    46,    50,    51,    68,
+      69,    76,    77,    78,    79,    80,    81,    82,    83,    84,
+      88,    89,    93,    94,    95,    96,   100,   101,   102,   103,
+     104,   105,   109,   110,   114,   115,   116,   117,   121,   122,
+     123,   127,   128,   129,   133,   134,   135,   136,   137,   141,
+     142,   143,   147,   148,   152,   153,   157,   158,   162,   163,
+     167,   168,   172,   173,   177,   178,   182,   183,   184,   185,
+     186,   187,   188,   189,   190,   194,   195,   199,   203,   204,
+     208,   209,   210,   211,   212,   213,   217,   218,   222,   223,
+     227,   228,   232,   233,   234,   235,   236,   237,   238,   244,
+     245,   246,   247,   255,   256,   263,   267,   268,   269,   270,
+     271,   272,   273,   274,   275,   276,   277,   278,   282,   283,
+     288,   292,   293,   297,   298,   299,   303,   304,   308,   309,
+     313,   317,   318,   319,   320,   321,   322,   323,   324,   325,
+     326,   327,   328,   329,   330,   331,   332,   333,   334,   335,
+     339,   340,   341,   345,   346,   347,   348,   352,   356,   357,
+     361,   362,   368,   369,   370,   371,   372,   373,   377,   378,
+     379,   383,   384,   388,   389,   393,   394,   398,   399,   403,
+     404,   405,   410,   411,   412,   413,   414,   415,   419,   420,
+     421,   422,   426,   427,   431,   432,   436,   437,   441,   442
 };
 #endif
 
@@ -1758,35 +1762,38 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* primary_expression: IDENTIFIER  */
-#line 33 "parser2.y"
-                     {printf("identifier");}
-#line 1764 "y.tab.c"
-    break;
-
-  case 3: /* primary_expression: constant  */
-#line 34 "parser2.y"
-                   {printf("constant");}
+#line 37 "parser2.y"
+                     {printf("identifier");
+	
+	}
 #line 1770 "y.tab.c"
     break;
 
-  case 4: /* primary_expression: string  */
-#line 35 "parser2.y"
-                 {printf("string");}
+  case 3: /* primary_expression: constant  */
+#line 40 "parser2.y"
+                   {printf("constant");}
 #line 1776 "y.tab.c"
     break;
 
+  case 4: /* primary_expression: string  */
+#line 41 "parser2.y"
+                 {printf("string");}
+#line 1782 "y.tab.c"
+    break;
+
   case 6: /* constant: I_CONSTANT  */
-#line 40 "parser2.y"
+#line 46 "parser2.y"
                      {
 		//check if it has single quotes withone character in it only
-
+	myFunction();
 	}
-#line 1785 "y.tab.c"
+#line 1791 "y.tab.c"
     break;
 
   case 8: /* constant: C_CONSTANT  */
-#line 45 "parser2.y"
-                     {printf("C_Constant %s\n")   ;
+#line 51 "parser2.y"
+                     {printf("C_Constant %s\n")   ;myVariable++;
+	
 	//check if it has single quotes withone character in it only
 	  if (strlen(yytext) == 3 && yytext[0] == '\'' && yytext[2] == '\'') {
 		printf("Character constant: %s\n", yytext);
@@ -1797,239 +1804,239 @@ yyreduce:
 		exit(1);
 	  }
 	}
-#line 1801 "y.tab.c"
+#line 1808 "y.tab.c"
     break;
 
   case 11: /* postfix_expression: primary_expression  */
-#line 69 "parser2.y"
-                            {printf("primary_expression");}
-#line 1807 "y.tab.c"
+#line 76 "parser2.y"
+                            {printf("primary_expression");myFunction();}
+#line 1814 "y.tab.c"
     break;
 
   case 12: /* postfix_expression: postfix_expression '[' exp ']'  */
-#line 70 "parser2.y"
-                                          { printf("postfix exp exp"); }
-#line 1813 "y.tab.c"
+#line 77 "parser2.y"
+                                          { printf("postfix exp exp");myFunction(); }
+#line 1820 "y.tab.c"
     break;
 
   case 13: /* postfix_expression: postfix_expression '(' ')'  */
-#line 71 "parser2.y"
-                                     {printf("postfix_expression()");}
-#line 1819 "y.tab.c"
+#line 78 "parser2.y"
+                                     {printf("postfix_expression()");myFunction();}
+#line 1826 "y.tab.c"
     break;
 
   case 14: /* postfix_expression: postfix_expression '(' argument_expression_list ')'  */
-#line 72 "parser2.y"
-                                                              {printf("postfix_expression()");}
-#line 1825 "y.tab.c"
+#line 79 "parser2.y"
+                                                              {printf("postfix_expression()");myFunction();}
+#line 1832 "y.tab.c"
     break;
 
   case 18: /* postfix_expression: '(' type_name ')' '{' initializer_list '}'  */
-#line 76 "parser2.y"
+#line 83 "parser2.y"
                                                      {printf("type name");}
-#line 1831 "y.tab.c"
+#line 1838 "y.tab.c"
     break;
 
   case 19: /* postfix_expression: '(' type_name ')' '{' initializer_list ',' '}'  */
-#line 77 "parser2.y"
+#line 84 "parser2.y"
                                                          {printf("type name");}
-#line 1837 "y.tab.c"
+#line 1844 "y.tab.c"
     break;
 
   case 20: /* argument_expression_list: assignment_exp  */
-#line 81 "parser2.y"
+#line 88 "parser2.y"
                          {printf("assignment_exp\n");}
-#line 1843 "y.tab.c"
+#line 1850 "y.tab.c"
     break;
 
   case 21: /* argument_expression_list: argument_expression_list ',' assignment_exp  */
-#line 82 "parser2.y"
+#line 89 "parser2.y"
                                                       {printf("assignment_exp1 list, exp\n");}
-#line 1849 "y.tab.c"
+#line 1856 "y.tab.c"
     break;
 
   case 22: /* unary_expression: postfix_expression  */
-#line 86 "parser2.y"
+#line 93 "parser2.y"
                              {printf("postfix_expression\n");}
-#line 1855 "y.tab.c"
+#line 1862 "y.tab.c"
     break;
 
   case 23: /* unary_expression: INC_OP unary_expression  */
-#line 87 "parser2.y"
+#line 94 "parser2.y"
                                  {printf("INC_OP unary_expression\n");}
-#line 1861 "y.tab.c"
+#line 1868 "y.tab.c"
     break;
 
   case 25: /* unary_expression: unary_operator cast_expression  */
-#line 89 "parser2.y"
+#line 96 "parser2.y"
                                          {printf("unary_operator cast_expression\n");}
-#line 1867 "y.tab.c"
+#line 1874 "y.tab.c"
     break;
 
   case 32: /* cast_expression: unary_expression  */
-#line 102 "parser2.y"
+#line 109 "parser2.y"
                            {printf("unary_expression\n");}
-#line 1873 "y.tab.c"
+#line 1880 "y.tab.c"
     break;
 
   case 64: /* assignment_exp: condition_exp  */
-#line 170 "parser2.y"
+#line 177 "parser2.y"
                         {printf("condition_exp");}
-#line 1879 "y.tab.c"
+#line 1886 "y.tab.c"
     break;
 
   case 65: /* assignment_exp: unary_expression assignment_operator assignment_exp  */
-#line 171 "parser2.y"
+#line 178 "parser2.y"
                                                               {printf("unary_expression assignment_operator assignment_exp");}
-#line 1885 "y.tab.c"
+#line 1892 "y.tab.c"
     break;
 
   case 75: /* exp: assignment_exp  */
-#line 187 "parser2.y"
+#line 194 "parser2.y"
                          {printf("assignment_exp\n");}
-#line 1891 "y.tab.c"
+#line 1898 "y.tab.c"
     break;
 
   case 77: /* constant_expression: condition_exp  */
-#line 192 "parser2.y"
+#line 199 "parser2.y"
                         {printf("condition_exp in constant\n");}
-#line 1897 "y.tab.c"
+#line 1904 "y.tab.c"
     break;
 
   case 88: /* init_declarator: declarator '=' initializer  */
-#line 215 "parser2.y"
+#line 222 "parser2.y"
                                      {printf("declarator = initializer\n");}
-#line 1903 "y.tab.c"
+#line 1910 "y.tab.c"
     break;
 
   case 93: /* type_specifier: CHAR  */
-#line 226 "parser2.y"
+#line 233 "parser2.y"
                {printf("char");}
-#line 1909 "y.tab.c"
+#line 1916 "y.tab.c"
     break;
 
   case 95: /* type_specifier: INT  */
-#line 228 "parser2.y"
+#line 235 "parser2.y"
               {printf("int");}
-#line 1915 "y.tab.c"
+#line 1922 "y.tab.c"
     break;
 
   case 99: /* specifier_qualifier_list: type_specifier specifier_qualifier_list  */
-#line 237 "parser2.y"
+#line 244 "parser2.y"
                                                   {printf("type_specifier specifier_qualifier_list\n");}
-#line 1921 "y.tab.c"
+#line 1928 "y.tab.c"
     break;
 
   case 106: /* direct_declarator: IDENTIFIER  */
-#line 260 "parser2.y"
+#line 267 "parser2.y"
                      {printf(" directidentifier");}
-#line 1927 "y.tab.c"
+#line 1934 "y.tab.c"
     break;
 
   case 126: /* identifier_list: IDENTIFIER  */
-#line 296 "parser2.y"
+#line 303 "parser2.y"
                      {printf("identifier");}
-#line 1933 "y.tab.c"
+#line 1940 "y.tab.c"
     break;
 
   case 150: /* initializer: '{' initializer_list '}'  */
-#line 332 "parser2.y"
+#line 339 "parser2.y"
                                    {printf("initializer_list\n");}
-#line 1939 "y.tab.c"
+#line 1946 "y.tab.c"
     break;
 
   case 151: /* initializer: '{' initializer_list ',' '}'  */
-#line 333 "parser2.y"
+#line 340 "parser2.y"
                                         {printf("initializer_list 2\n");}
-#line 1945 "y.tab.c"
+#line 1952 "y.tab.c"
     break;
 
   case 152: /* initializer: assignment_exp  */
-#line 334 "parser2.y"
+#line 341 "parser2.y"
                          {printf("assignment_exp\n");}
-#line 1951 "y.tab.c"
+#line 1958 "y.tab.c"
     break;
 
   case 153: /* initializer_list: designation initializer  */
-#line 338 "parser2.y"
+#line 345 "parser2.y"
                                   {printf("designation initializer\n");}
-#line 1957 "y.tab.c"
+#line 1964 "y.tab.c"
     break;
 
   case 154: /* initializer_list: initializer  */
-#line 339 "parser2.y"
+#line 346 "parser2.y"
                       {printf("initializer\n");}
-#line 1963 "y.tab.c"
+#line 1970 "y.tab.c"
     break;
 
   case 155: /* initializer_list: initializer_list ',' designation initializer  */
-#line 340 "parser2.y"
+#line 347 "parser2.y"
                                                        {printf("initializer_list , designation initializer\n");}
-#line 1969 "y.tab.c"
+#line 1976 "y.tab.c"
     break;
 
   case 156: /* initializer_list: initializer_list ',' initializer  */
-#line 341 "parser2.y"
+#line 348 "parser2.y"
                                            {printf("initializer_list , initializer\n");}
-#line 1975 "y.tab.c"
+#line 1982 "y.tab.c"
     break;
 
   case 157: /* designation: designator_list '='  */
-#line 345 "parser2.y"
+#line 352 "parser2.y"
                               {printf("designator_list =\n");}
-#line 1981 "y.tab.c"
+#line 1988 "y.tab.c"
     break;
 
   case 158: /* designator_list: designator  */
-#line 349 "parser2.y"
+#line 356 "parser2.y"
                      {printf("designator\n");}
-#line 1987 "y.tab.c"
+#line 1994 "y.tab.c"
     break;
 
   case 159: /* designator_list: designator_list designator  */
-#line 350 "parser2.y"
+#line 357 "parser2.y"
                                      {printf("designator_list designator\n");}
-#line 1993 "y.tab.c"
+#line 2000 "y.tab.c"
     break;
 
   case 160: /* designator: '[' constant_expression ']'  */
-#line 354 "parser2.y"
+#line 361 "parser2.y"
                                       {printf("constant_expression\n");}
-#line 1999 "y.tab.c"
+#line 2006 "y.tab.c"
     break;
 
   case 161: /* designator: '.' IDENTIFIER  */
-#line 355 "parser2.y"
+#line 362 "parser2.y"
                          {printf(" desgIDENTIFIER\n");}
-#line 2005 "y.tab.c"
+#line 2012 "y.tab.c"
     break;
 
   case 175: /* block_item: declaration  */
-#line 386 "parser2.y"
+#line 393 "parser2.y"
                       {printf("declaration\n");}
-#line 2011 "y.tab.c"
+#line 2018 "y.tab.c"
     break;
 
   case 192: /* translation_unit: external_declaration  */
-#line 419 "parser2.y"
-                               {printf("external_declaration\n");}
-#line 2017 "y.tab.c"
+#line 426 "parser2.y"
+                               {printf("external_declaration\n"); printSymbolTable();}
+#line 2024 "y.tab.c"
     break;
 
   case 195: /* external_declaration: declaration  */
-#line 425 "parser2.y"
-                      {printf("declaration\n");}
-#line 2023 "y.tab.c"
+#line 432 "parser2.y"
+                      {printf("declaration\n");printSymbolTable();}
+#line 2030 "y.tab.c"
     break;
 
   case 198: /* declaration_list: declaration  */
-#line 434 "parser2.y"
+#line 441 "parser2.y"
                       {printf("declaration\n");}
-#line 2029 "y.tab.c"
+#line 2036 "y.tab.c"
     break;
 
 
-#line 2033 "y.tab.c"
+#line 2040 "y.tab.c"
 
       default: break;
     }
@@ -2222,7 +2229,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 438 "parser2.y"
+#line 445 "parser2.y"
 
 #include <stdio.h>
 void yyerror(char *s) {
