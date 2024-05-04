@@ -7,7 +7,7 @@ void essam()
 {
 
     int x=5;
-    char p = '5';
+    char p = 'jhlhkj';
     const int a=6;
 }
 
