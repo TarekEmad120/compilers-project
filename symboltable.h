@@ -110,7 +110,7 @@ bool isempty()
     }
 }
 
-SymbolNode *getsymbolAndScope(char *name, int scope)
+struct SymbolNode *getsymbolAndScope(char *name, int scope)
 {
     struct SymbolNode *temp = head;
     while (temp != NULL)
@@ -152,7 +152,7 @@ int getsymboltype(char *name)
     return -1;
 }
 
-void setfunction(int argcount, int *argtypes, SymbolData *data)
+void setfunction(int argcount, int *argtypes, struct SymbolData *data)
 {
     data->isfunc = true;
     data->argcount = argcount;

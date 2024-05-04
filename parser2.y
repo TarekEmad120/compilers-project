@@ -11,8 +11,17 @@
     void yyerror(char *);
     int yylex(void);
 	extern char* yytext;
-
-	
+	int type;
+    bool intialized;
+    bool used;
+    int scope;
+    char *name;
+    char *value;
+    bool modified;
+    bool isfunc;
+    int argcount;
+    int *argtypes;
+	struct SymbolData *ptr;
 %}
 
 
@@ -33,12 +42,27 @@
 %start translation_unit
 %%
 
-primary_expression
-	: IDENTIFIER {printf("identifier");
-	
+translation_unit
+	: external_declaration {
+            createnode(ptr,myVariable++);
 	}
-	| constant {printf("constant");}
-	| string {printf("string");}
+	| translation_unit external_declaration
+	;
+
+
+
+external_declaration
+	: func_def   		//{printf("%d\n",myVariable++);}
+	| declaration 		//{printf("%d\n",myVariable++);}
+	;
+
+primary_expression
+	: IDENTIFIER {//printf("identifier");
+	printf("%d\n",myVariable++);
+
+	}
+	| constant //{printf("constant");}
+	| string //{printf("string");}
 	| '(' exp ')'
 	;
 
@@ -48,7 +72,8 @@ constant
 	myFunction();
 	}		/* includes character_constant */
 	| F_CONSTANT /* after it has been defined as such */
-	| C_CONSTANT {printf("C_Constant %s\n")   ;myVariable++;
+	| C_CONSTANT {
+		//printf("C_Constant %s\n")   ;myVariable++;
 	
 	//check if it has single quotes withone character in it only
 	  if (strlen(yytext) == 3 && yytext[0] == '\'' && yytext[2] == '\'') {
@@ -422,15 +447,6 @@ jmp_stmt
 	| RETURN exp ';'
 	;
 
-translation_unit
-	: external_declaration {printf("external_declaration\n"); printSymbolTable();}
-	| translation_unit external_declaration
-	;
-
-external_declaration
-	: func_def
-	| declaration {printf("declaration\n");printSymbolTable();}
-	;
 
 func_def
 	: declaration_specifiers declarator declaration_list compound_stmt
@@ -450,6 +466,8 @@ void yyerror(char *s) {
 
 
 int main(){
+	
   yyparse(); 
+
   return 0; 
 }
