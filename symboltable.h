@@ -195,6 +195,7 @@ int getsymboltype(char *name)
     return -1;
 }
 
+
 void setfunction(int argcount, int *argtypes, struct SymbolData *data)
 {
     data->isfunc = true;

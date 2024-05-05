@@ -6,6 +6,14 @@ Used: true
 Initialized: true
 Is Function: false
 
+Name: x
+Type: int
+Value: 
+Scope: -1
+Used: false
+Initialized: false
+Is Function: false
+
 Name: add
 Type: void
 Value: 

@@ -10,7 +10,9 @@
 	extern void yyerror(char *s);
 	int count=0;
 	int scopeno = 0;
-	
+	char* currentfunctionname = "";
+	int argcount = 0;
+	int funcargs[30];
 %}
 %union {
 	char* name ;//identifier name 
@@ -298,10 +300,15 @@ function_prototype:
 		}
 		int type = $1;
 		char* name = $2;
-		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, 0, 0);
+		argcount = 0;
+		currentfunctionname = name;
+		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0);
 		createnode(ptr, count++);
 
-	} parameters CLOSEDBRACKET
+	} parameters CLOSEDBRACKET{
+		currentfunctionname = "";
+		argcount = 0;
+	}
     | type IDENTIFIER OPENBRACKET{
 		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
@@ -309,11 +316,14 @@ function_prototype:
 		}
 		int type = $1;
 		char* name = $2;
-		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, 0, 0);
+		currentfunctionname = name;
+		argcount = 0;
+		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0);
 		createnode(ptr, count++);
 
+	} CLOSEDBRACKET{ currentfunctionname = "";
+		argcount = 0;
 	}
-			 CLOSEDBRACKET
     | VOID IDENTIFIER OPENBRACKET {
 		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
@@ -321,12 +331,14 @@ function_prototype:
 		}
 		int type = VOIDTYPE;
 		char* name = $2;
-		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, 0, 0);
+		currentfunctionname = name;
+		argcount = 0;
+		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0);
 		createnode(ptr, count++);
 
 
 	}
-			parameters CLOSEDBRACKET
+			parameters CLOSEDBRACKET{ currentfunctionname = ""; argcount = 0;}
     | VOID IDENTIFIER OPENBRACKET{
 		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
@@ -334,15 +346,49 @@ function_prototype:
 		}
 		int type = VOIDTYPE;
 		char* name = $2;
-		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, 0, 0);
+		currentfunctionname = name;
+		argcount = 0;
+		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0);
 		createnode(ptr, count++);
 	}
-	 CLOSEDBRACKET
+	 CLOSEDBRACKET{ currentfunctionname = ""; argcount = 0;}
     ;
 
 parameters: 			parameters COMMA single_parameter | single_parameter ;
 
-single_parameter: 		type IDENTIFIER | type IDENTIFIER EQUAL constant ;
+single_parameter: 		type IDENTIFIER 
+						{
+							if (chekidentifiernameandScopeoutofscope($2, scopeno+1) == 1){
+								printf("variable is aleady declared\n");
+								return 0;
+							}
+							int type = $1;
+							char* name = $2;
+							struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno+1, true,false, false, false, 0, 0);
+							createnode(ptr, count++);
+							funcargs[argcount] = type;
+							argcount++;
+						}
+						| type IDENTIFIER EQUAL constant 
+						{
+							if (chekidentifiernameandScopeoutofscope($2, scopeno+1) == 1){
+								printf("variable is aleady declared\n");
+								return 0;
+							}
+							int type = $1;
+							char* name = $2;
+							int value = $4.type;
+							char* valueinstring = $4.valueinstring;
+							if (type != value){
+								printf( "Type mismatch\n");
+								return 0;
+							}
+							else{
+								struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno+1, true,false, false, false, 0, 0);
+								createnode(ptr, count++);
+							}
+						}
+						;
 
 function_call: 			IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON ;
 
