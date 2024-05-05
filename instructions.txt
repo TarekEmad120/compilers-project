@@ -1,14 +1,5 @@
 
-int z =10;
-if (x==1)
-{
-    int x =10;
 
-}
-
-
-{
-    { int csi=19;
-    }
-    char a ='a';
+void add (int x ){
+    int z =0;
 }

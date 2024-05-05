@@ -15,6 +15,7 @@
 #define CONSTINTTYPE 5
 #define CONSTFLOATTYPE 6
 #define CONSTCHARTYPE 7
+#define VOIDTYPE 8
 void yyerror (char *s);
 int yylex();
 %}

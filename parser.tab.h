@@ -103,12 +103,11 @@ extern int yydebug;
     RETURN = 304,                  /* RETURN  */
     COMMA = 305,                   /* COMMA  */
     COLON = 306,                   /* COLON  */
-    ENUM = 307,                    /* ENUM  */
-    OPENBRACKET = 308,             /* OPENBRACKET  */
-    CLOSEDBRACKET = 309,           /* CLOSEDBRACKET  */
-    OPENCURL = 310,                /* OPENCURL  */
-    CLOSEDCURL = 311,              /* CLOSEDCURL  */
-    SEMICOLON = 312                /* SEMICOLON  */
+    OPENBRACKET = 307,             /* OPENBRACKET  */
+    CLOSEDBRACKET = 308,           /* CLOSEDBRACKET  */
+    OPENCURL = 309,                /* OPENCURL  */
+    CLOSEDCURL = 310,              /* CLOSEDCURL  */
+    SEMICOLON = 311                /* SEMICOLON  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -117,7 +116,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 14 "parser.y"
+#line 15 "parser.y"
 
 	char* name ;//identifier name 
 	int var_type;//type
@@ -132,7 +131,7 @@ union YYSTYPE
 		char* valueinstring;//value in string
 	} lexicalstruct;
 
-#line 136 "parser.tab.h"
+#line 135 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -10,6 +10,7 @@
 	extern void yyerror(char *s);
 	int count=0;
 	int scopeno = 0;
+	
 %}
 %union {
 	char* name ;//identifier name 
@@ -102,8 +103,6 @@
 %token COMMA
 %token COLON
 
-        /* Enums */
-%token ENUM
 
         /* Brackets */
 %token OPENBRACKET
@@ -172,13 +171,14 @@ statement :
     | switch_statement
     | break_statement
     | continue_statement
-	| function
+	| function 	{printf("Function statement\n");}
 	| function_call
 	| OPENCURL {
 		scopeno++;
 		printf("Scope Opened\n");
 	
 	} statements CLOSEDCURL {
+		endscope(scopeno);
 		scopeno--;
 		printf("Scope Closed\n");
 	}
@@ -210,7 +210,7 @@ var_declaration:
           type IDENTIFIER EQUAL value SEMICOLON
 		  {
 			printf("identifier name %s\n", $2);
-			if (checkidentifiernameAndScope($2, scopeno) == 1){
+			if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
 
 				printf("variable is aleady declared\n");
 			return 0;
@@ -225,26 +225,28 @@ var_declaration:
 			}
 			else{
 				printf("iam here\n");
-			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno, true, true, false, 0, 0);
+			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0);
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
 			}
 
 		  }
         | type IDENTIFIER EQUAL function_call
+
+
         | type IDENTIFIER SEMICOLON{
-			if (checkidentifiernameAndScope($2, scopeno) == 1){
+			if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
 				printf("variable is aleady declared\n");
 				return 0;
 			}
 			int type = $1;
 			char* name = $2;
-			struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false, false, false, 0, 0);
+			struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, true,false, false, false, 0, 0);
 			createnode(ptr, count++);
 		}
 
 constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Constant declaration\n");
-			if (checkidentifiernameAndScope($3, scopeno) == 1){
+			if (chekidentifiernameandScopeoutofscope($3, scopeno) == 1){
 				printf("variable is aleady declared\n");
 				return 0;
 			}
@@ -272,11 +274,11 @@ constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Con
 				printf("Type mismatch for constant declation it can be only int , float , char \n");
 				return 0;
 			}
-				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno, true, false, false, 0, 0);
+				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno,true, true, false, false, 0, 0);
 				createnode(ptr, count++);
 				printf("count of node %d\n",countnodes());
 			}
-											};
+				};
 
 
 extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
@@ -284,15 +286,58 @@ extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
 
 /* Function Declaration */
 
-function: 			function_prototype statement {printf("Function Definition\n");};
+function: 			function_prototype OPENCURL{scopeno++;} statement CLOSEDCURL{endscope(scopeno); scopeno--;} {printf("Function Definition\n");};
 
 return_value: 			value | ;
 
 function_prototype:
-    type IDENTIFIER OPENBRACKET parameters CLOSEDBRACKET
-    | type IDENTIFIER OPENBRACKET CLOSEDBRACKET
-    | VOID IDENTIFIER OPENBRACKET parameters CLOSEDBRACKET
-    | VOID IDENTIFIER OPENBRACKET CLOSEDBRACKET
+    type IDENTIFIER OPENBRACKET {
+		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+			printf("function name is aleady declared at line %d\n",yylineno);
+			return 0;
+		}
+		int type = $1;
+		char* name = $2;
+		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, 0, 0);
+		createnode(ptr, count++);
+
+	} parameters CLOSEDBRACKET
+    | type IDENTIFIER OPENBRACKET{
+		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+			printf("function name is aleady declared at line %d\n",yylineno);
+			return 0;
+		}
+		int type = $1;
+		char* name = $2;
+		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, 0, 0);
+		createnode(ptr, count++);
+
+	}
+			 CLOSEDBRACKET
+    | VOID IDENTIFIER OPENBRACKET {
+		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+			printf("function name is aleady declared at line %d\n",yylineno);
+			return 0;
+		}
+		int type = VOIDTYPE;
+		char* name = $2;
+		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, 0, 0);
+		createnode(ptr, count++);
+
+
+	}
+			parameters CLOSEDBRACKET
+    | VOID IDENTIFIER OPENBRACKET{
+		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+			printf("function name is aleady declared at line %d\n",yylineno);
+			return 0;
+		}
+		int type = VOIDTYPE;
+		char* name = $2;
+		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, 0, 0);
+		createnode(ptr, count++);
+	}
+	 CLOSEDBRACKET
     ;
 
 parameters: 			parameters COMMA single_parameter | single_parameter ;
@@ -364,12 +409,13 @@ factor:
 /* If statement */
 
 if_statement: 
-        IF OPENBRACKET value CLOSEDBRACKET OPENCURL statements CLOSEDCURL else_if_statement  {printf("If then statement\n");}
-        | IF OPENBRACKET value CLOSEDBRACKET OPENCURL statements CLOSEDCURL else_if_statement ELSE OPENCURL statements CLOSEDCURL {printf("If then else statement\n");}
+        IF OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;} else_if_statement  {printf("If then statement\n");}
 	;
 
 else_if_statement:
-    else_if_statement ELSEIF OPENBRACKET value CLOSEDBRACKET OPENCURL statements CLOSEDCURL |
+    else_if_statement ELSEIF OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} statements CLOSEDCURL { endscope(scopeno); scopeno--;}
+	| ELSE OPENCURL{scopeno++;} statements CLOSEDCURL {endscope(scopeno); scopeno--;}
+	|
     ;
 
 /* While statement */
@@ -410,7 +456,7 @@ for_expression:
 /* Switch statement */
 
 switch_statement:
-    SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL case_list CLOSEDCURL {printf("switch case\n");}
+    SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} case_list CLOSEDCURL{endscope(scopeno); scopeno--;}{printf("switch case\n");}
     ;
 
 case_list:

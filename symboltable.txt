@@ -1,24 +1,18 @@
-Name: a
-Type: char
-Value: 'a'
-Scope: 1
+Name: z
+Type: int
+Value: 0
+Scope: -1
 Used: true
 Initialized: true
 Is Function: false
 
-Name: csi
-Type: int
-Value: 19
-Scope: 2
-Used: true
-Initialized: true
-Is Function: false
-
-Name: x
-Type: int
-Value: 10
+Name: add
+Type: void
+Value: 
 Scope: 0
-Used: true
-Initialized: true
-Is Function: false
+Used: false
+Initialized: false
+Is Function: true
+Arg Count: 0
+Arg Types: 
 
