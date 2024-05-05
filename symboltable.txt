@@ -6,10 +6,10 @@ Used: true
 Initialized: true
 Is Function: false
 
-Name: y
+Name: csi
 Type: int
 Value: 19
-Scope: 0
+Scope: 2
 Used: true
 Initialized: true
 Is Function: false

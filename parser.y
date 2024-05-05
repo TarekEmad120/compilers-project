@@ -12,17 +12,17 @@
 	int scopeno = 0;
 %}
 %union {
-	char* name ;
-	int var_type;
+	char* name ;//identifier name 
+	int var_type;//type
 	struct lexical{
-		int type ;
-		char* name2 ;
-		int intval;
-		float floatval;
-		char charval;
-		bool boolval;
-		char* stringval;
-		char* valueinstring;
+		int type ;//type value 
+		// char* name2 ;// name
+		int intval;//value int 
+		float floatval;//float value
+		char charval;//char value
+		bool boolval;//bool value
+		char* stringval;//string value
+		char* valueinstring;//value in string
 	} lexicalstruct;
 }
 
@@ -216,13 +216,9 @@ var_declaration:
 			return 0;
 			}
 			int type = $1;
-			printf("type %d\n", type);
 			char* name = $2;
-			printf("name %s\n", name);
 			int value = $4.type;
-			printf("value type %d\n", value);
 			char* valueinstring = $4.valueinstring;
-			printf("value in string %s\n", valueinstring);
 			if (type != value){
 				printf( "Type mismatch\n");
 				return 0;
@@ -232,15 +228,55 @@ var_declaration:
 			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno, true, true, false, 0, 0);
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
-
-
 			}
 
 		  }
         | type IDENTIFIER EQUAL function_call
-        | type IDENTIFIER SEMICOLON
+        | type IDENTIFIER SEMICOLON{
+			if (checkidentifiernameAndScope($2, scopeno) == 1){
+				printf("variable is aleady declared\n");
+				return 0;
+			}
+			int type = $1;
+			char* name = $2;
+			struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false, false, false, 0, 0);
+			createnode(ptr, count++);
+		}
 
-constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Constant declaration\n");};
+constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Constant declaration\n");
+			if (checkidentifiernameAndScope($3, scopeno) == 1){
+				printf("variable is aleady declared\n");
+				return 0;
+			}
+			int type = $2;
+
+			char* name = $3;
+			int value = $5.type;
+			char* valueinstring = $5.valueinstring;
+			if (type != value){
+				printf( "Type mismatch\n");
+				return 0;
+			}
+
+			else{
+			if (type ==INTTYPE){
+				type = CONSTINTTYPE;
+			}
+			else if (type ==FLOATTYPE){
+				type = CONSTFLOATTYPE;
+			}
+			else if (type ==CHARTYPE){
+				type = CONSTCHARTYPE;
+			}
+			else {
+				printf("Type mismatch for constant declation it can be only int , float , char \n");
+				return 0;
+			}
+				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno, true, false, false, 0, 0);
+				createnode(ptr, count++);
+				printf("count of node %d\n",countnodes());
+			}
+											};
 
 
 extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
