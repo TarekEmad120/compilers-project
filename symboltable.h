@@ -2,7 +2,17 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-char *types[10] = {"int", "float", "char", "short", "long", "constint", "constfloat", "constchar", "constshort", "constlong"};
+#define INTTYPE 0
+#define FLOATTYPE 1
+#define CHARTYPE 2
+#define BOOLTYPE 3
+#define STRINGTYPE 4
+#define CONSTINTTYPE 5
+#define CONSTFLOATTYPE 6
+#define CONSTCHARTYPE 7
+
+
+char *types[8] = {"int", "float", "char","bool","string" , "constint", "constfloat", "constchar"};
 
 struct SymbolData
 {
@@ -26,11 +36,12 @@ struct SymbolNode
 };
 struct SymbolNode *head = NULL;
 
-struct SymbolData *initalizesymboldata(int type, char *name, int scope, bool used, bool initialized, bool isfunc, int argcount, int *argtypes)
+struct SymbolData *initalizesymboldata(int type, char *name,char* value ,int scope, bool used, bool initialized, bool isfunc, int argcount, int *argtypes)
 {
     struct SymbolData *data = (struct SymbolData *)malloc(sizeof(struct SymbolData));
     data->type = type;
     data->name = name;
+    data->value = value;
     data->scope = scope;
     data->used = used;
     data->intialized = initialized;
@@ -61,14 +72,13 @@ int countnodes()
     return count;
 }
 
-int count = 0;
-void myFunction()
-{
+// void myFunction()
+// {
 
-    struct SymbolData *ptr = initalizesymboldata(5, "String", 1, true, true, true, 2, &count);
-    createnode(ptr, count++);
-    printf("COUNTTTTTTTTTTTTTTTTTTTTT of NOde %d\n", countnodes());
-}
+//     struct SymbolData *ptr = initalizesymboldata(5, "String", 1, true, true, true, 2, &count);
+//     createnode(ptr, count++);
+//     printf("COUNTTTTTTTTTTTTTTTTTTTTT of NOde %d\n", countnodes());
+// }
 
 void printSymbolTable()
 {
@@ -82,20 +92,31 @@ void printSymbolTable()
     while (temp != NULL)
     {
         fprintf(file, "Name: %s\n", temp->data->name);
+        printf("name is finished\n");
         fprintf(file, "Type: %s\n", types[temp->data->type]);
+        printf("type is finished\n");
+        fprintf(file, "Value: %s\n", temp->data->value);
+        printf("value is finished\n");
         fprintf(file, "Scope: %d\n", temp->data->scope);
+        printf("scope is finished\n");
         fprintf(file, "Used: %s\n", temp->data->used ? "true" : "false");
+        printf("used is finished\n");
         fprintf(file, "Initialized: %s\n", temp->data->intialized ? "true" : "false");
+        printf("initialized is finished\n");
         fprintf(file, "Is Function: %s\n", temp->data->isfunc ? "true" : "false");
+        printf("isfunc is finished\n");
         if (temp->data->isfunc)
         {
             fprintf(file, "Arg Count: %d\n", temp->data->argcount);
+            printf("argcount is finished\n");
             fprintf(file, "Arg Types: ");
+            printf("argtypes1 is finished\n");
             for (int i = 0; i < temp->data->argcount; i++)
             {
                 fprintf(file, "%s ", types[temp->data->argtypes[i]]);
             }
             fprintf(file, "\n");
+            printf("argtypes2 is finished\n");
         }
         fprintf(file, "\n");
         temp = temp->next;
@@ -130,6 +151,19 @@ bool checkidentifiername(char *name)
     while (temp != NULL)
     {
         if (strcmp(temp->data->name, name) == 0)
+        {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+bool checkidentifiernameAndScope(char *name, int scope)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0 && temp->data->scope == scope)
         {
             return true;
         }

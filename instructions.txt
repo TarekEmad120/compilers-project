@@ -1,1 +1,6 @@
-int x;
+int x =10;
+int y =19;
+
+{
+    char a ='a';
+}

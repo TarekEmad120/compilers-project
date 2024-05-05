@@ -1,309 +1,402 @@
 %{
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
-    #include <unistd.h>
-    // extern FILE *yyin;
-    // extern int yylex();
-    // extern int yylineno;
-    void yyerror(char *);
-    int yylex(void);
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+	#include <stdbool.h>
+	#include "symboltable.h"
+	extern FILE *yyin;
+	extern int yylineno; /* Line Number tacker from lexer */
+	extern int yylex(); 
+	extern void yyerror(char *s);
+	int count=0;
+	int scopeno = 0;
 %}
-
 %union {
-    float fval;
-    int ival;
-    char cval;
-    char *sval;
+	char* name ;
+	int var_type;
+	struct lexical{
+		int type ;
+		char* name2 ;
+		int intval;
+		float floatval;
+		char charval;
+		bool boolval;
+		char* stringval;
+		char* valueinstring;
+	} lexicalstruct;
 }
 
-%token <ival> INT_CONST
-%token <fval> FLOAT_CONST
-%token <cval> CHAR_VAL
-%token <sval> STRING_VAL
-
-
-/* %token IDENTIFIER */
-%token EQ GT LT GE LE NE
-%token PLUSEQ MINUSEQ MULTEQ DIVEQ INC DEC IDENTIFIER
-%token ASSIGN
-%token IF ELSE WHILE FOR DO SWITCH CASE DEFAULT BREAK CONTINUE RETURN INT FLOAT CHAR STRING VOID MAIN PRINTF SCANF LBRACE RBRACE LPAREN RPAREN SEMICOLON COLON COMMA HASH ERROR PRAGMA EXTERN STATIC CONST VOLATILE REGISTER UNSIGNED TRUE FALSE COMMENT LBRACKET RBRACKET
-%nonassoc OR NOT AND MINOP MAXOP 
-%left PLUS MINUS MULT DIV MOD 
 
 
 
+        /* Identifier and Numbers */
+%token IDENTIFIER
+%token INT_NUM
+%token FLOAT_VAL
+%token STRING_VAL
+%token TRUE_VAL
+%token FALSE_VAL
+%token CHAR_VAL
+
+
+        /* Types */
+%token INT 
+%token FLOAT
+%token CHAR
+%token BOOL
+%token STRING
+
+
+        /* Constant */
+%token CONST
+%token EXTERN
+
+        /* Mathematical Expressions */
+%token PLUS
+%token MINUS
+%token MULT
+%token DIV
+%token PLUS_EQ
+%token MINUS_EQ
+%token MULT_EQ
+%token DIV_EQ
+%token INC
+%token DEC
+
+
+        /* Comparison Op */
+%token LT
+%token GT
+%token GE
+%token LE
+%token EQ_EQ
+%token NE
+        /* Logical Expressions */
+
+%token AND
+%token OR
+%token NOT
+        /* Assignment Operator */
+%token EQUAL
+
+
+
+        /* if then else statement */
+%token IF
+%token ELSEIF
+%token ELSE
+
+        /* While & do-while statement */
+%token WHILE
+%token DO
+%token FOR
+%token SWITCH
+%token CASE
+%token DEFAULT
+%token BREAK
+%token CONTINUE
+
+        /* Functions */
+%token VOID 
+%token RETURN  
+%token COMMA
+%token COLON
+
+        /* Enums */
+%token ENUM
+
+        /* Brackets */
+%token OPENBRACKET
+%token CLOSEDBRACKET
+%token OPENCURL
+%token CLOSEDCURL
+
+        /* Stop Characters */
+%token SEMICOLON
+
+        /* Associativity */
+
+// Non Associative
+%nonassoc OR AND NOT
+
+// Left Associative
+%left PLUS MINUS PLUS_EQ MINUS_EQ INC DEC
+%left MULT DIV MULT_EQ DIV_EQ
+%left GE LE EQ_EQ NE GT LT
+
+/* THIS ARE THE TOKEN COMES FROM THE LEXER  */
+%type <name> IDENTIFIER
+%type <lexicalstruct> INT_NUM
+%type <lexicalstruct> FLOAT_VAL
+%type <lexicalstruct> CHAR_VAL
+%type <lexicalstruct> STRING_VAL
+%type <lexicalstruct> TRUE_VAL
+%type <lexicalstruct> FALSE_VAL
+%type <var_type> INT
+%type <var_type> FLOAT
+%type <var_type> CHAR
+%type <var_type> STRING
+%type <var_type> BOOL
+/* THIS ARE FOR EXPRESSION IN GRAMMER  */
+%type <var_type> type
+%type <lexicalstruct> value
+%type <lexicalstruct> constant
+%type <lexicalstruct> expression
+%type <lexicalstruct> boolean_expression
+%type <lexicalstruct> arithmetic_expression
+%type <lexicalstruct> unary_expression
+%type <lexicalstruct> binary_expression
+%type <lexicalstruct> term
+%type <lexicalstruct> factor
+%type <lexicalstruct> function_call
+
+%start statements
 
 %%
-program :
-    declaration_list{printf("program\n");}
+
+statements :
+    statements statement
+    | statement
     ;
-declaration_list:
-                  declaration_list  declaration{printf("declaration_list\n");}
-                | declaration {printf("declaration\n");}
-                ;
-declaration:
-                  
-                 function_declaration{printf("function_declaration\n");}
-                | variable_declaration{printf("variable_declaration\n");}
-                ;
 
-variable_declaration:
-                      type_specifier  variable_declaration_list SEMICOLON {printf("variable_declaration2\n");}
-                      | EXTERN type_specifier  variable_declaration_list SEMICOLON
-                      //| scoped_variable_declaration
-                      ;
+statement :
+	expression SEMICOLON 	{printf("Expression statement\n");}
+	| assignment_statement	{printf("Assignment Statement \n");}
+	| var_declaration 	{printf("Variable declaration\n");}
+	| constant_declaration
+	| extern_declartion
+	| if_statement
+	| while_statement
+	| do_while_statement
+	| for_statement
+    | switch_statement
+    | break_statement
+    | continue_statement
+	| function
+	| function_call
+	| OPENCURL {
+		scopeno++;
+		printf("Scope Opened\n");
+	
+	} statements CLOSEDCURL {
+		scopeno--;
+		printf("Scope Closed\n");
+	}
+	| RETURN return_value SEMICOLON         {printf("Return statement\n");}
+    | SEMICOLON
+	;
 
-scoped_variable_declaration:
-                                STATIC type_specifier  variable_declaration_list SEMICOLON
-                              | type_specifier  variable_declaration_list SEMICOLON {printf("scoped_variable_declaration\n");}
-                              | CONST type_specifier  variable_declaration_list SEMICOLON
-                              | VOLATILE type_specifier  variable_declaration_list SEMICOLON
-                              | REGISTER type_specifier  variable_declaration_list SEMICOLON
-                              ;
+/* Values & Types*/
 
-variable_declaration_list:
-                            variable_declaration_list  COMMA  variable_declaration_value {printf(" variable_declaration_list  COMMA  variable_declaration_value\n");}
-                          | variable_declaration_value{printf("variable_declaration_value\n");}
-                          ;
+value: expression | STRING_VAL | CHAR_VAL;
 
-variable_declaration_value:
-                            //should be COLON
-                            variable_declaration_id    {printf("variable_declaration_id \n");}
-                            |variable_declaration_id ASSIGN simple_expression   {printf("variable_declaration_id ASSIGN simple_expression\n");}
-                            ;
+type:  INT | FLOAT | CHAR | STRING | BOOL;
 
-variable_declaration_id:
-                            IDENTIFIER {printf("identifier\n");}
-                            | IDENTIFIER LBRACKET INT_CONST RBRACKET  {printf("IDENTIFIER LBRACKET INT_CONST RBRACKET\n");}
-                            ;
-
-type_specifier:
-                INT {printf("int\n");}
-                | FLOAT  {printf("FLOAT\n");}
-                | CHAR   {printf("CHAR\n");}
-                | VOID    {printf("VOID\n");}
-                ;
-
-function_declaration:
-                        type_specifier  IDENTIFIER  LPAREN parameters RPAREN  statement {printf("type_specifier  IDENTIFIER LPAREN parameters RPAREN statement\n");}
-                      | IDENTIFIER LPAREN parameter_list RPAREN statement{printf("IDENTIFIER LPAREN parameter_list RPAREN statement\n");}
-                      ;
-
-// int add(int, int);
-// int add(int a, int b);
-// int add(int a, int b , int c , int d)
-// int ant(int bat, cat[]; bool dog, elk; int fox; char gnu)
+constant:  INT_NUM | FLOAT_VAL | STRING_VAL | TRUE_VAL | FALSE_VAL | CHAR_VAL;
 
 
-parameters:
-              parameter_list {printf("NO PARAMETERS");}
-            | /* NULL */
-            ;
+/* Variable Declaration */
 
-parameter_list: // int a, int b , int c , int d
-                // should  comma
-                  parameter_list  SEMICOLON  parameter_type_list {printf("  parameter_list  COMMA  parameter_type_list\n");}
-                | parameter_type_list {printf("  parameter_type_list\n");}
-                ;
+assignment_statement:
+          IDENTIFIER EQUAL expression SEMICOLON
+        | IDENTIFIER PLUS_EQ expression SEMICOLON
+		| IDENTIFIER MINUS_EQ expression SEMICOLON
+		| IDENTIFIER MULT_EQ expression SEMICOLON
+		| IDENTIFIER DIV_EQ expression SEMICOLON
+        | IDENTIFIER EQUAL function_call
+        ;
 
-parameter_type_list:
-                      type_specifier  parameter_id_list {printf("type_specifier  parameter_id_list\n");}
-                    ;
-// COMMA  parameter_id  // int add(int a, b , c ,d)
-parameter_id_list:
-                    parameter_id_list COMMA  parameter_id {printf("parameter_id_list  COMMA  parameter_id\n");}
-                  | parameter_id {printf("parameter_id\n");}
-                  ;
+var_declaration:
+          type IDENTIFIER EQUAL value SEMICOLON
+		  {
+			printf("identifier name %s\n", $2);
+			if (checkidentifiernameAndScope($2, scopeno) == 1){
 
-parameter_id:
-                IDENTIFIER {printf("IDENTIFIER\n");}
-              | IDENTIFIER LBRACKET RBRACKET
-              ;
+				printf("variable is aleady declared\n");
+			return 0;
+			}
+			int type = $1;
+			printf("type %d\n", type);
+			char* name = $2;
+			printf("name %s\n", name);
+			int value = $4.type;
+			printf("value type %d\n", value);
+			char* valueinstring = $4.valueinstring;
+			printf("value in string %s\n", valueinstring);
+			if (type != value){
+				printf( "Type mismatch\n");
+				return 0;
+			}
+			else{
+				printf("iam here\n");
+			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno, true, true, false, 0, 0);
+    		createnode(ptr, count++);
+			printf("count of node %d\n",countnodes());
 
-statement:
-            expression_statement    {printf("expression_statement\n");}
-          | compound_statement      {printf("compound_statement\n");}
-          | selection_statement     {printf("selection_statement\n");}
-          | iteration_statement     {printf("iteration_statement\n");}
-          | return_statement        {printf("return_statement\n");}
-          | break_statement         {printf("break_statement\n");}
-          | continue_statement      {printf("continue_statement\n");}
-          | case_statement          {printf("case_statement\n");}
-          ;
 
-case_statement:
-                CASE INT_CONST COLON statement_list {printf("CASE INT_CONST COLON statement_list\n");}
-              | DEFAULT COLON statement_list {printf("DEFAULT COLON statement_list\n");}
-              ;
+			}
 
-expression_statement:
-                         expression SEMICOLON   {printf(" expression SEMICOLON \n");}
-                      |  SEMICOLON   {printf("SEMICOLON\n");}
-                      ;
+		  }
+        | type IDENTIFIER EQUAL function_call
+        | type IDENTIFIER SEMICOLON
 
-compound_statement:
-                      LBRACE  local_declarations  statement_list  RBRACE  {printf("  LBRACE  local_declarations  statement_list  RBRACE\n");}
-                    ;
+constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Constant declaration\n");};
 
-local_declarations:
-                      local_declarations  scoped_variable_declaration   {printf("local_declarations  scoped_variable_declaration \n");}
-                      |  /* empty */    {printf("/* empty local_declarations */ \n");}
-                      ;
 
-statement_list:
-                  statement_list  statement   {printf("statement_list  statement \n");}
-                |  /* empty */          {printf("/* empty */  statement_list  \n");}
-                ;
+extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
+					| EXTERN type IDENTIFIER EQUAL value SEMICOLON
 
-selection_statement:
-                      IF    simple_expression   statement   {printf(" IF simple_expression statement\n");}
-                    | IF   simple_expression   statement ELSE statement  {printf("IF simple_expression statement ELSE statement\n");}
-                    | SWITCH LPAREN expression RPAREN statement 
-                    ;
-// switch case is not implemented yet
+/* Function Declaration */
 
-iteration_statement:
-                      WHILE simple_expression statement {printf("WHILE expression statement\n");}
-                    | DO statement WHILE simple_expression SEMICOLON {printf("DO statement WHILE expression SEMICOLON\n");}
-                    | FOR LPAREN expression_statement expression_statement expression RPAREN statement {printf("FOR LPAREN expression_statement expression_statement expression RPAREN statement\n");}
-                    ;
+function: 			function_prototype statement {printf("Function Definition\n");};
 
-return_statement:
-                    RETURN SEMICOLON {printf("RETURN SEMICOLON \n");}
-                  | RETURN expression SEMICOLON {printf("RETURN expression SEMICOLON\n");}
-                  ;
+return_value: 			value | ;
 
-break_statement:
-                  BREAK SEMICOLON {printf("BREAK SEMICOLON \n");}
-                ;  
+function_prototype:
+    type IDENTIFIER OPENBRACKET parameters CLOSEDBRACKET
+    | type IDENTIFIER OPENBRACKET CLOSEDBRACKET
+    | VOID IDENTIFIER OPENBRACKET parameters CLOSEDBRACKET
+    | VOID IDENTIFIER OPENBRACKET CLOSEDBRACKET
+    ;
 
-continue_statement:
-                      CONTINUE SEMICOLON {printf("ONTINUE SEMICOLON\n");}
-                    ;
+parameters: 			parameters COMMA single_parameter | single_parameter ;
+
+single_parameter: 		type IDENTIFIER | type IDENTIFIER EQUAL constant ;
+
+function_call: 			IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON ;
+
+call_parameters:		call_parameter |;
+
+call_parameter:			call_parameter COMMA value | value ;
+
+
+/* Expression */
 
 expression:
-              mu_table ASSIGN expression{printf("mu_table ASSIGN expression\n");}
-            | mu_table PLUSEQ expression  {printf("mu_table PLUSEQ expression\n");}
-            | mu_table MINUSEQ expression  {printf("mu_table MINUSEQ expression \n");}
-            | mu_table MULTEQ expression   {printf("mu_table MULTEQ expression \n");}
-            | mu_table DIVEQ expression    {printf("mu_table DIVEQ expression   \n");}
-            | mu_table INC             {printf("mu_table INC    \n");}
-            | mu_table DEC     {printf("mu_table DEC\n");}
-            | simple_expression    {printf("simple_expression\n");}
-            ;
-
-simple_expression:
-                    simple_expression  OR  and_expression  {printf("simple_expression  OR  and_expression\n");}
-                  | and_expression   {printf(" and_expression\n");}
-                  ;
-
-and_expression:
-                  and_expression  AND  unary_relational_expression  {printf(" and_expression  AND  unary_relational_expression\n");}
-                | unary_relational_expression   {printf(" unary_relational_expression \n");}
-                ;
-
-unary_relational_expression:
-                              NOT unary_relational_expression   {printf(" NOT unary_relational_expression \n");}
-                            | relational_expression     {printf(" relational_expression   \n");}
-                            ;
-
-relational_expression:
-                        minmaxEXP  relop  minmaxEXP   {printf(" minmaxEXP  relop  minmaxEXP  \n");}
-                      | minmaxEXP      {printf("  minmaxEXP  \n");}
-                      ;
-minmaxEXP:
-          minmaxEXP minmaxlop sumExp    {printf("minmaxEXP minmaxlop sumExp \n");}
-          | sumExp    {printf(" sumExp1 \n");}
-          ; 
-minmaxlop:
-          MINOP     {printf(" MINOP \n");}
-          | MAXOP    {printf(" MAXOP \n");}
-          ;
-relop:
-        EQ    {printf(" E55Q \n");}
-      | NE   {printf(" NE \n");}
-      | GT   {printf(" GT \n");}
-      | LT   {printf(" LT \n");}
-      | GE   {printf(" GE \n");}
-      | LE   {printf(" LE \n");}
-      ;
-
-sumExp:
-            sumExp  sumOp  mulExp   {printf("sumExp  sumOp  mulExp \n");}
-          | mulExp      {printf("mulExp \n");}
-          ;
-
-sumOp:
-      PLUS    {printf(" PLUS \n");}
-      | MINUS   {printf(" MINUS \n");}
-      ;
-
-mulExp:
-        mulExp mulOP mulExp    {printf("  mulExp mulOP mulExp \n");}
-        | unary_Exp    {printf(" unary_Exp\n");}
+        boolean_expression
+        | arithmetic_expression
         ;
 
-mulOP:
-      MULT     {printf(" MULT\n");}
-      | DIV     {printf(" DIV\n");}
-      | MOD     {printf(" MOD\n");}
-      ;
-unary_Exp:
-          unary_op unary_Exp   {printf("unary_op unary_Exp\n");}
-          | factor   {printf("factor\n");}
-          ;
-unary_op:
-        MULT  {printf("MULT\n");}
-        | MINUS   {printf("MINUS\n");}
+/*  Boolean Expressions */
+
+boolean_expression:
+        expression EQ_EQ arithmetic_expression
+        | expression NE arithmetic_expression
+        | expression GE arithmetic_expression
+        | expression LE arithmetic_expression
+        | expression GT arithmetic_expression
+        | expression LT arithmetic_expression
+        | expression AND arithmetic_expression
+        | expression OR arithmetic_expression
+        | NOT expression
+        | TRUE_VAL
+        | FALSE_VAL
+		;
+
+/*  Mathematical Expressions */
+
+arithmetic_expression:
+        binary_expression
+        | unary_expression
         ;
+
+unary_expression:
+        IDENTIFIER INC
+        | IDENTIFIER DEC
+        ;
+
+binary_expression:
+        binary_expression PLUS term
+        | binary_expression MINUS term
+        | term
+        ;
+
+term:
+        factor
+        | term MULT factor
+        | term DIV factor
+        ;
+
 factor:
-        immu_table  {printf("immu_table\n");}
-        | mu_table {printf("mu_table\n");}
+        INT_NUM
+        | FLOAT_VAL
+        | IDENTIFIER
+        | OPENBRACKET expression CLOSEDBRACKET
         ;
 
-mu_table:
-        id_or_call {printf("identifier\n");}
-        | id_or_call LBRACKET expression RBRACKET {printf("identifier LBRACE expression RBRACE\n");}
-        ;
 
-id_or_call:
-        IDENTIFIER {printf("identifier\n");}
-        | call {printf("call\n");}
-        ;
+/* If statement */
 
-immu_table:
-        LPAREN expression RPAREN   {printf(" LPAREN expression RPAREN\n");}
-        | call     {printf(" call\n");}
-        | constant   {printf(" constant\n");}
-        ;
+if_statement: 
+        IF OPENBRACKET value CLOSEDBRACKET OPENCURL statements CLOSEDCURL else_if_statement  {printf("If then statement\n");}
+        | IF OPENBRACKET value CLOSEDBRACKET OPENCURL statements CLOSEDCURL else_if_statement ELSE OPENCURL statements CLOSEDCURL {printf("If then else statement\n");}
+	;
 
-call:
-    IDENTIFIER LPAREN args RPAREN    {printf(" IDENTIFIER LPAREN args RPAREN\n");}
+else_if_statement:
+    else_if_statement ELSEIF OPENBRACKET value CLOSEDBRACKET OPENCURL statements CLOSEDCURL |
     ;
-args:
-      arg_list   {printf("arg_list\n");}
-      |
-      ;
-arg_list:
-        arg_list COMMA expression     {printf(" arg_list COMMA expression\n");}
-        | expression    {printf(" expression\n");}
+
+/* While statement */
+
+while_statement:
+		WHILE OPENBRACKET value CLOSEDBRACKET statement   {printf("while loop\n");}
+		;
+
+/* Do while statement */
+
+do_while_statement:
+	DO statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON  {printf("do-while loop\n");}
+	;
+
+/* For statement */
+
+for_statement:
+	FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement {printf("for loop\n");}
+	;
+
+for_initialization:
+          assignment_statement
+		| var_declaration
+    	| value SEMICOLON
+    	| SEMICOLON
         ;
-constant:
-        INT_CONST     {printf("   INT_CONST  \n");}
-        | FLOAT_CONST   {printf("   FLOAT_CONST  \n");}
-        | STRING_VAL    {printf("   STRING_VAL  \n");}
-        | CHAR_VAL   {printf("   CHAR_VAL  \n");}
+
+for_expression:
+         IDENTIFIER EQUAL value SEMICOLON
+        | IDENTIFIER PLUS_EQ expression
+		| IDENTIFIER MINUS_EQ expression
+		| IDENTIFIER MULT_EQ expression
+		| IDENTIFIER DIV_EQ expression
+        | value
+        |
         ;
+
+/* Switch statement */
+
+switch_statement:
+    SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL case_list CLOSEDCURL {printf("switch case\n");}
+    ;
+
+case_list:
+    case_list case_statement
+    | case_statement
+    ;
+
+case_statement:
+    CASE value COLON statements
+    | DEFAULT COLON statements
+    ;
+
+/* Break or Continue */
+
+break_statement: BREAK SEMICOLON {printf("Break statement\n");};
+continue_statement: CONTINUE SEMICOLON {printf("Continue statement\n");};
 
 %%
 
-void yyerror(char *s) {
-    fprintf(stderr, "%s\n", s);
-}
-
-
-int main(){
-  yyparse(); 
-  return 0; 
+int main (void)
+{
+	yyparse(); 
+	printSymbolTable();
+    return 0;
 }

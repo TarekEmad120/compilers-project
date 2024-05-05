@@ -1,0 +1,24 @@
+Name: a
+Type: char
+Value: 'a'
+Scope: 1
+Used: true
+Initialized: true
+Is Function: false
+
+Name: y
+Type: int
+Value: 19
+Scope: 0
+Used: true
+Initialized: true
+Is Function: false
+
+Name: x
+Type: int
+Value: 10
+Scope: 0
+Used: true
+Initialized: true
+Is Function: false
+

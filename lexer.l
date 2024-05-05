@@ -1,107 +1,164 @@
 %{
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<ctype.h>
+#include<math.h>
+#include<stdbool.h>
+#include "parser.tab.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "y.tab.h"
-
-void yyerror(char *s);
-int yylex(void);
-int line_num = 1;
-
+#define INTTYPE 0
+#define FLOATTYPE 1
+#define CHARTYPE 2
+#define BOOLTYPE 3
+#define STRINGTYPE 4
+#define CONSTINTTYPE 5
+#define CONSTFLOATTYPE 6
+#define CONSTCHARTYPE 7
+void yyerror (char *s);
+int yylex();
 %}
 
+%%
 
+        /* Comments */
+"//".*                                    { /* consume //-comment */ }
+"/*".*?"*/"                               { /* consume /*-comment */ }
+
+
+        /* Constant */
+"const"                         return CONST;
+"extern"                        return EXTERN;
+
+        /* Mathematical Expressions */
+"+"                             return PLUS;
+"-"                             return MINUS;
+"*"                             return MULT;
+"/"                             return DIV;
+"+="                            return PLUS_EQ;
+"-="                            return MINUS_EQ;
+"*="                            return MULT_EQ;
+"/="                            return DIV_EQ;
+"++"                            return INC;
+"--"                            return DEC;
+   
+        /* Comparison Op */
+"<"				return LT;
+">"				return GT;
+">="                            return GE;
+"<="                            return LE;
+"=="                            return EQ_EQ;
+"!="                            return NE;
+
+        /* Logical Expressions */
+"&&"                            return AND;
+"||"                            return OR;
+"!"                             return NOT;
+
+        /* Assignment Operator */
+"="				return EQUAL;
+
+
+        /* Brackets */
+"("                             return OPENBRACKET;
+")"                             return CLOSEDBRACKET;
+"{"                             return OPENCURL;
+"}"                             return CLOSEDCURL;
+
+
+        /* Types */
+"int"                         {  
+								yylval.var_type = INTTYPE;
+								return INT;}
+"float"                         {
+								yylval.var_type = FLOATTYPE;
+								return FLOAT;}
+"char"                          {
+								yylval.var_type = CHARTYPE;
+								return CHAR;}
+"bool"                          {
+								yylval.var_type = BOOLTYPE;
+								return BOOL;}
+"string"                        {
+								yylval.var_type = STRINGTYPE;
+								return STRING;}
+
+
+        /* if then else statement */
+"if"                            return IF;
+"else if"                       return ELSEIF;
+"else"                          return ELSE;
+
+        /* While & do-while statement */
+"while"                         return WHILE;
+"do"                            return DO;
+"for"                           return FOR;
+"switch"                        return SWITCH;
+"case"                          return CASE;
+"default"                       return DEFAULT;
+"break"                         return BREAK;
+"continue"                      return CONTINUE;
+
+        /* Functions */
+"void"                          return VOID; 
+"return"                        return RETURN;  
+","                             return COMMA;
+":"                             return COLON;
+
+
+        /* Stop Characters */
+"\n"                            {yylineno += 1;}
+[\t\r ]+                        {;}
+";"                             return SEMICOLON;
+
+        /* Identifier and Numbers */
+"true"                          {
+								yylval.lexicalstruct.type = BOOLTYPE;
+								yylval.lexicalstruct.boolval = true;
+								yylval.lexicalstruct.valueinstring= strdup("true");
+									return TRUE_VAL;}
+"false"                         {
+								yylval.lexicalstruct.type = BOOLTYPE;
+								yylval.lexicalstruct.boolval = false;
+								yylval.lexicalstruct.valueinstring= strdup("false");
+								return FALSE_VAL;}
+[a-zA-Z_][a-zA-Z0-9_]*          {
+								yylval.name= strdup(yytext);
+								return IDENTIFIER;}
+
+['][a-zA-Z0-9][']              {
+								yylval.lexicalstruct.type = CHARTYPE;
+								yylval.lexicalstruct.charval = yytext[1];
+								yylval.lexicalstruct.valueinstring= strdup(yytext);
+								return CHAR_VAL;}
+[0-9]+                         { 
+								yylval.lexicalstruct.type = INTTYPE;
+								yylval.lexicalstruct.intval = atoi(yytext);
+								yylval.lexicalstruct.valueinstring= strdup(yytext);
+								return INT_NUM;}
+[0-9]+\.[0-9]+                  {
+								yylval.lexicalstruct.type = FLOATTYPE;
+								yylval.lexicalstruct.floatval = atof(yytext);
+								yylval.lexicalstruct.valueinstring= strdup(yytext);
+								return FLOAT_VAL;}
+
+\"[^\"]*\"                      {
+								yylval.lexicalstruct.type = STRINGTYPE;
+								yylval.lexicalstruct.stringval = strdup(yytext);
+								yylval.lexicalstruct.valueinstring= strdup(yytext);
+
+								return STRING_VAL;}
 
 %%
-"if" {return IF;}
-"else" {return ELSE;}
-"while" {return WHILE;}
-"for" {return FOR;}
-"do" {return DO;}
-"switch" {return SWITCH;}
-"case" {return CASE;}
-"default" {return DEFAULT;}
-"break" {return BREAK;}
-"continue" {return CONTINUE;}
-"return" {return RETURN;}
-"int" {printf("TOKEN: UNKNOWN, VALUE: %s\n", yytext); return INT;}
-"float" {return FLOAT;}
-"char" {return CHAR;}
-"string" {return STRING;}
-"void" {return VOID;}
-
-"printf" {return PRINTF;}
-"scanf" {return SCANF;}
-"{" {return LBRACE;}
-"}" {return RBRACE;}
-"(" {printf("TOKEN: LPAREN, VALUE: %s\n", yytext);return LPAREN;}
-")" {printf("TOKEN: RPAREN, VALUE: %s\n", yytext);return RPAREN;}
-"[" {return LBRACKET;}
-"]" {return RBRACKET;}
-";" {return SEMICOLON;}
-":" {return COLON;}
-"," {return COMMA;}
-"+" {return PLUS;}
-"-" {return MINUS;}
-"*" {return MULT;}
-"/" {return DIV;}
-"%" {return MOD;}
-"=" {
-    printf("TOKEN: ASSIGN, VALUE: %s\n", yytext);
-    return ASSIGN;}
-"==" {return EQ;}
-"!=" {return NE;}
-"<" {return LT;}
-":<:" {return MINOP;}
-":>:" {return MAXOP;}
-"<=" {return LE;}
-">" {return GT;}
-">=" {return GE;}
-"&&" {return AND;}
-"||" {return OR;}
-"!" {return NOT;}
-"++" {return INC;}
-"--" {return DEC;}
-"#" {return HASH;}
-"error" {return ERROR;}
-"pragma" {return PRAGMA;}
-"extern" {return EXTERN;}
-"static" {return STATIC;}
-"const" {return CONST;}
-"volatile" {return VOLATILE;}
-"register" {return REGISTER;}
-"unsigned" {return UNSIGNED;}
-"true" {return TRUE;}
-"false" {return FALSE;}
 
 
-
-
-[a-zA-Z_]([a-zA-Z0-9_])* {yylval.sval = strdup(yytext); 
-printf("TOKEN: yasser, IDENTIFIER: %s\n", yytext);
-return IDENTIFIER;}
-[0-9]+ {yylval.ival = atoi(yytext);
-printf("TOKEN: tarek, VALUE: %s\n", yytext);
-return INT_CONST;}
-[0-9]+\.[0-9]+ {yylval.fval = atof(yytext); printf("TOKEN: snow, VALUE: %s\n", yytext); return FLOAT_CONST;}
-
-\".*\" {yylval.sval = strdup(yytext); printf("elblf: %s\n", yytext); return STRING_VAL;}
-
-
-\'[a-zA-Z0-9]\'  {yylval.cval = yytext[1]; printf("TOKEN: UNKNOWN char, VALUE: %s\n", yytext); return CHAR_VAL;}
-
-
-"//".* {return COMMENT;}
-"/*".*"*/" {return COMMENT;}
-
-"\n"  {line_num++;}
-[ \t] {;}
-
-
-
-%%
-int yywrap()
+int yywrap(void)
 {
-    return 1;
+   return 1;
 }
+
+/* This is called by our parser whenever there is a syntactical error. In other words something that does not suit the grammar. */
+void yyerror (char *s) {
+    fprintf(stderr, "\n ERROR LINE %d :\n %s \n", yylineno, s);
+    exit(0);
+} 
