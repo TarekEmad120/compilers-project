@@ -10,11 +10,13 @@
 	extern void yyerror(char *s);
 	int count=0;
 	int scopeno = 0;
+	/* leave those for function declaration
+	i will implement it later on thursday  or any one try to implement it first*/
 	char* currentfunctionname = "";
 	int argcount = 0;
 	int funcargs[30];
 %}
-%union {
+%union {//this is the union for the token value from the lexer
 	char* name ;//identifier name 
 	int var_type;//type
 	struct lexical{
@@ -155,11 +157,14 @@
 
 %%
 
+/* the beginning of program
+it starts with the statements 
+ */
 statements :
     statements statement
     | statement
     ;
-
+/* the statement can be any of the following */
 statement :
 	expression SEMICOLON 	{printf("Expression statement\n");}
 	| assignment_statement	{printf("Assignment Statement \n");}
@@ -176,10 +181,13 @@ statement :
 	| function 	{printf("Function statement\n");}
 	| function_call
 	| OPENCURL {
+		//when open curly bracket is found the scope is opened so scope number is increased
 		scopeno++;
 		printf("Scope Opened\n");
 	
 	} statements CLOSEDCURL {
+		//when close curly bracket is found the scope is closed so we use end scope function to close the scope
+		// we decrease the scope number
 		endscope(scopeno);
 		scopeno--;
 		printf("Scope Closed\n");
@@ -198,6 +206,11 @@ constant:  INT_NUM | FLOAT_VAL | STRING_VAL | TRUE_VAL | FALSE_VAL | CHAR_VAL;
 
 
 /* Variable Declaration */
+// these are the variable declaration 
+// you can declare the variable with the value or without the value
+// you can't use assignment statement in the variable declaration as it will be to difficult to parse
+// so we use the value to assign the value to the variable or function to  variable
+// if you want to declare the variable without the value you can use the type and the identifier
 
 assignment_statement:
           IDENTIFIER EQUAL expression SEMICOLON
@@ -211,22 +224,24 @@ assignment_statement:
 var_declaration:
           type IDENTIFIER EQUAL value SEMICOLON
 		  {
+			//here we check if the variable is already declared in the scope or not
 			printf("identifier name %s\n", $2);
 			if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
 
 				printf("variable is aleady declared\n");
 			return 0;
 			}
-			int type = $1;
-			char* name = $2;
-			int value = $4.type;
-			char* valueinstring = $4.valueinstring;
-			if (type != value){
+			int type = $1;// type of the variable
+			char* name = $2;// name of the variable
+			int value = $4.type;// value(type) of the variable
+			char* valueinstring = $4.valueinstring; // value in string
+			if (type != value){// if the type of the variable and the value type is not same then we return the error
 				printf( "Type mismatch\n");
 				return 0;
 			}
 			else{
 				printf("iam here\n");
+				//we create the symbol data and add it to the symbol table
 			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0);
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
@@ -237,6 +252,7 @@ var_declaration:
 
 
         | type IDENTIFIER SEMICOLON{
+			// same as above 
 			if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
 				printf("variable is aleady declared\n");
 				return 0;
@@ -248,6 +264,7 @@ var_declaration:
 		}
 
 constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Constant declaration\n");
+			// same as above
 			if (chekidentifiernameandScopeoutofscope($3, scopeno) == 1){
 				printf("variable is aleady declared\n");
 				return 0;
@@ -262,7 +279,7 @@ constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Con
 				return 0;
 			}
 
-			else{
+			else{//cange the type of the variable to constant type
 			if (type ==INTTYPE){
 				type = CONSTINTTYPE;
 			}
@@ -276,32 +293,39 @@ constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Con
 				printf("Type mismatch for constant declation it can be only int , float , char \n");
 				return 0;
 			}
+			//create the symbol data and add it to the symbol table
 				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno,true, true, false, false, 0, 0);
 				createnode(ptr, count++);
 				printf("count of node %d\n",countnodes());
 			}
 				};
 
-
+/* i didn't start in exter declation because i will add it to the start of program another time as it is not
+in requirement of the project
+ */
 extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
 					| EXTERN type IDENTIFIER EQUAL value SEMICOLON
 
 /* Function Declaration */
-
+/*same comments
+for the function declaration
+*/
 function: 			function_prototype OPENCURL{scopeno++;} statement CLOSEDCURL{endscope(scopeno); scopeno--;} {printf("Function Definition\n");};
 
 return_value: 			value | ;
-
+/*it is not yet implemented Do you want to give it a try ?*/
 function_prototype:
     type IDENTIFIER OPENBRACKET {
+		//check if the function is already declared or not
 		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
 			return 0;
 		}
-		int type = $1;
-		char* name = $2;
+		int type = $1;//type of the function
+		char* name = $2;//name of the function
 		argcount = 0;
 		currentfunctionname = name;
+		//create the symbol data and add it to the symbol table but it is not yet implemented
 		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0);
 		createnode(ptr, count++);
 
@@ -358,6 +382,18 @@ parameters: 			parameters COMMA single_parameter | single_parameter ;
 
 single_parameter: 		type IDENTIFIER 
 						{
+							//check if the variable is already declared or not but scope is increased by 1
+							//because the varible  will be used in the function so it is in the scope of the function
+							// so we increase the scope by 1 locally until the effect of scopeno is increased globaly so you can use it in the function
+							/*
+							dummy example :
+							int a = 0; //global scope and scope number is 0
+							int add(int a, int b) // scope number is 1 locally but globally it is 0
+							{//scope number is 1 globally
+							  -- so the a and b are in the scope number 1 and can be used in the function
+								return a+b;
+							}
+							*/
 							if (chekidentifiernameandScopeoutofscope($2, scopeno+1) == 1){
 								printf("variable is aleady declared\n");
 								return 0;
@@ -454,7 +490,7 @@ factor:
 
 /* If statement */
 
-if_statement: 
+if_statement:
         IF OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;} else_if_statement  {printf("If then statement\n");}
 	;
 
