@@ -1,1 +1,12 @@
-int x
+int a = 2;
+float b = 2.1;
+char c = 'z';
+
+
+int sum (int s,int q){
+    s+q;
+    return 2;
+}
+ 
+ int w = sum(2,4);
+ int m =0 ;

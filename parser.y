@@ -213,7 +213,37 @@ constant:  INT_NUM | FLOAT_VAL | STRING_VAL | TRUE_VAL | FALSE_VAL | CHAR_VAL;
 // if you want to declare the variable without the value you can use the type and the identifier
 
 assignment_statement:
-          IDENTIFIER EQUAL expression SEMICOLON
+          IDENTIFIER EQUAL expression SEMICOLON  
+		  {
+			// update the value of the variable
+			// printf("integer value  ==  %d\n",$3.intval);
+			// printf("float value  ==  %f\n",$3.floatval);
+			if (is_Modifiable($1) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			// get type of identifier
+			int identifier_type = getsymboltype($1);
+			if(identifier_type == 0 || identifier_type == 3)
+			{
+				// convert $3.intval to char*
+				char* intval = (char*)malloc(10);
+				sprintf(intval, "%d", $3.intval);
+				Modify_Value($1, intval);
+			}
+			else if(identifier_type == 1)
+			{
+				// convert $3.floatval to char*
+				char* floatval = (char*)malloc(10);
+				sprintf(floatval, "%f", $3.floatval);
+				Modify_Value($1, floatval);
+
+			}
+			else if(identifier_type == 2 || identifier_type == 4)
+			{
+				Modify_Value($1, $3.stringval);
+			}
+		  }
         | IDENTIFIER PLUS_EQ expression SEMICOLON
 		| IDENTIFIER MINUS_EQ expression SEMICOLON
 		| IDENTIFIER MULT_EQ expression SEMICOLON
@@ -224,13 +254,15 @@ assignment_statement:
 var_declaration:
           type IDENTIFIER EQUAL value SEMICOLON
 		  {
+			
 			//here we check if the variable is already declared in the scope or not
-			printf("identifier name %s\n", $2);
-			if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+			if (checkidentifiernameAndScope($2, scopeno) == 1){
 
 				printf("variable is aleady declared\n");
 			return 0;
 			}
+			printf("identifier name %s\n", $2);
+			
 			int type = $1;// type of the variable
 			char* name = $2;// name of the variable
 			int value = $4.type;// value(type) of the variable
@@ -249,23 +281,52 @@ var_declaration:
 
 		  }
         | type IDENTIFIER EQUAL function_call
+		{
+			//here we check if the variable is already declared in the scope or not
+			if (checkidentifiernameAndScope($2, scopeno) == 1){
+
+				printf("variable is aleady declared\n");
+			return 0;
+			}
+			printf("identifier name %s\n", $2);
+
+			int type = $1;// type of the variable
+			char* name = $2;// name of the variable
+			char* valueinstring = NULL; // value in string
+			printf("function name isssss  %s\n",$4.stringval );
+			printf("type isssss  %d\n",$1 );
+			
+			int value = $4.type;// value(type) of the variable
+			
+			if (type != getsymboltype($4.stringval) ){// if the type of the variable and the value type is not same then we return the error
+				printf( "Type mismatch\n");
+				return 0;
+			}
+			else{
+				printf("iam here\n");
+				//we create the symbol data and add it to the symbol table
+			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0);
+    		createnode(ptr, count++);
+			printf("count of node %d\n",countnodes());
+			}
+		}
 
 
         | type IDENTIFIER SEMICOLON{
 			// same as above 
-			if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+			if (checkidentifiernameAndScope($2, scopeno) == 1){
 				printf("variable is aleady declared\n");
 				return 0;
 			}
 			int type = $1;
 			char* name = $2;
-			struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, true,false, false, false, 0, 0);
+			struct SymbolData *ptr = initalizesymboldata($1,name , NULL,scopeno, true,false, false, false, 0, 0);
 			createnode(ptr, count++);
 		}
 
 constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Constant declaration\n");
 			// same as above
-			if (chekidentifiernameandScopeoutofscope($3, scopeno) == 1){
+			if (checkidentifiernameAndScope($3, scopeno) == 1){
 				printf("variable is aleady declared\n");
 				return 0;
 			}
@@ -317,7 +378,7 @@ return_value: 			value | ;
 function_prototype:
     type IDENTIFIER OPENBRACKET {
 		//check if the function is already declared or not
-		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+		if (checkidentifiernameAndScope($2, scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
 			return 0;
 		}
@@ -334,7 +395,7 @@ function_prototype:
 		argcount = 0;
 	}
     | type IDENTIFIER OPENBRACKET{
-		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+		if (checkidentifiernameAndScope($2, scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
 			return 0;
 		}
@@ -349,7 +410,7 @@ function_prototype:
 		argcount = 0;
 	}
     | VOID IDENTIFIER OPENBRACKET {
-		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+		if (checkidentifiernameAndScope($2, scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
 			return 0;
 		}
@@ -364,7 +425,7 @@ function_prototype:
 	}
 			parameters CLOSEDBRACKET{ currentfunctionname = ""; argcount = 0;}
     | VOID IDENTIFIER OPENBRACKET{
-		if (chekidentifiernameandScopeoutofscope($2, scopeno) == 1){
+		if (checkidentifiernameAndScope($2, scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
 			return 0;
 		}
@@ -426,7 +487,21 @@ single_parameter: 		type IDENTIFIER
 						}
 						;
 
-function_call: 			IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON ;
+function_call: 			IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON  
+						{
+							//check if the function is declared or not
+							if (checkidentifiernameAndScope($1, scopeno) == 0){
+								printf("%s function is not declared\n", $1);
+								return 0;
+							}
+							//check if the function is function or not
+							if (is_Function($1) == false){
+								printf("%s is variable is not a function\n", $1);
+								return 0;
+							}
+							$$.stringval = $1;
+						}
+						;
 
 call_parameters:		call_parameter |;
 
@@ -436,14 +511,33 @@ call_parameter:			call_parameter COMMA value | value ;
 /* Expression */
 
 expression:
-        boolean_expression
+        boolean_expression  {
+			char* var_name = $1.stringval;
+			printf("variable name  =   =  %s\n",var_name);
+			if(var_name != NULL){
+				if(is_Initialized(var_name) == false){
+					printf("variable is not initialized\n");
+					return 0;
+				}
+				else{
+					printf("variable is initialized\n");
+				}
+			}
+		}
         | arithmetic_expression
+		{
+			$$.stringval = $1.stringval;
+		}
         ;
 
 /*  Boolean Expressions */
 
 boolean_expression:
+
         expression EQ_EQ arithmetic_expression
+		{
+			$$.stringval = $1.stringval;
+		}
         | expression NE arithmetic_expression
         | expression GE arithmetic_expression
         | expression LE arithmetic_expression
@@ -459,7 +553,9 @@ boolean_expression:
 /*  Mathematical Expressions */
 
 arithmetic_expression:
-        binary_expression
+        binary_expression { $$.stringval = $1.stringval;
+			
+		 }
         | unary_expression
         ;
 
@@ -471,19 +567,31 @@ unary_expression:
 binary_expression:
         binary_expression PLUS term
         | binary_expression MINUS term
-        | term
+        | term 
+		{
+			$$.stringval = $1.stringval;
+		}
         ;
 
 term:
         factor
+		{
+			$$.stringval = $1.stringval;
+			
+			// printf("identifier name  ==  %s\n",$1.stringval);
+		}
         | term MULT factor
         | term DIV factor
         ;
 
 factor:
-        INT_NUM
+        INT_NUM 
         | FLOAT_VAL
         | IDENTIFIER
+		{
+			$$.stringval = $1;
+			// printf("identifier name  ==  %s\n",$$.stringval);
+		}
         | OPENBRACKET expression CLOSEDBRACKET
         ;
 
@@ -491,7 +599,11 @@ factor:
 /* If statement */
 
 if_statement:
-        IF OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;} else_if_statement  {printf("If then statement\n");}
+        IF OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;} else_if_statement  
+		{
+			printf("If then statement\n");
+			// printf("variable name  ==  %s\n",$3.s);
+		}
 	;
 
 else_if_statement:

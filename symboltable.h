@@ -152,6 +152,63 @@ bool checkidentifiername(char *name)
     return false;
 }
 
+bool is_Initialized(char *name)
+{
+    //printf("is_Initialized\n Name recieved ====== %s\n", name);
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0 && temp->data->value != NULL)
+        {
+            //printf(" value ====  %s\n", temp->data->value);
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+bool is_Modifiable(char *name)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0 && 
+        types[temp->data->type] == "int" || types[temp->data->type] == "float" || types[temp->data->type] == "char" 
+        || types[temp->data->type] == "bool" || types[temp->data->type] == "string")
+        {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+void Modify_Value(char *name , char *value)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0)
+        {
+            temp->data->value = value;
+        }
+        temp = temp->next;
+    }
+}
+bool is_Function(char *name)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0 && temp->data->isfunc == true)
+        {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
 bool checkidentifiernameAndScope(char *name, int scope)
 {
     struct SymbolNode *temp = head;
