@@ -152,6 +152,7 @@
 %type <lexicalstruct> term
 %type <lexicalstruct> factor
 %type <lexicalstruct> function_call
+%type <lexicalstruct> return_value
 
 %start statements
 
@@ -192,7 +193,9 @@ statement :
 		scopeno--;
 		printf("Scope Closed\n");
 	}
-	| RETURN return_value SEMICOLON         {printf("Return statement\n");}
+	| RETURN return_value SEMICOLON         
+		{	printf("Return statement\n");
+		}
     | SEMICOLON
 	;
 
@@ -216,13 +219,17 @@ assignment_statement:
           IDENTIFIER EQUAL expression SEMICOLON  
 		  {
 			if(checkidentifiernameAndScope($1, scopeno) == 0){
-				printf("variable is not declared at line %d\n",yylineno);
+				printf("variable %s is not declared at line %d\n",$1,yylineno);
 				return 0;
 			}
 			else {
 				//check the types
 				int type = getsymboltype($1);
-				if (type != $3.type){
+				if(is_Modifiable($1) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != $3.type){
 					printf("Type mismatch\n");
 					return 0;
 				}
@@ -359,9 +366,23 @@ extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
 /*same comments
 for the function declaration
 */
-function: 			function_prototype OPENCURL{scopeno++;} statement CLOSEDCURL{endscope(scopeno); scopeno--;} {printf("Function Definition\n");};
+function: 			function_prototype OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;} {printf("Function Definition\n");};
 
-return_value: 			value | ;
+return_value: 	
+			value
+			{
+				// print the return value
+				printf("return value intval %s\n", $1.valueinstring);
+				$$.intval = $1.intval;
+				$$.floatval = $1.floatval;
+				$$.charval = $1.charval;
+				$$.boolval = $1.boolval;
+				$$.stringval = $1.stringval;
+				$$.valueinstring = $1.valueinstring;
+				$$.type = $1.type;
+				
+			}
+ 			| ;
 /*it is not yet implemented Do you want to give it a try ?*/
 function_prototype:
     type IDENTIFIER OPENBRACKET {
@@ -590,7 +611,7 @@ factor:
 		{
 			// check if the variable is declared or not
 			if (checkidentifiernameAndScope($1, scopeno) == 0){
-				printf(" iam production rule factor -> identifier variable is not declared at line %d\n",yylineno);
+				printf("variable %s is not declared at line %d\n",$1,yylineno);
 				printf("IDENTIFIER name  ==  %s\n",$1);
 				return 0;
 			}

@@ -1,0 +1,17 @@
+function return value then assign it to Variable
+ex:   x = sum(2,3);
+//////////////////////////////////////
+
++ 
+-
+*
+/
+++
+--
+<
+>
+<=
+>=
+
+//////////////////////////////////////////
+code generation

@@ -1,5 +1,4 @@
-int sum(int a , int b)
-{
-    a=a+b;
-    return 0 ;
-}
+int x =0;
+int y = 2;
+float z = 3.3;
+x = y+z;

@@ -1,26 +1,24 @@
-Name: b
-Type: int
-Value: 
-Scope: -1
-Used: false
-Initialized: false
-Is Function: false
-
-Name: a
-Type: int
-Value: 
-Scope: -1
-Used: false
-Initialized: false
-Is Function: false
-
-Name: sum
-Type: int
-Value: 
+Name: z
+Type: float
+Value: 3.3
 Scope: 0
-Used: false
-Initialized: false
-Is Function: true
-Arg Count: 0
-Arg Types: 
+Used: true
+Initialized: true
+Is Function: false
+
+Name: y
+Type: int
+Value: 2
+Scope: 0
+Used: true
+Initialized: true
+Is Function: false
+
+Name: x
+Type: int
+Value: 2
+Scope: 0
+Used: true
+Initialized: true
+Is Function: false
 
