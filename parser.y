@@ -215,33 +215,21 @@ constant:  INT_NUM | FLOAT_VAL | STRING_VAL | TRUE_VAL | FALSE_VAL | CHAR_VAL;
 assignment_statement:
           IDENTIFIER EQUAL expression SEMICOLON  
 		  {
-			// update the value of the variable
-			// printf("integer value  ==  %d\n",$3.intval);
-			// printf("float value  ==  %f\n",$3.floatval);
-			if (is_Modifiable($1) == false){
-				printf("variable is not modifiable\n");
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				printf("variable is not declared at line %d\n",yylineno);
 				return 0;
 			}
-			// get type of identifier
-			int identifier_type = getsymboltype($1);
-			if(identifier_type == 0 || identifier_type == 3)
-			{
-				// convert $3.intval to char*
-				char* intval = (char*)malloc(10);
-				sprintf(intval, "%d", $3.intval);
-				Modify_Value($1, intval);
-			}
-			else if(identifier_type == 1)
-			{
-				// convert $3.floatval to char*
-				char* floatval = (char*)malloc(10);
-				sprintf(floatval, "%f", $3.floatval);
-				Modify_Value($1, floatval);
-
-			}
-			else if(identifier_type == 2 || identifier_type == 4)
-			{
-				Modify_Value($1, $3.stringval);
+			else {
+				//check the types
+				int type = getsymboltype($1);
+				if (type != $3.type){
+					printf("Type mismatch\n");
+					return 0;
+				}
+				else{
+					//update the value of the variable
+					Modify_Value($1, $3.valueinstring);
+				}
 			}
 		  }
         | IDENTIFIER PLUS_EQ expression SEMICOLON
@@ -513,7 +501,7 @@ call_parameter:			call_parameter COMMA value | value ;
 expression:
         boolean_expression  {
 			char* var_name = $1.stringval;
-			printf("variable name  =   =  %s\n",var_name);
+			// printf("variable name  =   =  %s\n",var_name);
 			if(var_name != NULL){
 				if(is_Initialized(var_name) == false){
 					printf("variable is not initialized\n");
@@ -526,7 +514,7 @@ expression:
 		}
         | arithmetic_expression
 		{
-			$$.stringval = $1.stringval;
+			$$.stringval = $1.stringval; // 8aleban malo4 lazma
 		}
         ;
 
@@ -536,7 +524,7 @@ boolean_expression:
 
         expression EQ_EQ arithmetic_expression
 		{
-			$$.stringval = $1.stringval;
+			//$$.stringval = $1.stringval;
 		}
         | expression NE arithmetic_expression
         | expression GE arithmetic_expression
@@ -553,7 +541,8 @@ boolean_expression:
 /*  Mathematical Expressions */
 
 arithmetic_expression:
-        binary_expression { $$.stringval = $1.stringval;
+        binary_expression { 
+			// $$.stringval = $1.stringval;
 			
 		 }
         | unary_expression
@@ -569,14 +558,14 @@ binary_expression:
         | binary_expression MINUS term
         | term 
 		{
-			$$.stringval = $1.stringval;
+			// $$.stringval = $1.stringval;
 		}
         ;
 
 term:
         factor
 		{
-			$$.stringval = $1.stringval;
+			// $$.stringval = $1.stringval;
 			
 			// printf("identifier name  ==  %s\n",$1.stringval);
 		}
@@ -585,12 +574,48 @@ term:
         ;
 
 factor:
-        INT_NUM 
-        | FLOAT_VAL
+        INT_NUM {
+	
+			$$.type = INTTYPE;
+			$$.valueinstring = $1.valueinstring;
+			$$.intval = $1.intval;
+
+		}
+        | FLOAT_VAL{
+			$$.type = FLOATTYPE;
+			$$.valueinstring = $1.valueinstring;
+			$$.floatval = $1.floatval;
+		}
         | IDENTIFIER
 		{
-			$$.stringval = $1;
-			// printf("identifier name  ==  %s\n",$$.stringval);
+			// check if the variable is declared or not
+			if (checkidentifiernameAndScope($1, scopeno) == 0){
+				printf(" iam production rule factor -> identifier variable is not declared at line %d\n",yylineno);
+				printf("IDENTIFIER name  ==  %s\n",$1);
+				return 0;
+			}
+			// check if the variable is initialized or not
+			if(is_Initialized($1) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			$$.type= getsymboltype($1);
+			$$.valueinstring=getvalue($1);
+			if ($$.type==INTTYPE || $$.type==CONSTINTTYPE){
+				$$.intval= getintvalue($1);
+			}
+			else if ($$.type==FLOATTYPE|| $$.type==CONSTFLOATTYPE){
+				$$.floatval= getfloatvalue($1);
+			}
+			else if ($$.type==CHARTYPE || $$.type==CONSTCHARTYPE){
+				$$.charval= getcharvalue($1);
+			}
+			else if ($$.type==STRINGTYPE){
+				$$.stringval= getstringvalue($1);
+			}else if($$.type==BOOLTYPE){
+				$$.boolval= getboolvalue($1);
+			}
+			
 		}
         | OPENBRACKET expression CLOSEDBRACKET
         ;

@@ -325,3 +325,99 @@ void destroy()
         free(temp2);
     }
 }
+
+char* getvalue(char *name)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0)
+        {
+            return temp->data->value;
+        }
+        temp = temp->next;
+    }
+    return NULL;
+}
+
+int gettype(char *name)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0)
+        {
+            return temp->data->type;
+        }
+        temp = temp->next;
+    }
+    return -1;
+}
+
+int getintvalue(char *name)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0)
+        {
+            return atoi(temp->data->value);
+        }
+        temp = temp->next;
+    }
+    return -1;
+}
+float getfloatvalue(char *name)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0)
+        {
+            return atof(temp->data->value);
+        }
+        temp = temp->next;
+    }
+    return -1;
+}
+int getboolvalue(char *name)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0)
+        {
+            return temp->data->value[0] == 't' ? 1 : 0;
+        }
+        temp = temp->next;
+    }
+    return -1;
+}
+
+char getcharvalue(char *name)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0)
+        {
+            return temp->data->value[0];
+        }
+        temp = temp->next;
+    }
+    return -1;
+}
+
+char* getstringvalue(char *name)
+{
+    struct SymbolNode *temp = head;
+    while (temp != NULL)
+    {
+        if (strcmp(temp->data->name, name) == 0)
+        {
+            return temp->data->value;
+        }
+        temp = temp->next;
+    }
+    return NULL;
+}

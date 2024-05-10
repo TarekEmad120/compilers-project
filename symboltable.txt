@@ -1,20 +1,4 @@
-Name: m
-Type: int
-Value: 0
-Scope: 0
-Used: true
-Initialized: true
-Is Function: false
-
-Name: w
-Type: int
-Value: (null)
-Scope: 0
-Used: true
-Initialized: true
-Is Function: false
-
-Name: q
+Name: b
 Type: int
 Value: 
 Scope: -1
@@ -22,7 +6,7 @@ Used: false
 Initialized: false
 Is Function: false
 
-Name: s
+Name: a
 Type: int
 Value: 
 Scope: -1
@@ -39,28 +23,4 @@ Initialized: false
 Is Function: true
 Arg Count: 0
 Arg Types: 
-
-Name: c
-Type: char
-Value: 'z'
-Scope: 0
-Used: true
-Initialized: true
-Is Function: false
-
-Name: b
-Type: float
-Value: 2.1
-Scope: 0
-Used: true
-Initialized: true
-Is Function: false
-
-Name: a
-Type: int
-Value: 2
-Scope: 0
-Used: true
-Initialized: true
-Is Function: false
 
