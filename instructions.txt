@@ -1,4 +1,9 @@
-int x =0;
+int x =3;
 int y = 2;
-float z = 3.3;
-x = y+z;
+//float z = 3.3;
+//x= z*y;
+{
+    int x ;
+   { x=( 7   *   2 )   *   2   +   4   /   2   -   1;
+   }
+}

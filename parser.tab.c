@@ -80,11 +80,13 @@
 	extern void yyerror(char *s);
 	int count=0;
 	int scopeno = 0;
+	/* leave those for function declaration
+	i will implement it later on thursday  or any one try to implement it first*/
 	char* currentfunctionname = "";
 	int argcount = 0;
 	int funcargs[30];
 
-#line 88 "parser.tab.c"
+#line 90 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -546,7 +548,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  77
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   591
+#define YYLAST   628
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  57
@@ -610,19 +612,19 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   159,   159,   160,   164,   165,   166,   167,   168,   169,
-     170,   171,   172,   173,   174,   175,   176,   177,   178,   178,
-     187,   188,   193,   193,   193,   195,   195,   195,   195,   195,
-     197,   197,   197,   197,   197,   197,   203,   204,   205,   206,
-     207,   208,   212,   236,   239,   250,   286,   287,   291,   291,
-     291,   293,   293,   296,   296,   312,   312,   327,   327,   342,
-     342,   357,   357,   359,   372,   393,   395,   395,   397,   397,
-     403,   404,   410,   411,   412,   413,   414,   415,   416,   417,
-     418,   419,   420,   426,   427,   431,   432,   436,   437,   438,
-     442,   443,   444,   448,   449,   450,   451,   458,   458,   458,
-     462,   462,   463,   463,   464,   470,   476,   482,   486,   487,
-     488,   489,   493,   494,   495,   496,   497,   498,   499,   505,
-     505,   505,   509,   510,   514,   515,   520,   521
+       0,   165,   165,   166,   170,   171,   172,   173,   174,   175,
+     176,   177,   178,   179,   180,   181,   182,   183,   184,   184,
+     196,   199,   204,   204,   204,   206,   206,   206,   206,   206,
+     208,   208,   208,   208,   208,   208,   219,   274,   328,   382,
+     435,   488,   492,   520,   552,   564,   604,   605,   611,   611,
+     611,   614,   627,   630,   630,   648,   648,   663,   663,   678,
+     678,   693,   693,   695,   720,   741,   757,   757,   759,   759,
+     765,   778,   788,   878,   963,  1005,  1047,  1089,  1131,  1157,
+    1183,  1203,  1209,  1220,  1224,  1228,  1287,  1348,  1413,  1464,
+    1468,  1469,  1520,  1574,  1581,  1586,  1634,  1650,  1650,  1650,
+    1658,  1658,  1659,  1659,  1660,  1666,  1672,  1678,  1682,  1683,
+    1684,  1685,  1689,  1690,  1691,  1692,  1693,  1694,  1695,  1701,
+    1701,  1701,  1705,  1706,  1710,  1711,  1716,  1717
 };
 #endif
 
@@ -681,31 +683,31 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     464,    74,   -71,   -71,   -71,   -71,   -71,   -71,   -71,   -71,
-     -71,   429,   429,   111,   -50,   -41,   464,   -31,   -13,   -47,
-      23,    60,    78,   111,   -71,   -71,   194,   -71,    72,   -71,
-     -71,   -71,   -71,   -71,    52,   -71,   353,   -71,   -71,   -71,
+     518,    74,   -71,   -71,   -71,   -71,   -71,   -71,   -71,   -71,
+     -71,   157,   157,   114,   -50,   -41,   518,   -31,   -13,   -47,
+      23,    60,    78,   114,   -71,   -71,   194,   -71,   103,   -71,
+     -71,   -71,   -71,   -71,    55,   -71,   353,   -71,   -71,   -71,
       44,    48,   -71,   -71,   -71,   -71,   -71,   -71,   -71,   -71,
-     111,   111,   111,   111,   -71,   -71,   327,    78,   106,   114,
-      96,   540,    78,    78,    37,    24,    78,   -71,   -71,    73,
-     -71,   -71,   -71,    82,   548,   239,   464,   -71,   -71,    13,
+     114,   114,   114,   114,   -71,   -71,   327,    78,   113,   122,
+      49,   564,    78,    78,    37,    24,    78,   -71,   -71,    77,
+     -71,   -71,   -71,    82,   586,   239,   518,   -71,   -71,    13,
      -71,    12,    12,    12,    12,    12,    12,    12,    12,   -71,
-      21,    21,    21,    21,   404,   458,   494,   502,    19,   -71,
-     510,   -71,    86,    91,   107,    14,    89,    94,    92,   145,
-     -71,    93,   147,   -71,   -71,    78,    98,    99,   -71,   -71,
-     248,    85,   101,   -71,   464,   -71,   -71,   -71,   -71,   -71,
+      21,    21,    21,    21,   404,   458,   512,   548,    19,   -71,
+     556,   -71,    86,    91,   106,    14,    90,    94,    92,   352,
+     -71,    95,   147,   -71,   -71,    78,    99,   101,   -71,   -71,
+     248,    85,   102,   -71,   518,   -71,   -71,   -71,   -71,   -71,
      -71,   -71,   -71,   -71,    48,    48,   -71,   -71,   -71,   -71,
-     -71,   -71,   -71,   103,    78,    78,    78,   -71,   108,   464,
-      78,   -71,    18,   105,   110,   429,   102,   -71,   117,   -71,
-     429,   121,   120,   -71,   -71,   122,   123,   -71,   -71,   127,
-     273,   -71,   173,    -2,   -71,   -71,   -71,     7,   -71,   -71,
-     -71,   -71,   464,   134,   352,   -71,   130,    79,   156,   429,
-     -71,   -71,   -71,   302,   -71,   111,   111,   111,   111,    78,
-     464,    78,   144,   -37,   -71,   315,   -71,   -71,   548,   548,
-     548,   548,   140,   -71,   149,   464,   -71,   -71,   -71,   -71,
-     -71,   -71,   -71,   -71,   -71,   164,   -71,   464,   464,   -71,
-     157,   175,   464,   -71,   162,   464,    78,   356,   165,   -71,
-     161,   -71,   464,   410,   -71
+     -71,   -71,   -71,   105,    78,    78,    78,   -71,   108,   518,
+      78,   -71,    72,   107,   110,   157,   120,   -71,   118,   -71,
+     157,   123,   302,   -71,   -71,   119,   124,   -71,   -71,   125,
+     273,   -71,   156,    -2,   -71,   -71,   -71,     7,   -71,   -71,
+     -71,   -71,   518,   127,   418,   -71,   126,    70,   145,   157,
+     -71,   -71,   -71,   356,   -71,   114,   114,   114,   114,    78,
+     518,    78,   139,   -37,   -71,   315,   -71,   -71,   586,   586,
+     586,   586,   136,   -71,   144,   518,   -71,   -71,   -71,   -71,
+     -71,   -71,   -71,   -71,   -71,   161,   -71,   518,   518,   -71,
+     142,   165,   518,   -71,   159,   518,    78,   410,   160,   -71,
+     163,   -71,   518,   464,   -71
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -743,11 +745,11 @@ static const yytype_int8 yydefact[] =
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-     -71,   -70,   -16,   -71,   -43,    -7,   -71,   152,   154,   -71,
+     -71,   -70,   -16,   -71,   -43,    -7,   -71,   149,   150,   -71,
      -71,   -71,   -71,   -71,   -71,   -71,   -71,   -71,   -71,   -71,
-      62,    31,   -55,   -71,   -71,   -10,   -71,   503,   -71,   -71,
-      38,    39,   -71,   -71,   -71,   -71,   -71,   -71,   -71,   -71,
-     -71,   -71,   -71,   -71,   -71,   -71,   -71,    20,   -71,   -71
+      58,    30,   -55,   -71,   -71,   -10,   -71,   540,   -71,   -71,
+      33,    39,   -71,   -71,   -71,   -71,   -71,   -71,   -71,   -71,
+     -71,   -71,   -71,   -71,   -71,   -71,   -71,    17,   -71,   -71
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -770,24 +772,24 @@ static const yytype_int16 yytable[] =
      107,    65,   111,   116,   133,     2,     3,   109,     2,     3,
       70,     4,     5,    71,     6,     7,     8,     9,    10,    66,
       94,    95,    96,    97,    54,    55,   100,    74,   189,   121,
-     146,   190,    74,    74,   121,    74,    74,   189,   112,    13,
+     146,   190,    74,    74,   162,    74,    74,   189,   112,    13,
      191,    90,    91,    69,    23,   122,   159,    92,    93,   123,
-     147,    57,   153,    23,   123,    79,    23,   108,   158,    68,
+     147,    57,   153,    23,    54,    55,    23,   108,   158,    68,
      110,    60,     2,     3,    70,     4,     5,    71,    98,     2,
        3,    70,     4,     5,    71,    50,    51,    52,    53,    54,
-      55,   164,   165,   166,    78,    74,    80,   169,   162,   104,
-      56,    74,   193,    13,    60,     2,     3,   105,     4,     5,
-      13,    54,    55,   201,   202,   117,    57,   185,   134,   135,
+      55,   164,   165,   166,    78,    74,    79,   169,   121,    80,
+      56,    74,   193,    13,   201,   202,   104,    60,     2,     3,
+      13,     4,     5,   134,   135,   105,    57,   185,   123,   117,
       23,   136,   137,   168,    74,    74,    74,    23,   118,   143,
-      74,   144,   148,   145,   150,   228,    13,   149,   172,   151,
-     152,   154,   -59,   172,   -55,   175,   212,   232,   214,   163,
-      74,   170,   167,    23,   171,   237,    50,    51,    52,    53,
-      54,    55,   243,   176,   178,   179,   188,    78,   180,   181,
-     183,    56,   172,   200,   213,   208,   209,   210,   211,    74,
-     194,    74,   205,   238,    77,   215,   226,     1,     2,     3,
-     227,     4,     5,   230,     6,     7,     8,     9,    10,    11,
-      12,   233,    78,   234,   236,   241,    78,   113,   240,   114,
-     206,    78,   177,   217,     0,     0,    74,    78,     0,    13,
+      74,   144,   145,   148,   150,   228,    78,   149,   172,    13,
+     152,   151,   154,   172,   -59,   -55,   212,   232,   214,   188,
+      74,   163,   167,   170,   171,   237,    23,     6,     7,     8,
+       9,    10,   243,   175,   176,   180,   178,    78,   183,   200,
+     181,   205,   172,   194,   213,   208,   209,   210,   211,    74,
+     215,    74,   226,   238,    77,   227,   233,     1,     2,     3,
+     230,     4,     5,   234,     6,     7,     8,     9,    10,    11,
+      12,   236,    78,   240,   113,   114,    78,   241,   177,   206,
+     217,    78,     0,     0,     0,     0,    74,    78,     0,    13,
        0,    14,     0,     0,    15,    16,    17,    18,     0,     0,
       19,    20,    21,    22,     0,     0,    23,     0,    24,     0,
       25,     1,     2,     3,     0,     4,     5,     0,     6,     7,
@@ -800,31 +802,34 @@ static const yytype_int16 yytable[] =
      219,   220,   221,   222,   223,    23,     0,     0,     0,     0,
       98,     2,     3,     0,     4,     5,     0,    13,     0,    14,
        0,     0,    15,    16,    17,    18,     0,     0,    19,    20,
-      21,    22,     0,     0,    23,     0,    24,   207,    25,     1,
+      21,    22,     0,     0,    23,     0,    24,   179,    25,     1,
        2,     3,    13,     4,     5,     0,     6,     7,     8,     9,
-      10,    11,    12,   195,   196,   197,   198,    54,    55,    23,
-      81,    82,    83,    84,    85,    86,    87,    88,   199,     0,
+      10,    11,    12,    50,    51,    52,    53,    54,    55,    23,
+      81,    82,    83,    84,    85,    86,    87,    88,    56,     0,
        0,    13,     0,    14,     0,     0,    15,    16,    17,    18,
        0,     0,    19,    20,    21,    22,     0,     0,    23,    89,
-      24,   239,    25,     1,     2,     3,     0,     4,     5,     0,
+      24,   207,    25,     1,     2,     3,     0,     4,     5,     0,
        6,     7,     8,     9,    10,    11,    12,     0,     0,     0,
-       0,    81,    82,    83,    84,    85,    86,    87,    88,     6,
-       7,     8,     9,    10,     0,    13,     0,    14,     0,     0,
-      15,    16,    17,    18,     0,     0,    19,    20,    21,    22,
-     138,     0,    23,     0,    24,   244,    25,     1,     2,     3,
+       0,    81,    82,    83,    84,    85,    86,    87,    88,   195,
+     196,   197,   198,    54,    55,    13,     0,    14,     0,     0,
+      15,    16,    17,    18,   199,     0,    19,    20,    21,    22,
+     138,     0,    23,     0,    24,   239,    25,     1,     2,     3,
        0,     4,     5,     0,     6,     7,     8,     9,    10,    11,
       12,     0,     0,     0,     0,    81,    82,    83,    84,    85,
       86,    87,    88,     0,     0,     0,     0,     0,     0,    13,
        0,    14,     0,     0,    15,    16,    17,    18,     0,     0,
-      19,    20,    21,    22,   139,     0,    23,     0,    24,     0,
-      25,    81,    82,    83,    84,    85,    86,    87,    88,    81,
-      82,    83,    84,    85,    86,    87,    88,    81,    82,    83,
-      84,    85,    86,    87,    88,     0,     0,     0,     0,     0,
-     140,     0,     0,     0,     0,     0,     0,     0,   141,     0,
-       0,     0,     0,     0,     0,     0,   142,    81,    82,    83,
-      84,    85,    86,   -60,   -60,    81,    82,    83,    84,    85,
-      86,    87,    88,     0,   125,   126,   127,   128,   129,   130,
-     131,   132
+      19,    20,    21,    22,   139,     0,    23,     0,    24,   244,
+      25,     1,     2,     3,     0,     4,     5,     0,     6,     7,
+       8,     9,    10,    11,    12,     0,     0,     0,     0,    81,
+      82,    83,    84,    85,    86,    87,    88,     0,     0,     0,
+       0,     0,     0,    13,     0,    14,     0,     0,    15,    16,
+      17,    18,     0,     0,    19,    20,    21,    22,   140,     0,
+      23,     0,    24,     0,    25,    81,    82,    83,    84,    85,
+      86,    87,    88,    81,    82,    83,    84,    85,    86,    87,
+      88,    81,    82,    83,    84,    85,    86,   -60,   -60,     0,
+       0,     0,     0,     0,   141,     0,     0,     0,     0,     0,
+       0,     0,   142,    81,    82,    83,    84,    85,    86,    87,
+      88,   125,   126,   127,   128,   129,   130,   131,   132
 };
 
 static const yytype_int16 yycheck[] =
@@ -834,24 +839,24 @@ static const yytype_int16 yycheck[] =
       63,    52,    65,    66,     3,     4,     5,     3,     4,     5,
        6,     7,     8,     9,    10,    11,    12,    13,    14,    52,
       50,    51,    52,    53,    25,    26,    56,    57,    50,    36,
-      36,    53,    62,    63,    36,    65,    66,    50,    65,    35,
+      36,    53,    62,    63,   124,    65,    66,    50,    65,    35,
       53,    17,    18,     3,    52,    52,   121,    19,    20,    56,
-      56,    52,   115,    52,    56,     3,    52,    40,   121,    56,
+      56,    52,   115,    52,    25,    26,    52,    40,   121,    56,
       56,     3,     4,     5,     6,     7,     8,     9,     3,     4,
        5,     6,     7,     8,     9,    21,    22,    23,    24,    25,
-      26,   144,   145,   146,   120,   115,    54,   150,   124,     3,
-      36,   121,   182,    35,     3,     4,     5,     3,     7,     8,
-      35,    25,    26,    44,    45,    52,    52,   170,    90,    91,
+      26,   144,   145,   146,   120,   115,     3,   150,    36,    54,
+      36,   121,   182,    35,    44,    45,     3,     3,     4,     5,
+      35,     7,     8,    90,    91,     3,    52,   170,    56,    52,
       52,    92,    93,   149,   144,   145,   146,    52,    56,    53,
-     150,    50,    53,    36,    52,   215,    35,    53,   155,    56,
-       3,    53,    53,   160,    53,    53,   199,   227,   201,    56,
-     170,    56,    54,    52,    54,   235,    21,    22,    23,    24,
-      25,    26,   242,    56,    53,    55,     3,   193,    56,    56,
-      53,    36,   189,    53,   200,   195,   196,   197,   198,   199,
-      56,   201,    36,   236,     0,    51,    56,     3,     4,     5,
-      51,     7,     8,    39,    10,    11,    12,    13,    14,    15,
-      16,    54,   228,    38,    52,    54,   232,    65,    53,    65,
-     189,   237,   160,   203,    -1,    -1,   236,   243,    -1,    35,
+     150,    50,    36,    53,    52,   215,   162,    53,   155,    35,
+       3,    56,    53,   160,    53,    53,   199,   227,   201,     3,
+     170,    56,    54,    56,    54,   235,    52,    10,    11,    12,
+      13,    14,   242,    53,    56,    56,    53,   193,    53,    53,
+      56,    36,   189,    56,   200,   195,   196,   197,   198,   199,
+      51,   201,    56,   236,     0,    51,    54,     3,     4,     5,
+      39,     7,     8,    38,    10,    11,    12,    13,    14,    15,
+      16,    52,   228,    53,    65,    65,   232,    54,   160,   189,
+     203,   237,    -1,    -1,    -1,    -1,   236,   243,    -1,    35,
       -1,    37,    -1,    -1,    40,    41,    42,    43,    -1,    -1,
       46,    47,    48,    49,    -1,    -1,    52,    -1,    54,    -1,
       56,     3,     4,     5,    -1,     7,     8,    -1,    10,    11,
@@ -872,23 +877,26 @@ static const yytype_int16 yycheck[] =
       -1,    -1,    46,    47,    48,    49,    -1,    -1,    52,    56,
       54,    55,    56,     3,     4,     5,    -1,     7,     8,    -1,
       10,    11,    12,    13,    14,    15,    16,    -1,    -1,    -1,
-      -1,    27,    28,    29,    30,    31,    32,    33,    34,    10,
-      11,    12,    13,    14,    -1,    35,    -1,    37,    -1,    -1,
-      40,    41,    42,    43,    -1,    -1,    46,    47,    48,    49,
+      -1,    27,    28,    29,    30,    31,    32,    33,    34,    21,
+      22,    23,    24,    25,    26,    35,    -1,    37,    -1,    -1,
+      40,    41,    42,    43,    36,    -1,    46,    47,    48,    49,
       56,    -1,    52,    -1,    54,    55,    56,     3,     4,     5,
       -1,     7,     8,    -1,    10,    11,    12,    13,    14,    15,
       16,    -1,    -1,    -1,    -1,    27,    28,    29,    30,    31,
       32,    33,    34,    -1,    -1,    -1,    -1,    -1,    -1,    35,
       -1,    37,    -1,    -1,    40,    41,    42,    43,    -1,    -1,
-      46,    47,    48,    49,    56,    -1,    52,    -1,    54,    -1,
-      56,    27,    28,    29,    30,    31,    32,    33,    34,    27,
-      28,    29,    30,    31,    32,    33,    34,    27,    28,    29,
-      30,    31,    32,    33,    34,    -1,    -1,    -1,    -1,    -1,
-      56,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    56,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    56,    27,    28,    29,
-      30,    31,    32,    33,    34,    27,    28,    29,    30,    31,
-      32,    33,    34,    -1,    81,    82,    83,    84,    85,    86,
-      87,    88
+      46,    47,    48,    49,    56,    -1,    52,    -1,    54,    55,
+      56,     3,     4,     5,    -1,     7,     8,    -1,    10,    11,
+      12,    13,    14,    15,    16,    -1,    -1,    -1,    -1,    27,
+      28,    29,    30,    31,    32,    33,    34,    -1,    -1,    -1,
+      -1,    -1,    -1,    35,    -1,    37,    -1,    -1,    40,    41,
+      42,    43,    -1,    -1,    46,    47,    48,    49,    56,    -1,
+      52,    -1,    54,    -1,    56,    27,    28,    29,    30,    31,
+      32,    33,    34,    27,    28,    29,    30,    31,    32,    33,
+      34,    27,    28,    29,    30,    31,    32,    33,    34,    -1,
+      -1,    -1,    -1,    -1,    56,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    56,    27,    28,    29,    30,    31,    32,    33,
+      34,    81,    82,    83,    84,    85,    86,    87,    88
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -911,7 +919,7 @@ static const yytype_int8 yystos[] =
       84,    84,    84,     3,    87,    87,    88,    88,    56,    56,
       56,    56,    56,    53,    50,    36,    36,    56,    53,    53,
       52,    56,     3,    61,    53,    75,    76,    55,    61,    79,
-      73,    74,    59,    56,    61,    61,    61,    54,    59,    61,
+      73,    74,    58,    56,    61,    61,    61,    54,    59,    61,
       56,    54,    62,    77,    78,    53,    56,    77,    53,    55,
       56,    56,    90,    53,     3,    61,    99,   101,     3,    50,
       53,    53,    70,    58,    56,    21,    22,    23,    24,    36,
@@ -1419,102 +1427,437 @@ yyreduce:
   switch (yyn)
     {
   case 4: /* statement: expression SEMICOLON  */
-#line 164 "parser.y"
+#line 170 "parser.y"
                                 {printf("Expression statement\n");}
-#line 1425 "parser.tab.c"
+#line 1433 "parser.tab.c"
     break;
 
   case 5: /* statement: assignment_statement  */
-#line 165 "parser.y"
+#line 171 "parser.y"
                                 {printf("Assignment Statement \n");}
-#line 1431 "parser.tab.c"
+#line 1439 "parser.tab.c"
     break;
 
   case 6: /* statement: var_declaration  */
-#line 166 "parser.y"
+#line 172 "parser.y"
                                 {printf("Variable declaration\n");}
-#line 1437 "parser.tab.c"
+#line 1445 "parser.tab.c"
     break;
 
   case 16: /* statement: function  */
-#line 176 "parser.y"
+#line 182 "parser.y"
                         {printf("Function statement\n");}
-#line 1443 "parser.tab.c"
+#line 1451 "parser.tab.c"
     break;
 
   case 18: /* $@1: %empty  */
-#line 178 "parser.y"
+#line 184 "parser.y"
                    {
+		//when open curly bracket is found the scope is opened so scope number is increased
 		scopeno++;
 		printf("Scope Opened\n");
 	
 	}
-#line 1453 "parser.tab.c"
+#line 1462 "parser.tab.c"
     break;
 
   case 19: /* statement: OPENCURL $@1 statements CLOSEDCURL  */
-#line 182 "parser.y"
+#line 189 "parser.y"
                                 {
+		//when close curly bracket is found the scope is closed so we use end scope function to close the scope
+		// we decrease the scope number
 		endscope(scopeno);
 		scopeno--;
 		printf("Scope Closed\n");
 	}
-#line 1463 "parser.tab.c"
+#line 1474 "parser.tab.c"
     break;
 
   case 20: /* statement: RETURN return_value SEMICOLON  */
-#line 187 "parser.y"
-                                                {printf("Return statement\n");}
-#line 1469 "parser.tab.c"
+#line 197 "parser.y"
+                {	printf("Return statement\n");
+		}
+#line 1481 "parser.tab.c"
+    break;
+
+  case 36: /* assignment_statement: IDENTIFIER EQUAL expression SEMICOLON  */
+#line 220 "parser.y"
+                  {
+					int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 0){
+				if (checkidentifiername((yyvsp[-3].name))==1){
+					ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+					scopevar= ptr->data->scope;
+					printf("scopevar %d\n",scopevar);
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",(yyvsp[-3].name),yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+				scopevar= ptr->data->scope;
+			}
+
+				//check the types
+				
+				int type = getsymboltype((yyvsp[-3].name));
+				if(is_Modifiable((yyvsp[-3].name)) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != (yyvsp[-1].lexicalstruct).type ){
+					if(getsymboltype((yyvsp[-3].name)) == BOOLTYPE)
+					{
+						if(strcmp((yyvsp[-1].lexicalstruct).valueinstring,"0") == 0 )
+						{
+							Modify_Value((yyvsp[-3].name), "0",scopevar);
+						}else
+						{
+							Modify_Value((yyvsp[-3].name), "1",scopevar);
+						}
+					}else
+					{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+						//update the value of the variable
+						printf("value in string %s\n",(yyvsp[-1].lexicalstruct).valueinstring);
+						Modify_Value((yyvsp[-3].name), (yyvsp[-1].lexicalstruct).valueinstring,scopevar);
+					
+				}
+		  }
+#line 1540 "parser.tab.c"
+    break;
+
+  case 37: /* assignment_statement: IDENTIFIER PLUS_EQ expression SEMICOLON  */
+#line 275 "parser.y"
+                {
+					int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 0){
+				if (checkidentifiername((yyvsp[-3].name))==1){
+					ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",(yyvsp[-3].name),yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+				scopevar= ptr->data->scope;
+			}
+			
+				//check the types
+				int type = getsymboltype((yyvsp[-3].name));
+				if(is_Modifiable((yyvsp[-3].name)) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != (yyvsp[-1].lexicalstruct).type ){
+					printf("Type mismatch\n");
+					return 0;
+				}
+				else{
+					if (type ==INTTYPE){
+						int value = getintvalue((yyvsp[-3].name),scopevar) + (yyvsp[-1].lexicalstruct).intval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%d", value);
+						Modify_Value((yyvsp[-3].name), valueinstring,scopevar);
+					}
+					else if (type ==FLOATTYPE){
+						float value = getfloatvalue((yyvsp[-3].name),scopevar) + (yyvsp[-1].lexicalstruct).floatval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%f", value);
+						Modify_Value((yyvsp[-3].name), valueinstring,scopevar);
+					}
+					else{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+			
+		}
+#line 1598 "parser.tab.c"
+    break;
+
+  case 38: /* assignment_statement: IDENTIFIER MINUS_EQ expression SEMICOLON  */
+#line 329 "parser.y"
+                {
+					int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 0){
+				if (checkidentifiername((yyvsp[-3].name))==1){
+					ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",(yyvsp[-3].name),yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+				scopevar= ptr->data->scope;
+			}
+			
+				//check the types
+				int type = getsymboltype((yyvsp[-3].name));
+				if(is_Modifiable((yyvsp[-3].name)) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != (yyvsp[-1].lexicalstruct).type ){
+					printf("Type mismatch\n");
+					return 0;
+				}
+				else{
+					if (type ==INTTYPE){
+						int value = getintvalue((yyvsp[-3].name),scopevar) - (yyvsp[-1].lexicalstruct).intval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%d", value);
+						Modify_Value((yyvsp[-3].name), valueinstring,scopevar);
+					}
+					else if (type ==FLOATTYPE){
+						float value = getfloatvalue((yyvsp[-3].name),scopevar) - (yyvsp[-1].lexicalstruct).floatval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%f", value);
+						Modify_Value((yyvsp[-3].name), valueinstring,scopevar);
+					}
+					else{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+			
+		}
+#line 1656 "parser.tab.c"
+    break;
+
+  case 39: /* assignment_statement: IDENTIFIER MULT_EQ expression SEMICOLON  */
+#line 382 "parser.y"
+                                                         {
+					int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 0){
+				if (checkidentifiername((yyvsp[-3].name))==1){
+					ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",(yyvsp[-3].name),yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+				scopevar= ptr->data->scope;
+			}
+			
+				//check the types
+				int type = getsymboltype((yyvsp[-3].name));
+				if(is_Modifiable((yyvsp[-3].name)) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != (yyvsp[-1].lexicalstruct).type ){
+					printf("Type mismatch\n");
+					return 0;
+				}
+				else{
+					if (type ==INTTYPE){
+						int value = getintvalue((yyvsp[-3].name),scopevar) * (yyvsp[-1].lexicalstruct).intval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%d", value);
+						Modify_Value((yyvsp[-3].name), valueinstring,scopevar);
+					}
+					else if (type ==FLOATTYPE){
+						float value = getfloatvalue((yyvsp[-3].name),scopevar) * (yyvsp[-1].lexicalstruct).floatval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%f", value);
+						Modify_Value((yyvsp[-3].name), valueinstring,scopevar);
+					}
+					else{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+			
+		}
+#line 1714 "parser.tab.c"
+    break;
+
+  case 40: /* assignment_statement: IDENTIFIER DIV_EQ expression SEMICOLON  */
+#line 435 "parser.y"
+                                                        {
+			int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 0){
+				if (checkidentifiername((yyvsp[-3].name))==1){
+					ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",(yyvsp[-3].name),yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope((yyvsp[-3].name), scopeno);
+				scopevar= ptr->data->scope;
+			}
+			
+				//check the types
+				int type = getsymboltype((yyvsp[-3].name));
+				if(is_Modifiable((yyvsp[-3].name)) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != (yyvsp[-1].lexicalstruct).type ){
+					printf("Type mismatch\n");
+					return 0;
+				}
+				else{
+					if (type ==INTTYPE){
+						int value = getintvalue((yyvsp[-3].name),scopevar) / (yyvsp[-1].lexicalstruct).intval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%d", value);
+						Modify_Value((yyvsp[-3].name), valueinstring,scopevar);
+					}
+					else if (type ==FLOATTYPE){
+						float value = getfloatvalue((yyvsp[-3].name),scopevar) / (yyvsp[-1].lexicalstruct).floatval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%f", value);
+						Modify_Value((yyvsp[-3].name), valueinstring,scopevar);
+					}
+					else{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+			
+		}
+#line 1772 "parser.tab.c"
     break;
 
   case 42: /* var_declaration: type IDENTIFIER EQUAL value SEMICOLON  */
-#line 213 "parser.y"
+#line 493 "parser.y"
                   {
-			printf("identifier name %s\n", (yyvsp[-3].name));
-			if (chekidentifiernameandScopeoutofscope((yyvsp[-3].name), scopeno) == 1){
+			
+			//here we check if the variable is already declared in the scope or not
+			if (checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 1){
 
 				printf("variable is aleady declared\n");
 			return 0;
 			}
-			int type = (yyvsp[-4].var_type);
-			char* name = (yyvsp[-3].name);
-			int value = (yyvsp[-1].lexicalstruct).type;
-			char* valueinstring = (yyvsp[-1].lexicalstruct).valueinstring;
-			if (type != value){
+			printf("identifier name %s\n", (yyvsp[-3].name));
+			
+			int type = (yyvsp[-4].var_type);// type of the variable
+			char* name = (yyvsp[-3].name);// name of the variable
+			int value = (yyvsp[-1].lexicalstruct).type;// value(type) of the variable
+			char* valueinstring = (yyvsp[-1].lexicalstruct).valueinstring; // value in string
+			if (type != value){// if the type of the variable and the value type is not same then we return the error
 				printf( "Type mismatch\n");
 				return 0;
 			}
 			else{
 				printf("iam here\n");
+				//we create the symbol data and add it to the symbol table
 			struct SymbolData *ptr = initalizesymboldata((yyvsp[-4].var_type),name , valueinstring,scopeno,true ,true, true, false, 0, 0);
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
 			}
 
 		  }
-#line 1497 "parser.tab.c"
+#line 1804 "parser.tab.c"
+    break;
+
+  case 43: /* var_declaration: type IDENTIFIER EQUAL function_call  */
+#line 521 "parser.y"
+                {
+			//here we check if the variable is already declared in the scope or not
+			if (checkidentifiernameAndScope((yyvsp[-2].name), scopeno) == 1){
+
+				printf("variable is aleady declared\n");
+			return 0;
+			}
+			printf("identifier name %s\n", (yyvsp[-2].name));
+
+			int type = (yyvsp[-3].var_type);// type of the variable
+			char* name = (yyvsp[-2].name);// name of the variable
+			char* valueinstring = NULL; // value in string
+			printf("function name isssss  %s\n",(yyvsp[0].lexicalstruct).stringval );
+			printf("type isssss  %d\n",(yyvsp[-3].var_type) );
+			
+			int value = (yyvsp[0].lexicalstruct).type;// value(type) of the variable
+			
+			if (type != getsymboltype((yyvsp[0].lexicalstruct).stringval) ){// if the type of the variable and the value type is not same then we return the error
+				printf( "Type mismatch\n");
+				return 0;
+			}
+			else{
+				printf("iam here\n");
+				//we create the symbol data and add it to the symbol table
+			struct SymbolData *ptr = initalizesymboldata((yyvsp[-3].var_type),name , valueinstring,scopeno,true ,true, true, false, 0, 0);
+    		createnode(ptr, count++);
+			printf("count of node %d\n",countnodes());
+			}
+		}
+#line 1838 "parser.tab.c"
     break;
 
   case 44: /* var_declaration: type IDENTIFIER SEMICOLON  */
-#line 239 "parser.y"
+#line 552 "parser.y"
                                    {
-			if (chekidentifiernameandScopeoutofscope((yyvsp[-1].name), scopeno) == 1){
+			// same as above 
+			if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
 				printf("variable is aleady declared\n");
 				return 0;
 			}
 			int type = (yyvsp[-2].var_type);
 			char* name = (yyvsp[-1].name);
-			struct SymbolData *ptr = initalizesymboldata((yyvsp[-2].var_type),name , "",scopeno, true,false, false, false, 0, 0);
+			struct SymbolData *ptr = initalizesymboldata((yyvsp[-2].var_type),name , NULL,scopeno, true,false, false, false, 0, 0);
 			createnode(ptr, count++);
 		}
-#line 1512 "parser.tab.c"
+#line 1854 "parser.tab.c"
     break;
 
   case 45: /* constant_declaration: CONST type IDENTIFIER EQUAL value SEMICOLON  */
-#line 250 "parser.y"
+#line 564 "parser.y"
                                                                      {printf("Constant declaration\n");
-			if (chekidentifiernameandScopeoutofscope((yyvsp[-3].name), scopeno) == 1){
+			// same as above
+			if (checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 1){
 				printf("variable is aleady declared\n");
 				return 0;
 			}
@@ -1528,7 +1871,7 @@ yyreduce:
 				return 0;
 			}
 
-			else{
+			else{//cange the type of the variable to constant type
 			if (type ==INTTYPE){
 				type = CONSTINTTYPE;
 			}
@@ -1542,63 +1885,83 @@ yyreduce:
 				printf("Type mismatch for constant declation it can be only int , float , char \n");
 				return 0;
 			}
+			//create the symbol data and add it to the symbol table
 				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno,true, true, false, false, 0, 0);
 				createnode(ptr, count++);
 				printf("count of node %d\n",countnodes());
 			}
 				}
-#line 1551 "parser.tab.c"
+#line 1895 "parser.tab.c"
     break;
 
   case 48: /* $@2: %empty  */
-#line 291 "parser.y"
+#line 611 "parser.y"
                                                            {scopeno++;}
-#line 1557 "parser.tab.c"
+#line 1901 "parser.tab.c"
     break;
 
   case 49: /* $@3: %empty  */
-#line 291 "parser.y"
-                                                                                            {endscope(scopeno); scopeno--;}
-#line 1563 "parser.tab.c"
+#line 611 "parser.y"
+                                                                                             {endscope(scopeno); scopeno--;}
+#line 1907 "parser.tab.c"
     break;
 
-  case 50: /* function: function_prototype OPENCURL $@2 statement CLOSEDCURL $@3  */
-#line 291 "parser.y"
-                                                                                                                            {printf("Function Definition\n");}
-#line 1569 "parser.tab.c"
+  case 50: /* function: function_prototype OPENCURL $@2 statements CLOSEDCURL $@3  */
+#line 611 "parser.y"
+                                                                                                                             {printf("Function Definition\n");}
+#line 1913 "parser.tab.c"
+    break;
+
+  case 51: /* return_value: value  */
+#line 615 "parser.y"
+                        {
+				// print the return value
+				printf("return value intval %s\n", (yyvsp[0].lexicalstruct).valueinstring);
+				(yyval.lexicalstruct).intval = (yyvsp[0].lexicalstruct).intval;
+				(yyval.lexicalstruct).floatval = (yyvsp[0].lexicalstruct).floatval;
+				(yyval.lexicalstruct).charval = (yyvsp[0].lexicalstruct).charval;
+				(yyval.lexicalstruct).boolval = (yyvsp[0].lexicalstruct).boolval;
+				(yyval.lexicalstruct).stringval = (yyvsp[0].lexicalstruct).stringval;
+				(yyval.lexicalstruct).valueinstring = (yyvsp[0].lexicalstruct).valueinstring;
+				(yyval.lexicalstruct).type = (yyvsp[0].lexicalstruct).type;
+				
+			}
+#line 1930 "parser.tab.c"
     break;
 
   case 53: /* $@4: %empty  */
-#line 296 "parser.y"
+#line 630 "parser.y"
                                 {
-		if (chekidentifiernameandScopeoutofscope((yyvsp[-1].name), scopeno) == 1){
+		//check if the function is already declared or not
+		if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
 			return 0;
 		}
-		int type = (yyvsp[-2].var_type);
-		char* name = (yyvsp[-1].name);
+		int type = (yyvsp[-2].var_type);//type of the function
+		char* name = (yyvsp[-1].name);//name of the function
 		argcount = 0;
 		currentfunctionname = name;
+		//create the symbol data and add it to the symbol table but it is not yet implemented
 		struct SymbolData *ptr = initalizesymboldata((yyvsp[-2].var_type),name , "",scopeno, false,false, false, true, argcount, 0);
 		createnode(ptr, count++);
 
 	}
-#line 1587 "parser.tab.c"
+#line 1950 "parser.tab.c"
     break;
 
   case 54: /* function_prototype: type IDENTIFIER OPENBRACKET $@4 parameters CLOSEDBRACKET  */
-#line 308 "parser.y"
+#line 644 "parser.y"
                                   {
 		currentfunctionname = "";
 		argcount = 0;
 	}
-#line 1596 "parser.tab.c"
+#line 1959 "parser.tab.c"
     break;
 
   case 55: /* $@5: %empty  */
-#line 312 "parser.y"
+#line 648 "parser.y"
                                  {
-		if (chekidentifiernameandScopeoutofscope((yyvsp[-1].name), scopeno) == 1){
+		if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
 			return 0;
 		}
@@ -1610,21 +1973,21 @@ yyreduce:
 		createnode(ptr, count++);
 
 	}
-#line 1614 "parser.tab.c"
+#line 1977 "parser.tab.c"
     break;
 
   case 56: /* function_prototype: type IDENTIFIER OPENBRACKET $@5 CLOSEDBRACKET  */
-#line 324 "parser.y"
+#line 660 "parser.y"
                        { currentfunctionname = "";
 		argcount = 0;
 	}
-#line 1622 "parser.tab.c"
+#line 1985 "parser.tab.c"
     break;
 
   case 57: /* $@6: %empty  */
-#line 327 "parser.y"
+#line 663 "parser.y"
                                   {
-		if (chekidentifiernameandScopeoutofscope((yyvsp[-1].name), scopeno) == 1){
+		if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
 			return 0;
 		}
@@ -1637,19 +2000,19 @@ yyreduce:
 
 
 	}
-#line 1641 "parser.tab.c"
+#line 2004 "parser.tab.c"
     break;
 
   case 58: /* function_prototype: VOID IDENTIFIER OPENBRACKET $@6 parameters CLOSEDBRACKET  */
-#line 341 "parser.y"
+#line 677 "parser.y"
                                                 { currentfunctionname = ""; argcount = 0;}
-#line 1647 "parser.tab.c"
+#line 2010 "parser.tab.c"
     break;
 
   case 59: /* $@7: %empty  */
-#line 342 "parser.y"
+#line 678 "parser.y"
                                  {
-		if (chekidentifiernameandScopeoutofscope((yyvsp[-1].name), scopeno) == 1){
+		if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
 			return 0;
 		}
@@ -1660,18 +2023,30 @@ yyreduce:
 		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0);
 		createnode(ptr, count++);
 	}
-#line 1664 "parser.tab.c"
+#line 2027 "parser.tab.c"
     break;
 
   case 60: /* function_prototype: VOID IDENTIFIER OPENBRACKET $@7 CLOSEDBRACKET  */
-#line 354 "parser.y"
+#line 690 "parser.y"
                       { currentfunctionname = ""; argcount = 0;}
-#line 1670 "parser.tab.c"
+#line 2033 "parser.tab.c"
     break;
 
   case 63: /* single_parameter: type IDENTIFIER  */
-#line 360 "parser.y"
+#line 696 "parser.y"
                                                 {
+							//check if the variable is already declared or not but scope is increased by 1
+							//because the varible  will be used in the function so it is in the scope of the function
+							// so we increase the scope by 1 locally until the effect of scopeno is increased globaly so you can use it in the function
+							/*
+							dummy example :
+							int a = 0; //global scope and scope number is 0
+							int add(int a, int b) // scope number is 1 locally but globally it is 0
+							{//scope number is 1 globally
+							  -- so the a and b are in the scope number 1 and can be used in the function
+								return a+b;
+							}
+							*/
 							if (chekidentifiernameandScopeoutofscope((yyvsp[0].name), scopeno+1) == 1){
 								printf("variable is aleady declared\n");
 								return 0;
@@ -1683,11 +2058,11 @@ yyreduce:
 							funcargs[argcount] = type;
 							argcount++;
 						}
-#line 1687 "parser.tab.c"
+#line 2062 "parser.tab.c"
     break;
 
   case 64: /* single_parameter: type IDENTIFIER EQUAL constant  */
-#line 373 "parser.y"
+#line 721 "parser.y"
                                                 {
 							if (chekidentifiernameandScopeoutofscope((yyvsp[-2].name), scopeno+1) == 1){
 								printf("variable is aleady declared\n");
@@ -1706,101 +2081,1076 @@ yyreduce:
 								createnode(ptr, count++);
 							}
 						}
-#line 1710 "parser.tab.c"
+#line 2085 "parser.tab.c"
+    break;
+
+  case 65: /* function_call: IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON  */
+#line 742 "parser.y"
+                                                {
+							//check if the function is declared or not
+							if (checkidentifiernameAndScope((yyvsp[-4].name), scopeno) == 0){
+								printf("%s function is not declared\n", (yyvsp[-4].name));
+								return 0;
+							}
+							//check if the function is function or not
+							if (is_Function((yyvsp[-4].name)) == false){
+								printf("%s is variable is not a function\n", (yyvsp[-4].name));
+								return 0;
+							}
+							(yyval.lexicalstruct).stringval = (yyvsp[-4].name);
+						}
+#line 2103 "parser.tab.c"
+    break;
+
+  case 70: /* expression: boolean_expression  */
+#line 765 "parser.y"
+                            {
+			char* var_name = (yyvsp[0].lexicalstruct).stringval;
+			// printf("variable name  =   =  %s\n",var_name);
+			if(var_name != NULL){
+				if(is_Initialized(var_name) == false){
+					printf("variable is not initialized\n");
+					return 0;
+				}
+				else{
+					printf("variable is initialized\n");
+				}
+			}
+		}
+#line 2121 "parser.tab.c"
+    break;
+
+  case 71: /* expression: arithmetic_expression  */
+#line 779 "parser.y"
+                {
+			// $$.stringval = $1.stringval; // 8aleban malo4 lazma
+		}
+#line 2129 "parser.tab.c"
+    break;
+
+  case 72: /* boolean_expression: expression EQ_EQ arithmetic_expression  */
+#line 789 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					if ((yyvsp[-2].lexicalstruct).intval == (yyvsp[0].lexicalstruct).intval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					if ((yyvsp[-2].lexicalstruct).floatval == (yyvsp[0].lexicalstruct).floatval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == CHARTYPE || (yyvsp[-2].lexicalstruct).type == CONSTCHARTYPE){
+				if ((yyvsp[0].lexicalstruct).type == CHARTYPE || (yyvsp[0].lexicalstruct).type == CONSTCHARTYPE){
+					if ((yyvsp[-2].lexicalstruct).charval == (yyvsp[0].lexicalstruct).charval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == STRINGTYPE){
+				if ((yyvsp[0].lexicalstruct).type == STRINGTYPE){
+					if (strcmp((yyvsp[-2].lexicalstruct).stringval, (yyvsp[0].lexicalstruct).stringval) == 0){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == BOOLTYPE){
+				if ((yyvsp[0].lexicalstruct).type == BOOLTYPE){
+					if ((yyvsp[-2].lexicalstruct).boolval == (yyvsp[0].lexicalstruct).boolval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+#line 2223 "parser.tab.c"
+    break;
+
+  case 73: /* boolean_expression: expression NE arithmetic_expression  */
+#line 879 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					if ((yyvsp[-2].lexicalstruct).intval != (yyvsp[0].lexicalstruct).intval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = true;
+					(yyval.lexicalstruct).valueinstring = "1";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					if ((yyvsp[-2].lexicalstruct).floatval != (yyvsp[0].lexicalstruct).floatval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = true;
+					(yyval.lexicalstruct).valueinstring = "1";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == CHARTYPE || (yyvsp[-2].lexicalstruct).type == CONSTCHARTYPE){
+				if ((yyvsp[0].lexicalstruct).type == CHARTYPE || (yyvsp[0].lexicalstruct).type == CONSTCHARTYPE){
+					if ((yyvsp[-2].lexicalstruct).charval != (yyvsp[0].lexicalstruct).charval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = true;
+					(yyval.lexicalstruct).valueinstring = "1";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == STRINGTYPE){
+				if ((yyvsp[0].lexicalstruct).type == STRINGTYPE){
+					if (strcmp((yyvsp[-2].lexicalstruct).stringval, (yyvsp[0].lexicalstruct).stringval) != 0){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+			}else if ((yyvsp[-2].lexicalstruct).type == BOOLTYPE){
+				if ((yyvsp[0].lexicalstruct).type == BOOLTYPE){
+					if ((yyvsp[-2].lexicalstruct).boolval != (yyvsp[0].lexicalstruct).boolval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = true;
+					(yyval.lexicalstruct).valueinstring = "1";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+#line 2312 "parser.tab.c"
+    break;
+
+  case 74: /* boolean_expression: expression GE arithmetic_expression  */
+#line 964 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					if ((yyvsp[-2].lexicalstruct).intval >= (yyvsp[0].lexicalstruct).intval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					if ((yyvsp[-2].lexicalstruct).floatval >= (yyvsp[0].lexicalstruct).floatval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+#line 2358 "parser.tab.c"
+    break;
+
+  case 75: /* boolean_expression: expression LE arithmetic_expression  */
+#line 1006 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					if ((yyvsp[-2].lexicalstruct).intval <= (yyvsp[0].lexicalstruct).intval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					if ((yyvsp[-2].lexicalstruct).floatval <= (yyvsp[0].lexicalstruct).floatval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+#line 2404 "parser.tab.c"
+    break;
+
+  case 76: /* boolean_expression: expression GT arithmetic_expression  */
+#line 1048 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					if ((yyvsp[-2].lexicalstruct).intval > (yyvsp[0].lexicalstruct).intval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					if ((yyvsp[-2].lexicalstruct).floatval > (yyvsp[0].lexicalstruct).floatval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+#line 2450 "parser.tab.c"
+    break;
+
+  case 77: /* boolean_expression: expression LT arithmetic_expression  */
+#line 1090 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					if ((yyvsp[-2].lexicalstruct).intval < (yyvsp[0].lexicalstruct).intval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					if ((yyvsp[-2].lexicalstruct).floatval < (yyvsp[0].lexicalstruct).floatval){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+#line 2496 "parser.tab.c"
+    break;
+
+  case 78: /* boolean_expression: expression AND arithmetic_expression  */
+#line 1132 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ((yyvsp[-2].lexicalstruct).type == BOOLTYPE){
+				if ((yyvsp[0].lexicalstruct).type == BOOLTYPE){
+					if ((yyvsp[-2].lexicalstruct).boolval == true && (yyvsp[0].lexicalstruct).boolval == true){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+#line 2526 "parser.tab.c"
+    break;
+
+  case 79: /* boolean_expression: expression OR arithmetic_expression  */
+#line 1158 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ((yyvsp[-2].lexicalstruct).type == BOOLTYPE){
+				if ((yyvsp[0].lexicalstruct).type == BOOLTYPE){
+					if ((yyvsp[-2].lexicalstruct).boolval == true || (yyvsp[0].lexicalstruct).boolval == true){
+						(yyval.lexicalstruct).boolval = true;
+						(yyval.lexicalstruct).valueinstring = "1";
+					}
+					else{
+						(yyval.lexicalstruct).boolval = false;
+						(yyval.lexicalstruct).valueinstring = "0";
+					}
+				}
+				else{
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+#line 2556 "parser.tab.c"
+    break;
+
+  case 80: /* boolean_expression: NOT expression  */
+#line 1184 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ((yyvsp[0].lexicalstruct).type == BOOLTYPE){
+				if ((yyvsp[0].lexicalstruct).boolval == true){
+					(yyval.lexicalstruct).boolval = false;
+					(yyval.lexicalstruct).valueinstring = "0";
+				}
+				else{
+					(yyval.lexicalstruct).boolval = true;
+					(yyval.lexicalstruct).valueinstring = "1";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+#line 2580 "parser.tab.c"
+    break;
+
+  case 81: /* boolean_expression: TRUE_VAL  */
+#line 1204 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			(yyval.lexicalstruct).boolval = true;
+			(yyval.lexicalstruct).valueinstring = "1";
+		}
+#line 2590 "parser.tab.c"
+    break;
+
+  case 82: /* boolean_expression: FALSE_VAL  */
+#line 1210 "parser.y"
+                {
+			(yyval.lexicalstruct).type = BOOLTYPE;
+			(yyval.lexicalstruct).boolval = false;
+			(yyval.lexicalstruct).valueinstring = "0";
+		}
+#line 2600 "parser.tab.c"
+    break;
+
+  case 83: /* arithmetic_expression: binary_expression  */
+#line 1220 "parser.y"
+                          { 
+			// $$.stringval = $1.stringval;
+			
+		 }
+#line 2609 "parser.tab.c"
+    break;
+
+  case 85: /* unary_expression: IDENTIFIER INC  */
+#line 1228 "parser.y"
+                      {
+			//check if the variable is declared or not
+			//check if the variable is declared or not
+						int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 0){
+				if (checkidentifiername((yyvsp[-1].name))==1){
+					ptr =getsymbolAndScope((yyvsp[-1].name), scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",(yyvsp[-1].name),yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope((yyvsp[-1].name), scopeno);
+				scopevar= ptr->data->scope;
+			}
+			//check if the variable is initialized or not
+			if(is_Initialized((yyvsp[-1].name)) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			//check if the variable is modifiable or not
+			if(is_Modifiable((yyvsp[-1].name)) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			//increment the value of the variable
+			if (getsymboltype((yyvsp[-1].name)) == INTTYPE || getsymboltype((yyvsp[-1].name)) == CONSTINTTYPE){
+				int value = getintvalue((yyvsp[-1].name),scopevar) + 1;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%d", value);
+				Modify_Value((yyvsp[-1].name), valueinstring,scopevar);
+				(yyval.lexicalstruct).type = INTTYPE;
+				(yyval.lexicalstruct).valueinstring = valueinstring;
+				(yyval.lexicalstruct).intval = value;
+			}
+			else if (getsymboltype((yyvsp[-1].name)) == FLOATTYPE || getsymboltype((yyvsp[-1].name)) == CONSTFLOATTYPE){
+				float value = getfloatvalue((yyvsp[-1].name),scopevar) + 1;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%f", value);
+				Modify_Value((yyvsp[-1].name), valueinstring,scopevar);
+				(yyval.lexicalstruct).type = FLOATTYPE;
+				(yyval.lexicalstruct).valueinstring = valueinstring;
+				(yyval.lexicalstruct).floatval = value;
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+
+		}
+#line 2673 "parser.tab.c"
+    break;
+
+  case 86: /* unary_expression: IDENTIFIER DEC  */
+#line 1288 "parser.y"
+                {
+			//check if the variable is declared or not
+						int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 0){
+				if (checkidentifiername((yyvsp[-1].name))==1){
+					ptr =getsymbolAndScope((yyvsp[-1].name), scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",(yyvsp[-1].name),yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope((yyvsp[-1].name), scopeno);
+				scopevar= ptr->data->scope;
+			}
+			//check if the variable is initialized or not
+			if(is_Initialized((yyvsp[-1].name)) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			//check if the variable is modifiable or not
+			if(is_Modifiable((yyvsp[-1].name)) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			//decrement the value of the variable
+			if (getsymboltype((yyvsp[-1].name)) == INTTYPE || getsymboltype((yyvsp[-1].name)) == CONSTINTTYPE){
+				int value = getintvalue((yyvsp[-1].name),scopevar) - 1;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%d", value);
+				Modify_Value((yyvsp[-1].name), valueinstring,scopevar);
+				(yyval.lexicalstruct).type = INTTYPE;
+				(yyval.lexicalstruct).valueinstring = valueinstring;
+				(yyval.lexicalstruct).intval = value;
+			}
+			else if (getsymboltype((yyvsp[-1].name)) == FLOATTYPE || getsymboltype((yyvsp[-1].name)) == CONSTFLOATTYPE){
+				float value = getfloatvalue((yyvsp[-1].name),scopevar) - 1;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%f", value);
+				Modify_Value((yyvsp[-1].name), valueinstring,scopevar);
+				(yyval.lexicalstruct).type = FLOATTYPE;
+				(yyval.lexicalstruct).valueinstring = valueinstring;
+				(yyval.lexicalstruct).floatval = value;
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
+#line 2735 "parser.tab.c"
+    break;
+
+  case 87: /* binary_expression: binary_expression PLUS term  */
+#line 1349 "parser.y"
+                {
+			//check on the type of the expression
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					int value = (yyvsp[-2].lexicalstruct).intval + (yyvsp[0].lexicalstruct).intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%d", value);
+					(yyval.lexicalstruct).type = INTTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).intval = value;
+				}
+				else if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					float value = (yyvsp[-2].lexicalstruct).intval + (yyvsp[0].lexicalstruct).floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					float value = (yyvsp[-2].lexicalstruct).floatval + (yyvsp[0].lexicalstruct).intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					float value = (yyvsp[-2].lexicalstruct).floatval + (yyvsp[0].lexicalstruct).floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}else if ((yyvsp[-2].lexicalstruct).type == STRINGTYPE){
+				if ((yyvsp[0].lexicalstruct).type == STRINGTYPE){
+					char* value = (char*)malloc(strlen((yyvsp[-2].lexicalstruct).stringval) + strlen((yyvsp[0].lexicalstruct).stringval) + 1);
+					strcpy(value, (yyvsp[-2].lexicalstruct).stringval);
+					strcat(value, (yyvsp[0].lexicalstruct).stringval);
+					(yyval.lexicalstruct).type = STRINGTYPE;
+					(yyval.lexicalstruct).valueinstring = value;
+					(yyval.lexicalstruct).stringval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
+#line 2804 "parser.tab.c"
+    break;
+
+  case 88: /* binary_expression: binary_expression MINUS term  */
+#line 1414 "parser.y"
+                {
+			//check on the type of the expression
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					int value = (yyvsp[-2].lexicalstruct).intval - (yyvsp[0].lexicalstruct).intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%d", value);
+					(yyval.lexicalstruct).type = INTTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).intval = value;
+				}
+				else if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					float value = (yyvsp[-2].lexicalstruct).intval - (yyvsp[0].lexicalstruct).floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					float value = (yyvsp[-2].lexicalstruct).floatval - (yyvsp[0].lexicalstruct).intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					float value = (yyvsp[-2].lexicalstruct).floatval - (yyvsp[0].lexicalstruct).floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
+#line 2859 "parser.tab.c"
+    break;
+
+  case 91: /* term: term MULT factor  */
+#line 1470 "parser.y"
+                {
+			//check on the type of the expression
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					int value = (yyvsp[-2].lexicalstruct).intval * (yyvsp[0].lexicalstruct).intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%d", value);
+					(yyval.lexicalstruct).type = INTTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).intval = value;
+				}
+				else if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					float value = (yyvsp[-2].lexicalstruct).intval * (yyvsp[0].lexicalstruct).floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					float value = (yyvsp[-2].lexicalstruct).floatval * (yyvsp[0].lexicalstruct).intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					float value = (yyvsp[-2].lexicalstruct).floatval * (yyvsp[0].lexicalstruct).floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
+#line 2914 "parser.tab.c"
+    break;
+
+  case 92: /* term: term DIV factor  */
+#line 1521 "parser.y"
+                {
+			//check on the type of the expression
+			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					int value = (yyvsp[-2].lexicalstruct).intval / (yyvsp[0].lexicalstruct).intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%d", value);
+					(yyval.lexicalstruct).type = INTTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).intval = value;
+				}
+				else if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					float value = (yyvsp[-2].lexicalstruct).intval / (yyvsp[0].lexicalstruct).floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else if ((yyvsp[-2].lexicalstruct).type == FLOATTYPE || (yyvsp[-2].lexicalstruct).type == CONSTFLOATTYPE){
+				if ((yyvsp[0].lexicalstruct).type == INTTYPE || (yyvsp[0].lexicalstruct).type == CONSTINTTYPE){
+					float value = (yyvsp[-2].lexicalstruct).floatval / (yyvsp[0].lexicalstruct).intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else if ((yyvsp[0].lexicalstruct).type == FLOATTYPE || (yyvsp[0].lexicalstruct).type == CONSTFLOATTYPE){
+					float value = (yyvsp[-2].lexicalstruct).floatval / (yyvsp[0].lexicalstruct).floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					(yyval.lexicalstruct).type = FLOATTYPE;
+					(yyval.lexicalstruct).valueinstring = valueinstring;
+					(yyval.lexicalstruct).floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
+#line 2969 "parser.tab.c"
+    break;
+
+  case 93: /* factor: INT_NUM  */
+#line 1574 "parser.y"
+                {
+	
+			(yyval.lexicalstruct).type = INTTYPE;
+			(yyval.lexicalstruct).valueinstring = (yyvsp[0].lexicalstruct).valueinstring;
+			(yyval.lexicalstruct).intval = (yyvsp[0].lexicalstruct).intval;
+
+		}
+#line 2981 "parser.tab.c"
+    break;
+
+  case 94: /* factor: FLOAT_VAL  */
+#line 1581 "parser.y"
+                   {
+			(yyval.lexicalstruct).type = FLOATTYPE;
+			(yyval.lexicalstruct).valueinstring = (yyvsp[0].lexicalstruct).valueinstring;
+			(yyval.lexicalstruct).floatval = (yyvsp[0].lexicalstruct).floatval;
+		}
+#line 2991 "parser.tab.c"
+    break;
+
+  case 95: /* factor: IDENTIFIER  */
+#line 1587 "parser.y"
+                {
+			// check if the variable is declared or not
+			//check if the variable is declared or not
+						int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope((yyvsp[0].name), scopeno) == 0){
+				if (checkidentifiername((yyvsp[0].name))==1){
+					ptr =getsymbolAndScope((yyvsp[0].name), scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",(yyvsp[0].name),yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope((yyvsp[0].name), scopeno);
+				scopevar= ptr->data->scope;
+			}
+			// check if the variable is initialized or not
+			if(is_Initialized((yyvsp[0].name)) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			(yyval.lexicalstruct).type= getsymboltype((yyvsp[0].name));
+			(yyval.lexicalstruct).valueinstring=getvalue((yyvsp[0].name),scopevar);
+			if ((yyval.lexicalstruct).type==INTTYPE || (yyval.lexicalstruct).type==CONSTINTTYPE){
+				(yyval.lexicalstruct).intval= getintvalue((yyvsp[0].name),scopevar);
+			}
+			else if ((yyval.lexicalstruct).type==FLOATTYPE|| (yyval.lexicalstruct).type==CONSTFLOATTYPE){
+				(yyval.lexicalstruct).floatval= getfloatvalue((yyvsp[0].name),scopevar);
+			}
+			else if ((yyval.lexicalstruct).type==CHARTYPE || (yyval.lexicalstruct).type==CONSTCHARTYPE){
+				(yyval.lexicalstruct).charval= getcharvalue((yyvsp[0].name),scopevar);
+			}
+			else if ((yyval.lexicalstruct).type==STRINGTYPE){
+				(yyval.lexicalstruct).stringval= getstringvalue((yyvsp[0].name),scopevar);
+			}else if((yyval.lexicalstruct).type==BOOLTYPE){
+				(yyval.lexicalstruct).boolval= getboolvalue((yyvsp[0].name),scopevar);
+			}
+			
+		}
+#line 3043 "parser.tab.c"
+    break;
+
+  case 96: /* factor: OPENBRACKET expression CLOSEDBRACKET  */
+#line 1635 "parser.y"
+                {
+			(yyval.lexicalstruct).type = (yyvsp[-1].lexicalstruct).type;
+			(yyval.lexicalstruct).valueinstring = (yyvsp[-1].lexicalstruct).valueinstring;
+			(yyval.lexicalstruct).intval = (yyvsp[-1].lexicalstruct).intval;
+			(yyval.lexicalstruct).floatval = (yyvsp[-1].lexicalstruct).floatval;
+			(yyval.lexicalstruct).charval = (yyvsp[-1].lexicalstruct).charval;
+			(yyval.lexicalstruct).stringval = (yyvsp[-1].lexicalstruct).stringval;
+			(yyval.lexicalstruct).boolval = (yyvsp[-1].lexicalstruct).boolval;
+		}
+#line 3057 "parser.tab.c"
     break;
 
   case 97: /* $@8: %empty  */
-#line 458 "parser.y"
+#line 1650 "parser.y"
                                                    {scopeno++;}
-#line 1716 "parser.tab.c"
+#line 3063 "parser.tab.c"
     break;
 
   case 98: /* $@9: %empty  */
-#line 458 "parser.y"
+#line 1650 "parser.y"
                                                                                      {endscope(scopeno); scopeno--;}
-#line 1722 "parser.tab.c"
+#line 3069 "parser.tab.c"
     break;
 
   case 99: /* if_statement: IF OPENBRACKET value CLOSEDBRACKET OPENCURL $@8 statements CLOSEDCURL $@9 else_if_statement  */
-#line 458 "parser.y"
-                                                                                                                                        {printf("If then statement\n");}
-#line 1728 "parser.tab.c"
+#line 1651 "parser.y"
+                {
+			printf("If then statement\n");
+			// printf("variable name  ==  %s\n",$3.s);
+		}
+#line 3078 "parser.tab.c"
     break;
 
   case 100: /* $@10: %empty  */
-#line 462 "parser.y"
+#line 1658 "parser.y"
                                                                      {scopeno++;}
-#line 1734 "parser.tab.c"
+#line 3084 "parser.tab.c"
     break;
 
   case 101: /* else_if_statement: else_if_statement ELSEIF OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL  */
-#line 462 "parser.y"
+#line 1658 "parser.y"
                                                                                                         { endscope(scopeno); scopeno--;}
-#line 1740 "parser.tab.c"
+#line 3090 "parser.tab.c"
     break;
 
   case 102: /* $@11: %empty  */
-#line 463 "parser.y"
+#line 1659 "parser.y"
                        {scopeno++;}
-#line 1746 "parser.tab.c"
+#line 3096 "parser.tab.c"
     break;
 
   case 103: /* else_if_statement: ELSE OPENCURL $@11 statements CLOSEDCURL  */
-#line 463 "parser.y"
+#line 1659 "parser.y"
                                                           {endscope(scopeno); scopeno--;}
-#line 1752 "parser.tab.c"
+#line 3102 "parser.tab.c"
     break;
 
   case 105: /* while_statement: WHILE OPENBRACKET value CLOSEDBRACKET statement  */
-#line 470 "parser.y"
+#line 1666 "parser.y"
                                                                   {printf("while loop\n");}
-#line 1758 "parser.tab.c"
+#line 3108 "parser.tab.c"
     break;
 
   case 106: /* do_while_statement: DO statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON  */
-#line 476 "parser.y"
+#line 1672 "parser.y"
                                                                       {printf("do-while loop\n");}
-#line 1764 "parser.tab.c"
+#line 3114 "parser.tab.c"
     break;
 
   case 107: /* for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement  */
-#line 482 "parser.y"
+#line 1678 "parser.y"
                                                                                                   {printf("for loop\n");}
-#line 1770 "parser.tab.c"
+#line 3120 "parser.tab.c"
     break;
 
   case 119: /* $@12: %empty  */
-#line 505 "parser.y"
+#line 1701 "parser.y"
                                                    {scopeno++;}
-#line 1776 "parser.tab.c"
+#line 3126 "parser.tab.c"
     break;
 
   case 120: /* $@13: %empty  */
-#line 505 "parser.y"
+#line 1701 "parser.y"
                                                                                     {endscope(scopeno); scopeno--;}
-#line 1782 "parser.tab.c"
+#line 3132 "parser.tab.c"
     break;
 
   case 121: /* switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@12 case_list CLOSEDCURL $@13  */
-#line 505 "parser.y"
+#line 1701 "parser.y"
                                                                                                                    {printf("switch case\n");}
-#line 1788 "parser.tab.c"
+#line 3138 "parser.tab.c"
     break;
 
   case 126: /* break_statement: BREAK SEMICOLON  */
-#line 520 "parser.y"
+#line 1716 "parser.y"
                                  {printf("Break statement\n");}
-#line 1794 "parser.tab.c"
+#line 3144 "parser.tab.c"
     break;
 
   case 127: /* continue_statement: CONTINUE SEMICOLON  */
-#line 521 "parser.y"
+#line 1717 "parser.y"
                                        {printf("Continue statement\n");}
-#line 1800 "parser.tab.c"
+#line 3150 "parser.tab.c"
     break;
 
 
-#line 1804 "parser.tab.c"
+#line 3154 "parser.tab.c"
 
       default: break;
     }
@@ -1993,7 +3343,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 523 "parser.y"
+#line 1719 "parser.y"
 
 
 int main (void)

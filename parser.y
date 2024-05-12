@@ -218,32 +218,274 @@ constant:  INT_NUM | FLOAT_VAL | STRING_VAL | TRUE_VAL | FALSE_VAL | CHAR_VAL;
 assignment_statement:
           IDENTIFIER EQUAL expression SEMICOLON  
 		  {
+					int scopevar;
+			struct SymbolNode *ptr;
 			if(checkidentifiernameAndScope($1, scopeno) == 0){
-				printf("variable %s is not declared at line %d\n",$1,yylineno);
-				return 0;
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					printf("scopevar %d\n",scopevar);
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
 			}
-			else {
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+
+				//check the types
+				
+				int type = getsymboltype($1);
+				if(is_Modifiable($1) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != $3.type ){
+					if(getsymboltype($1) == BOOLTYPE)
+					{
+						if(strcmp($3.valueinstring,"0") == 0 )
+						{
+							Modify_Value($1, "0",scopevar);
+						}else
+						{
+							Modify_Value($1, "1",scopevar);
+						}
+					}else
+					{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+						//update the value of the variable
+						printf("value in string %s\n",$3.valueinstring);
+						Modify_Value($1, $3.valueinstring,scopevar);
+					
+				}
+		  }
+        | IDENTIFIER PLUS_EQ expression SEMICOLON
+		{
+					int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			
 				//check the types
 				int type = getsymboltype($1);
 				if(is_Modifiable($1) == false){
 						printf("variable is not modifiable\n");
 						return 0;
 				}
-				else if (type != $3.type){
+				else if (type != $3.type ){
 					printf("Type mismatch\n");
 					return 0;
 				}
 				else{
-					//update the value of the variable
-					Modify_Value($1, $3.valueinstring);
+					if (type ==INTTYPE){
+						int value = getintvalue($1,scopevar) + $3.intval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%d", value);
+						Modify_Value($1, valueinstring,scopevar);
+					}
+					else if (type ==FLOATTYPE){
+						float value = getfloatvalue($1,scopevar) + $3.floatval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%f", value);
+						Modify_Value($1, valueinstring,scopevar);
+					}
+					else{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+			
+		}
+		| IDENTIFIER MINUS_EQ expression SEMICOLON
+		{
+					int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
 				}
 			}
-		  }
-        | IDENTIFIER PLUS_EQ expression SEMICOLON
-		| IDENTIFIER MINUS_EQ expression SEMICOLON
-		| IDENTIFIER MULT_EQ expression SEMICOLON
-		| IDENTIFIER DIV_EQ expression SEMICOLON
-        | IDENTIFIER EQUAL function_call
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			
+				//check the types
+				int type = getsymboltype($1);
+				if(is_Modifiable($1) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != $3.type ){
+					printf("Type mismatch\n");
+					return 0;
+				}
+				else{
+					if (type ==INTTYPE){
+						int value = getintvalue($1,scopevar) - $3.intval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%d", value);
+						Modify_Value($1, valueinstring,scopevar);
+					}
+					else if (type ==FLOATTYPE){
+						float value = getfloatvalue($1,scopevar) - $3.floatval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%f", value);
+						Modify_Value($1, valueinstring,scopevar);
+					}
+					else{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+			
+		}
+		| IDENTIFIER MULT_EQ expression SEMICOLON{
+					int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			
+				//check the types
+				int type = getsymboltype($1);
+				if(is_Modifiable($1) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != $3.type ){
+					printf("Type mismatch\n");
+					return 0;
+				}
+				else{
+					if (type ==INTTYPE){
+						int value = getintvalue($1,scopevar) * $3.intval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%d", value);
+						Modify_Value($1, valueinstring,scopevar);
+					}
+					else if (type ==FLOATTYPE){
+						float value = getfloatvalue($1,scopevar) * $3.floatval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%f", value);
+						Modify_Value($1, valueinstring,scopevar);
+					}
+					else{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+			
+		}
+		| IDENTIFIER DIV_EQ expression SEMICOLON{
+			int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			
+				//check the types
+				int type = getsymboltype($1);
+				if(is_Modifiable($1) == false){
+						printf("variable is not modifiable\n");
+						return 0;
+				}
+				else if (type != $3.type ){
+					printf("Type mismatch\n");
+					return 0;
+				}
+				else{
+					if (type ==INTTYPE){
+						int value = getintvalue($1,scopevar) / $3.intval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%d", value);
+						Modify_Value($1, valueinstring,scopevar);
+					}
+					else if (type ==FLOATTYPE){
+						float value = getfloatvalue($1,scopevar) / $3.floatval;
+						char* valueinstring = (char*)malloc(10);
+						sprintf(valueinstring, "%f", value);
+						Modify_Value($1, valueinstring,scopevar);
+					}
+					else{
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+			
+		}
+        | IDENTIFIER EQUAL function_call//it is not yet implemented
         ;
 
 var_declaration:
@@ -535,7 +777,7 @@ expression:
 		}
         | arithmetic_expression
 		{
-			$$.stringval = $1.stringval; // 8aleban malo4 lazma
+			// $$.stringval = $1.stringval; // 8aleban malo4 lazma
 		}
         ;
 
@@ -545,18 +787,431 @@ boolean_expression:
 
         expression EQ_EQ arithmetic_expression
 		{
-			//$$.stringval = $1.stringval;
+			$$.type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					if ($1.intval == $3.intval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					if ($1.floatval == $3.floatval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else if ($1.type == CHARTYPE || $1.type == CONSTCHARTYPE){
+				if ($3.type == CHARTYPE || $3.type == CONSTCHARTYPE){
+					if ($1.charval == $3.charval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else if ($1.type == STRINGTYPE){
+				if ($3.type == STRINGTYPE){
+					if (strcmp($1.stringval, $3.stringval) == 0){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else if ($1.type == BOOLTYPE){
+				if ($3.type == BOOLTYPE){
+					if ($1.boolval == $3.boolval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
 		}
         | expression NE arithmetic_expression
+		{
+			$$.type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					if ($1.intval != $3.intval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = true;
+					$$.valueinstring = "1";
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					if ($1.floatval != $3.floatval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = true;
+					$$.valueinstring = "1";
+				}
+			}
+			else if ($1.type == CHARTYPE || $1.type == CONSTCHARTYPE){
+				if ($3.type == CHARTYPE || $3.type == CONSTCHARTYPE){
+					if ($1.charval != $3.charval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = true;
+					$$.valueinstring = "1";
+				}
+			}
+			else if ($1.type == STRINGTYPE){
+				if ($3.type == STRINGTYPE){
+					if (strcmp($1.stringval, $3.stringval) != 0){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+			}else if ($1.type == BOOLTYPE){
+				if ($3.type == BOOLTYPE){
+					if ($1.boolval != $3.boolval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = true;
+					$$.valueinstring = "1";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
         | expression GE arithmetic_expression
+		{
+			$$.type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					if ($1.intval >= $3.intval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					if ($1.floatval >= $3.floatval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
         | expression LE arithmetic_expression
+		{
+			$$.type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					if ($1.intval <= $3.intval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					if ($1.floatval <= $3.floatval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
         | expression GT arithmetic_expression
+		{
+			$$.type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					if ($1.intval > $3.intval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					if ($1.floatval > $3.floatval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
         | expression LT arithmetic_expression
+		{
+			$$.type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					if ($1.intval < $3.intval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					if ($1.floatval < $3.floatval){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
         | expression AND arithmetic_expression
+		{
+			$$.type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ($1.type == BOOLTYPE){
+				if ($3.type == BOOLTYPE){
+					if ($1.boolval == true && $3.boolval == true){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
         | expression OR arithmetic_expression
-        | NOT expression
-        | TRUE_VAL
-        | FALSE_VAL
+		{
+			$$.type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ($1.type == BOOLTYPE){
+				if ($3.type == BOOLTYPE){
+					if ($1.boolval == true || $3.boolval == true){
+						$$.boolval = true;
+						$$.valueinstring = "1";
+					}
+					else{
+						$$.boolval = false;
+						$$.valueinstring = "0";
+					}
+				}
+				else{
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+		| NOT expression
+		{
+			$$.type = BOOLTYPE;
+			//check if the expression is true or false
+			//check if both expression are same or not int and constint are same 
+			if ($2.type == BOOLTYPE){
+				if ($2.boolval == true){
+					$$.boolval = false;
+					$$.valueinstring = "0";
+				}
+				else{
+					$$.boolval = true;
+					$$.valueinstring = "1";
+				}
+			}
+			else{
+				printf("Type mismatch in boolean expression at line %d\n",yylineno);
+				return 0;
+			}
+		}
+		| TRUE_VAL
+		{
+			$$.type = BOOLTYPE;
+			$$.boolval = true;
+			$$.valueinstring = "1";
+		}
+		| FALSE_VAL
+		{
+			$$.type = BOOLTYPE;
+			$$.boolval = false;
+			$$.valueinstring = "0";
+		}
 		;
 
 /*  Mathematical Expressions */
@@ -570,28 +1225,349 @@ arithmetic_expression:
         ;
 
 unary_expression:
-        IDENTIFIER INC
+        IDENTIFIER INC{
+			//check if the variable is declared or not
+			//check if the variable is declared or not
+						int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			//check if the variable is initialized or not
+			if(is_Initialized($1) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			//check if the variable is modifiable or not
+			if(is_Modifiable($1) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			//increment the value of the variable
+			if (getsymboltype($1) == INTTYPE || getsymboltype($1) == CONSTINTTYPE){
+				int value = getintvalue($1,scopevar) + 1;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%d", value);
+				Modify_Value($1, valueinstring,scopevar);
+				$$.type = INTTYPE;
+				$$.valueinstring = valueinstring;
+				$$.intval = value;
+			}
+			else if (getsymboltype($1) == FLOATTYPE || getsymboltype($1) == CONSTFLOATTYPE){
+				float value = getfloatvalue($1,scopevar) + 1;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%f", value);
+				Modify_Value($1, valueinstring,scopevar);
+				$$.type = FLOATTYPE;
+				$$.valueinstring = valueinstring;
+				$$.floatval = value;
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+
+		}
         | IDENTIFIER DEC
+		{
+			//check if the variable is declared or not
+						int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			//check if the variable is initialized or not
+			if(is_Initialized($1) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			//check if the variable is modifiable or not
+			if(is_Modifiable($1) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			//decrement the value of the variable
+			if (getsymboltype($1) == INTTYPE || getsymboltype($1) == CONSTINTTYPE){
+				int value = getintvalue($1,scopevar) - 1;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%d", value);
+				Modify_Value($1, valueinstring,scopevar);
+				$$.type = INTTYPE;
+				$$.valueinstring = valueinstring;
+				$$.intval = value;
+			}
+			else if (getsymboltype($1) == FLOATTYPE || getsymboltype($1) == CONSTFLOATTYPE){
+				float value = getfloatvalue($1,scopevar) - 1;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%f", value);
+				Modify_Value($1, valueinstring,scopevar);
+				$$.type = FLOATTYPE;
+				$$.valueinstring = valueinstring;
+				$$.floatval = value;
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
         ;
 
 binary_expression:
         binary_expression PLUS term
-        | binary_expression MINUS term
-        | term 
 		{
-			// $$.stringval = $1.stringval;
+			//check on the type of the expression
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					int value = $1.intval + $3.intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%d", value);
+					$$.type = INTTYPE;
+					$$.valueinstring = valueinstring;
+					$$.intval = value;
+				}
+				else if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					float value = $1.intval + $3.floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					float value = $1.floatval + $3.intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					float value = $1.floatval + $3.floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}else if ($1.type == STRINGTYPE){
+				if ($3.type == STRINGTYPE){
+					char* value = (char*)malloc(strlen($1.stringval) + strlen($3.stringval) + 1);
+					strcpy(value, $1.stringval);
+					strcat(value, $3.stringval);
+					$$.type = STRINGTYPE;
+					$$.valueinstring = value;
+					$$.stringval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
 		}
+        | binary_expression MINUS term
+		{
+			//check on the type of the expression
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					int value = $1.intval - $3.intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%d", value);
+					$$.type = INTTYPE;
+					$$.valueinstring = valueinstring;
+					$$.intval = value;
+				}
+				else if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					float value = $1.intval - $3.floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					float value = $1.floatval - $3.intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					float value = $1.floatval - $3.floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
+        | term
         ;
 
 term:
         factor
-		{
-			// $$.stringval = $1.stringval;
-			
-			// printf("identifier name  ==  %s\n",$1.stringval);
-		}
         | term MULT factor
+		{
+			//check on the type of the expression
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					int value = $1.intval * $3.intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%d", value);
+					$$.type = INTTYPE;
+					$$.valueinstring = valueinstring;
+					$$.intval = value;
+				}
+				else if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					float value = $1.intval * $3.floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					float value = $1.floatval * $3.intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					float value = $1.floatval * $3.floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
         | term DIV factor
+		{
+			//check on the type of the expression
+			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					int value = $1.intval / $3.intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%d", value);
+					$$.type = INTTYPE;
+					$$.valueinstring = valueinstring;
+					$$.intval = value;
+				}
+				else if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					float value = $1.intval / $3.floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}
+			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
+				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
+					float value = $1.floatval / $3.intval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
+					float value = $1.floatval / $3.floatval;
+					char* valueinstring = (char*)malloc(10);
+					sprintf(valueinstring, "%f", value);
+					$$.type = FLOATTYPE;
+					$$.valueinstring = valueinstring;
+					$$.floatval = value;
+				}
+				else{
+					printf("Type mismatch\n");
+					return 0;
+				}
+			}else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
         ;
 
 factor:
@@ -610,10 +1586,27 @@ factor:
         | IDENTIFIER
 		{
 			// check if the variable is declared or not
-			if (checkidentifiernameAndScope($1, scopeno) == 0){
-				printf("variable %s is not declared at line %d\n",$1,yylineno);
-				printf("IDENTIFIER name  ==  %s\n",$1);
-				return 0;
+			//check if the variable is declared or not
+						int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
 			}
 			// check if the variable is initialized or not
 			if(is_Initialized($1) == false){
@@ -621,24 +1614,33 @@ factor:
 				return 0;
 			}
 			$$.type= getsymboltype($1);
-			$$.valueinstring=getvalue($1);
+			$$.valueinstring=getvalue($1,scopevar);
 			if ($$.type==INTTYPE || $$.type==CONSTINTTYPE){
-				$$.intval= getintvalue($1);
+				$$.intval= getintvalue($1,scopevar);
 			}
 			else if ($$.type==FLOATTYPE|| $$.type==CONSTFLOATTYPE){
-				$$.floatval= getfloatvalue($1);
+				$$.floatval= getfloatvalue($1,scopevar);
 			}
 			else if ($$.type==CHARTYPE || $$.type==CONSTCHARTYPE){
-				$$.charval= getcharvalue($1);
+				$$.charval= getcharvalue($1,scopevar);
 			}
 			else if ($$.type==STRINGTYPE){
-				$$.stringval= getstringvalue($1);
+				$$.stringval= getstringvalue($1,scopevar);
 			}else if($$.type==BOOLTYPE){
-				$$.boolval= getboolvalue($1);
+				$$.boolval= getboolvalue($1,scopevar);
 			}
 			
 		}
         | OPENBRACKET expression CLOSEDBRACKET
+		{
+			$$.type = $2.type;
+			$$.valueinstring = $2.valueinstring;
+			$$.intval = $2.intval;
+			$$.floatval = $2.floatval;
+			$$.charval = $2.charval;
+			$$.stringval = $2.stringval;
+			$$.boolval = $2.boolval;
+		}
         ;
 
 
