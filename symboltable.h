@@ -12,8 +12,7 @@
 #define CONSTCHARTYPE 7
 #define VOIDTYPE 8
 
-
-char *types[9] = {"int", "float", "char","bool","string" , "constint", "constfloat", "constchar", "void"};
+char *types[9] = {"int", "float", "char", "bool", "string", "constint", "constfloat", "constchar", "void"};
 
 struct SymbolData
 {
@@ -27,6 +26,7 @@ struct SymbolData
     bool inscope;
     bool isfunc;
     int argcount;
+    int memaddress;
     int *argtypes;
 };
 
@@ -38,7 +38,7 @@ struct SymbolNode
 };
 struct SymbolNode *head = NULL;
 
-struct SymbolData *initalizesymboldata(int type, char *name,char* value ,int scope, bool inscope ,bool used, bool initialized, bool isfunc, int argcount, int *argtypes)
+struct SymbolData *initalizesymboldata(int type, char *name, char *value, int scope, bool inscope, bool used, bool initialized, bool isfunc, int argcount, int *argtypes, int memaddress)
 {
     struct SymbolData *data = (struct SymbolData *)malloc(sizeof(struct SymbolData));
     data->type = type;
@@ -51,6 +51,7 @@ struct SymbolData *initalizesymboldata(int type, char *name,char* value ,int sco
     data->isfunc = isfunc;
     data->argcount = argcount;
     data->argtypes = argtypes;
+    data->memaddress = memaddress;
     return data;
 }
 
@@ -154,13 +155,13 @@ bool checkidentifiername(char *name)
 
 bool is_Initialized(char *name)
 {
-    //printf("is_Initialized\n Name recieved ====== %s\n", name);
+    // printf("is_Initialized\n Name recieved ====== %s\n", name);
     struct SymbolNode *temp = head;
     while (temp != NULL)
     {
         if (strcmp(temp->data->name, name) == 0 && temp->data->value != NULL)
         {
-            //printf(" value ====  %s\n", temp->data->value);
+            // printf(" value ====  %s\n", temp->data->value);
             return true;
         }
         temp = temp->next;
@@ -173,9 +174,9 @@ bool is_Modifiable(char *name)
     struct SymbolNode *temp = head;
     while (temp != NULL)
     {
-        if (strcmp(temp->data->name, name) == 0 && 
-        types[temp->data->type] == "int" || types[temp->data->type] == "float" || types[temp->data->type] == "char" 
-        || types[temp->data->type] == "bool" || types[temp->data->type] == "string")
+        if (strcmp(temp->data->name, name) == 0 &&
+                types[temp->data->type] == "int" ||
+            types[temp->data->type] == "float" || types[temp->data->type] == "char" || types[temp->data->type] == "bool" || types[temp->data->type] == "string")
         {
             return true;
         }
@@ -184,7 +185,7 @@ bool is_Modifiable(char *name)
     return false;
 }
 
-void Modify_Value(char *name , char *value)
+void Modify_Value(char *name, char *value)
 {
     struct SymbolNode *temp = head;
     while (temp != NULL)
@@ -237,7 +238,6 @@ bool chekidentifiernameandScopeoutofscope(char *name, int scope)
     return false;
 }
 
-
 int getsymboltype(char *name)
 {
     struct SymbolNode *temp = head;
@@ -251,7 +251,6 @@ int getsymboltype(char *name)
     }
     return -1;
 }
-
 
 void setfunction(int argcount, int *argtypes, struct SymbolData *data)
 {
@@ -326,7 +325,7 @@ void destroy()
     }
 }
 
-char* getvalue(char *name)
+char *getvalue(char *name)
 {
     struct SymbolNode *temp = head;
     while (temp != NULL)
@@ -408,7 +407,7 @@ char getcharvalue(char *name)
     return -1;
 }
 
-char* getstringvalue(char *name)
+char *getstringvalue(char *name)
 {
     struct SymbolNode *temp = head;
     while (temp != NULL)

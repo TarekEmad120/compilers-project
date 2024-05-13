@@ -3,7 +3,10 @@
 	#include <stdlib.h>
 	#include <string.h>
 	#include <stdbool.h>
+	#include <fcntl.h>    
 	#include "symboltable.h"
+	 
+    #include <errno.h>             
 	extern FILE *yyin;
 	extern int yylineno; /* Line Number tacker from lexer */
 	extern int yylex(); 
@@ -15,6 +18,84 @@
 	char* currentfunctionname = "";
 	int argcount = 0;
 	int funcargs[30];
+
+
+	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	void printPushValue( char*  x );
+	void printPushOp( int x );
+
+	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	#define MAX_SIZE 100 // Maximum size of the stack
+	#define MAX_MAP_SIZE 100 // Maximum size of each map
+
+	int currentScope=0;
+	// Define the map entry structure
+	typedef struct {
+		char key[50];
+		int value;
+	} MapEntry;
+
+	// Define the map structure
+	typedef struct {
+		MapEntry entries[MAX_SIZE];
+		int size;
+	} Map;
+
+	// Define the stack structure
+	typedef struct {
+		Map maps[MAX_SIZE];
+		int top;
+	} Stack;
+
+	// Initialize a new stack
+	Stack* createStack() {
+		Stack* stack = malloc(sizeof(Stack));
+		stack->top = -1;
+		return stack;
+	}
+
+	// Initialize a new map
+	Map* createMap() {
+		Map* map = malloc(sizeof(Map));
+		map->size = 0;
+		return map;
+	}
+
+	// Add a key-value pair to the map
+	void put(Map* map, char* key, int value) {
+		strcpy(map->entries[map->size].key, key);
+		map->entries[map->size].value = value;
+		map->size++;
+	}
+
+	// Get a value from the map by key
+	int get(Map* map, char* key) {
+		for (int i = 0; i < map->size; i++) {
+			if (strcmp(map->entries[i].key, key) == 0) {
+				return map->entries[i].value;
+			}
+		}
+		printf("Key not found\n");
+		return -1;
+	}
+	// Push a map onto the stack
+	void push(Stack* stack, Map map) {
+		if (stack->top == MAX_SIZE - 1) {
+			printf("Stack overflow\n");
+			return;
+		}
+		stack->maps[++stack->top] = map;
+	}
+
+	// Pop a map from the stack
+	Map pop(Stack* stack) {
+		if (stack->top == -1) {
+			printf("Stack underflow\n");
+			exit(1);
+		}
+		return stack->maps[stack->top--];
+	}	
+	
 %}
 %union {//this is the union for the token value from the lexer
 	char* name ;//identifier name 
@@ -575,8 +656,8 @@ unary_expression:
         ;
 
 binary_expression:
-        binary_expression PLUS term
-        | binary_expression MINUS term
+        binary_expression PLUS term {printPushOp(1);}
+        | binary_expression MINUS term {printPushOp(2);}
         | term 
 		{
 			// $$.stringval = $1.stringval;
@@ -590,8 +671,8 @@ term:
 			
 			// printf("identifier name  ==  %s\n",$1.stringval);
 		}
-        | term MULT factor
-        | term DIV factor
+        | term MULT factor {printPushOp(3);}
+        | term DIV factor {printPushOp(4);}
         ;
 
 factor:
@@ -600,12 +681,13 @@ factor:
 			$$.type = INTTYPE;
 			$$.valueinstring = $1.valueinstring;
 			$$.intval = $1.intval;
-
+			printPushValue($1.valueinstring);
 		}
         | FLOAT_VAL{
 			$$.type = FLOATTYPE;
 			$$.valueinstring = $1.valueinstring;
 			$$.floatval = $1.floatval;
+			printPushValue($1.valueinstring);
 		}
         | IDENTIFIER
 		{
@@ -715,6 +797,40 @@ break_statement: BREAK SEMICOLON {printf("Break statement\n");};
 continue_statement: CONTINUE SEMICOLON {printf("Continue statement\n");};
 
 %%
+void printPushValue( char* x ){
+		FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		fprintf(VMcode, "PUSH \t%s\n", x);
+		fclose(VMcode);
+	}
+
+void printPushOp( int x ){
+		FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		switch(x)
+		{
+			case 1:
+				fprintf(VMcode, "ADD\n");
+				break;
+			case 2:
+				fprintf(VMcode, "MNIUS\n");
+				break;
+			case 3:
+				fprintf(VMcode, "MUTI\n");
+				break;	
+			case 4:
+				fprintf(VMcode, "DIV\n");
+				break;		
+		}
+		
+		fclose(VMcode);
+	}
 
 int main (void)
 {
