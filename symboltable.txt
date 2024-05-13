@@ -1,14 +1,22 @@
-Name: x
-Type: int
-Value: 29
-Scope: -1
+Name: z
+Type: bool
+Value: 1
+Scope: 0
 Used: false
 Initialized: false
 Is Function: false
 
+Name: c
+Type: bool
+Value: 1
+Scope: 0
+Used: true
+Initialized: true
+Is Function: false
+
 Name: y
 Type: int
-Value: 2
+Value: 3
 Scope: 0
 Used: true
 Initialized: true

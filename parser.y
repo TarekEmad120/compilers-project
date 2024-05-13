@@ -201,7 +201,28 @@ statement :
 
 /* Values & Types*/
 
-value: expression | STRING_VAL | CHAR_VAL;
+value: expression
+{
+	$$.intval = $1.intval;
+	$$.floatval = $1.floatval;
+	$$.charval = $1.charval;
+	$$.boolval = $1.boolval;
+	$$.stringval = $1.stringval;
+	$$.valueinstring = $1.valueinstring;
+	$$.type = $1.type;
+
+}
+| STRING_VAL{
+	$$.type = STRINGTYPE;
+	$$.stringval = $1.valueinstring;
+	$$.valueinstring = $1.valueinstring;
+
+}
+ | CHAR_VAL{
+	$$.type = CHARTYPE;
+	$$.charval = $1.charval;
+	$$.valueinstring = $1.valueinstring;
+ }
 
 type:  INT | FLOAT | CHAR | STRING | BOOL;
 
@@ -503,6 +524,7 @@ var_declaration:
 			int type = $1;// type of the variable
 			char* name = $2;// name of the variable
 			int value = $4.type;// value(type) of the variable
+			printf("value is %d\n",value);
 			char* valueinstring = $4.valueinstring; // value in string
 			if (type != value){// if the type of the variable and the value type is not same then we return the error
 				printf( "Type mismatch\n");
@@ -510,7 +532,6 @@ var_declaration:
 			}
 			else{
 				printf("iam here\n");
-				//we create the symbol data and add it to the symbol table
 			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0);
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
@@ -1627,7 +1648,9 @@ factor:
 			else if ($$.type==STRINGTYPE){
 				$$.stringval= getstringvalue($1,scopevar);
 			}else if($$.type==BOOLTYPE){
+				printf("boolval = %d\n", ptr->data->value);
 				$$.boolval= getboolvalue($1,scopevar);
+				printf("boolval = %d\n", $$.boolval);
 			}
 			
 		}
@@ -1687,6 +1710,32 @@ for_initialization:
 
 for_expression:
          IDENTIFIER EQUAL value SEMICOLON
+		 {
+			//check if the variable is declared or not
+			int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+
+
+		 }
         | IDENTIFIER PLUS_EQ expression
 		| IDENTIFIER MINUS_EQ expression
 		| IDENTIFIER MULT_EQ expression

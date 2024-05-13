@@ -386,18 +386,27 @@ float getfloatvalue(char *name,int scope)
     }
     return -1;
 }
-int getboolvalue(char *name,int scope)
+bool getboolvalue(char *name,int scope)
 {
     struct SymbolNode *temp = head;
     while (temp != NULL)
     {
         if (strcmp(temp->data->name, name) == 0 && temp->data->scope == scope)
         {
-            return temp->data->value[0] == 't' ? 1 : 0;
+           if (strcmp(temp->data->value,"true")==0|| temp->data->value[0]=='1')
+           {
+               return true;
+           }
+           else
+           {
+               return false;
+           }
+           
         }
         temp = temp->next;
     }
     return -1;
+
 }
 
 char getcharvalue(char *name,int scope)
