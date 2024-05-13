@@ -7,8 +7,6 @@
 	#include "symboltable.h"
 	extern FILE *yyin;
 
-	void printPushValue( char*  x );
-	void printPushOp( int x );
 	extern int yylineno; /* Line Number tacker from lexer */
 	extern int yylex(); 
 	extern void yyerror(char *s);
@@ -18,9 +16,22 @@
 	i will implement it later on thursday  or any one try to implement it first*/
 	char* currentfunctionname = "";
 	int memaddress=0;
+	int Ifcounter=0;
 	int argcount = 0;
 	int funcargs[30];
 	bool programerror = false;
+
+
+	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	void printPushValue( char*  x );
+	void printPushOp( int x );
+	void PrintPopMem( int x );
+	void printBoolenOp( int x );
+	void printJUMPtype( int x );
+	void printVM(char * s,int num);
+	void PrintIDentifierAdress(int y);
+	
 %}
 %union {//this is the union for the token value from the lexer
 	char* name ;//identifier name 
@@ -539,10 +550,16 @@ var_declaration:
 			}
 			else{
 				printf("iam here\n");
-			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0,memaddress++);
+			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0,memaddress);
+			
+			memaddress++;
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
 			}
+			if(programerror ==false){
+				PrintPopMem(memaddress-1);
+			}
+			
 		}
 		  }
         | type IDENTIFIER EQUAL function_call
@@ -571,7 +588,8 @@ var_declaration:
 			else{
 				printf("iam here\n");
 				//we create the symbol data and add it to the symbol table
-			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0,memaddress++);
+			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0,memaddress);
+			memaddress++;
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
 			}
@@ -589,6 +607,7 @@ var_declaration:
 			int type = $1;
 			char* name = $2;
 			struct SymbolData *ptr = initalizesymboldata($1,name , NULL,scopeno, true,false, false, false, 0, 0,memaddress);
+			memaddress++;
 			createnode(ptr, count++);
 			}
 		}
@@ -625,7 +644,8 @@ constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Con
 				programerror = true;
 			}
 			//create the symbol data and add it to the symbol table
-				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno,true, true, false, false, 0, 0,memaddress++);
+				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno,true, true, false, false, 0, 0,memaddress);
+				memaddress++;
 				createnode(ptr, count++);
 				printf("count of node %d\n",countnodes());
 			}
@@ -672,7 +692,8 @@ function_prototype:
 		argcount = 0;
 		currentfunctionname = name;
 		//create the symbol data and add it to the symbol table but it is not yet implemented
-		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
+		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0,memaddress);
+		memaddress++;
 		createnode(ptr, count++);
 
 	} parameters CLOSEDBRACKET{
@@ -689,6 +710,7 @@ function_prototype:
 		currentfunctionname = name;
 		argcount = 0;
 		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
+		memaddress++;
 		createnode(ptr, count++);
 
 	} CLOSEDBRACKET{ currentfunctionname = "";
@@ -704,6 +726,7 @@ function_prototype:
 		currentfunctionname = name;
 		argcount = 0;
 		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
+		memaddress++;
 		createnode(ptr, count++);
 
 
@@ -719,6 +742,7 @@ function_prototype:
 		currentfunctionname = name;
 		argcount = 0;
 		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
+		memaddress++;
 		createnode(ptr, count++);
 	}
 	 CLOSEDBRACKET{ currentfunctionname = ""; argcount = 0;}
@@ -746,7 +770,8 @@ single_parameter: 		type IDENTIFIER
 							}
 							int type = $1;
 							char* name = $2;
-							struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno+1, true,false, false, false, 0, 0,memaddress++);
+							struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno+1, true,false, false, false, 0, 0,memaddress);
+							memaddress++;
 							createnode(ptr, count++);
 							funcargs[argcount] = type;
 							argcount++;
@@ -766,7 +791,8 @@ single_parameter: 		type IDENTIFIER
 								return 0;
 							}
 							else{
-								struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno+1, true,false, false, false, 0, 0,memaddress++);
+								struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno+1, true,false, false, false, 0, 0,memaddress);
+								memaddress++;
 								createnode(ptr, count++);
 							}
 						}
@@ -908,6 +934,9 @@ boolean_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if(programerror==false){
+				printBoolenOp(1);
+			}
 		}
         | expression NE arithmetic_expression
 		{
@@ -993,6 +1022,9 @@ boolean_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if(programerror==false){
+				printBoolenOp(2);
+			}
 		}
         | expression GE arithmetic_expression
 		{
@@ -1034,6 +1066,9 @@ boolean_expression:
 			else{
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
+			}
+			if(programerror==false){
+				printBoolenOp(3);
 			}
 		}
         | expression LE arithmetic_expression
@@ -1077,6 +1112,9 @@ boolean_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if(programerror==false){
+				printBoolenOp(4);
+			}
 		}
         | expression GT arithmetic_expression
 		{
@@ -1119,6 +1157,9 @@ boolean_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if(programerror==false){
+				printBoolenOp(5);
+			}
 		}
         | expression LT arithmetic_expression
 		{
@@ -1140,6 +1181,7 @@ boolean_expression:
 					$$.boolval = false;
 					$$.valueinstring = "0";
 				}
+				
 			}
 			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
 				if ($3.type == FLOATTYPE || $3.type == CONSTFLOATTYPE){
@@ -1161,6 +1203,9 @@ boolean_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if(programerror==false){
+					printBoolenOp(6);
+				}
 		}
         | expression AND arithmetic_expression
 		{
@@ -1187,6 +1232,9 @@ boolean_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if(programerror==false){
+					printBoolenOp(7);
+				}
 		}
         | expression OR arithmetic_expression
 		{
@@ -1213,6 +1261,9 @@ boolean_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if(programerror==false){
+					printBoolenOp(8);
+				}
 		}
 		| NOT expression
 		{
@@ -1233,18 +1284,30 @@ boolean_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if(programerror==false){
+				print
+			}
+			if(programerror==false){
+					printBoolenOp(9);
+				}
 		}
 		| TRUE_VAL
 		{
 			$$.type = BOOLTYPE;
 			$$.boolval = true;
 			$$.valueinstring = "1";
+			
+					printBoolenOp(10);
+				
 		}
 		| FALSE_VAL
 		{
 			$$.type = BOOLTYPE;
 			$$.boolval = false;
 			$$.valueinstring = "0";
+			
+					printBoolenOp(11);
+			
 		}
 		;
 
@@ -1687,6 +1750,9 @@ factor:
 				$$.boolval= getboolvalue($1,scopevar);
 				printf("boolval = %d\n", $$.boolval);
 			}
+			if(programerror==false){
+				PrintIDentifierAdress(ptr->data->memaddress);
+			}
 			}
 		}
         | OPENBRACKET expression CLOSEDBRACKET
@@ -1705,18 +1771,20 @@ factor:
 /* If statement */
 
 if_statement:
-        IF OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} statements
-		 CLOSEDCURL{endscope(scopeno); scopeno--;} else_if_statement  
+        IF {Ifcounter++;} OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;printJUMPtype(1);} 
+		statements
+		 CLOSEDCURL{endscope(scopeno); scopeno--;printJUMPtype(2);} else_if_statement  
 		{
+
 			printf("If then statement\n");
 			// printf("variable name  ==  %s\n",$3.s);
 		}
 	;
 
 else_if_statement:
-    else_if_statement ELSEIF OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} statements CLOSEDCURL { endscope(scopeno); scopeno--;}
-	| ELSE OPENCURL{scopeno++;} statements CLOSEDCURL {endscope(scopeno); scopeno--;}
-	|
+    else_if_statement ELSEIF{printJUMPtype(3);} OPENBRACKET value CLOSEDBRACKET {printJUMPtype(4);} OPENCURL{scopeno++;} statements CLOSEDCURL { endscope(scopeno); scopeno--;}
+	| ELSE {printVM("ELSE_",Ifcounter);} OPENCURL{scopeno++;} statements CLOSEDCURL {endscope(scopeno); scopeno--;}
+	| {printVM("ENDELSE",Ifcounter);}
     ;
 
 /* While statement */
@@ -2035,7 +2103,50 @@ void printPushValue( char* x ){
 		fprintf(VMcode, "PUSH \t%s\n", x);
 		fclose(VMcode);
 	}
-
+void printBoolenOp( int x ){
+	FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		switch(x)
+		{
+			case 1:
+				fprintf(VMcode, "EQUAL\n");
+				break;
+			case 2:
+				fprintf(VMcode, "NOTEQUAL\n");
+				break;
+			case 3:
+				fprintf(VMcode, "GREATERTOREQUAL\n");
+				break;	
+			case 4:
+				fprintf(VMcode, "LESSOREQUAL\n");
+				break;
+			case 5:
+				fprintf(VMcode, "GREATERTHAN\n");
+				break;
+			case 6:
+				fprintf(VMcode, "LESSTHAN\n");
+				break;
+			case 7:
+				fprintf(VMcode, "AND\n");
+				break;
+			case 8:
+				fprintf(VMcode, "OR\n");
+				break;
+			case 9:
+				fprintf(VMcode, "NOT\n");
+				break;
+			case 10:
+				fprintf(VMcode, "TRUE\n");
+				break;
+			case 11:
+				fprintf(VMcode, "FALSE\n");
+				break;														
+		}
+		fclose(VMcode);
+}
 void printPushOp( int x ){
 		FILE *VMcode = fopen("VMcode.txt", "a");
 		if(VMcode == NULL) {
@@ -2057,6 +2168,61 @@ void printPushOp( int x ){
 				fprintf(VMcode, "DIV\n");
 				break;		
 		}
+
+		fclose(VMcode);
+	}
+void printJUMPtype( int x ){
+	FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		switch(x)
+		{
+			case 1:
+				fprintf(VMcode, "JumpFalse ELSE_%d\n",Ifcounter);
+				break;
+			case 2:
+				fprintf(VMcode, "ENDIF_%d:\n",Ifcounter);
+				break;
+			case 3:
+				fprintf(VMcode, "JumpFalse ENDELSIF_%d\n",Ifcounter);
+				break;
+			case 4:
+				fprintf(VMcode, "ENDELSIF_%d:\n",Ifcounter);
+				break;		
+		}
+
+		fclose(VMcode);
+}
+
+void printVM(char * s,int num){
+	FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		fprintf(VMcode, "%s%d\n", s,num);
+
+		fclose(VMcode);
+}
+	void PrintIDentifierAdress( int y){
+			FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		fprintf(VMcode, "PUSHMEM \t%d\n", y);
+
+		fclose(VMcode);
+		}
+		void PrintPopMem( int y){
+			FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		fprintf(VMcode, "POPMEM \t%d\n", y);
 
 		fclose(VMcode);
 	}

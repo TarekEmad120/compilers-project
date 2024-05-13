@@ -1,30 +1,14 @@
-Name: z
-Type: int
-Value: 13
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-
-Name: z
-Type: float
-Value: 3.3
-Scope: 0
-Used: true
-Initialized: true
-Is Function: false
-
 Name: y
 Type: int
-Value: 3
-Scope: 0
+Value: 25
+Scope: -1
 Used: true
 Initialized: true
 Is Function: false
 
 Name: x
 Type: int
-Value: 10
+Value: 5
 Scope: 0
 Used: true
 Initialized: true
