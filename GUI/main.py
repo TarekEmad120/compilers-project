@@ -94,7 +94,6 @@ class CodeEditor(QPlainTextEdit):
             bottom = top + self.blockBoundingRect(block).height()
             blockNumber += 1
 
-# Replace the QTextEdit with CodeEditor in your MainWindow class
 class MainWindow(QMainWindow):
     def __init__(self):
 
@@ -184,11 +183,8 @@ class MainWindow(QMainWindow):
             with open("VMcode.txt", "w") as f:
                 pass
             try:
-                    # Get the current working directory
                 dir_path = os.getcwd()
-                # Join the directory with the name of the executable
                 exe_path = os.path.join(dir_path, "GUI/a.exe")
-                # Use os.popen to run the executable
                 output= os.popen(exe_path).read()
                 
             except Exception as e:
@@ -202,7 +198,6 @@ class MainWindow(QMainWindow):
                 errors = f.read()
                 self.errorText.setText(errors)
             # read the symbol table
-    
             with open("symboltable.txt", "r") as f:
                 entries = f.read().split("\n\n")
                 self.symbolTable.setRowCount(len(entries))
