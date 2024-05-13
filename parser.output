@@ -63,7 +63,7 @@ Grammar
 
    48 $@3: ε
 
-   49 function: function_prototype OPENCURL $@2 statement CLOSEDCURL $@3
+   49 function: function_prototype OPENCURL $@2 statements CLOSEDCURL $@3
 
    50 return_value: value
    51             | ε
@@ -249,10 +249,10 @@ Nonterminals, with rules where they appear
         on left: 0
     statements (58)
         on left: 1 2
-        on right: 0 1 18 98 100 102 123 124
+        on right: 0 1 18 49 98 100 102 123 124
     statement (59)
         on left: 3 4 5 6 7 8 9 10 11 12 13 14 15 16 18 19 20
-        on right: 1 2 49 104 105 106
+        on right: 1 2 104 105 106
     $@1 (60)
         on left: 17
         on right: 18
@@ -286,7 +286,7 @@ Nonterminals, with rules where they appear
     $@3 (70)
         on left: 48
         on right: 49
-    return_value (71)
+    return_value <lexicalstruct> (71)
         on left: 50 51
         on right: 19
     function_prototype (72)
@@ -869,7 +869,7 @@ State 33
 
 State 34
 
-   49 function: function_prototype • OPENCURL $@2 statement CLOSEDCURL $@3
+   49 function: function_prototype • OPENCURL $@2 statements CLOSEDCURL $@3
 
     OPENCURL  shift, and go to state 80
 
@@ -1501,7 +1501,7 @@ State 79
 
 State 80
 
-   49 function: function_prototype OPENCURL • $@2 statement CLOSEDCURL $@3
+   49 function: function_prototype OPENCURL • $@2 statements CLOSEDCURL $@3
 
     $default  reduce using rule 47 ($@2)
 
@@ -2111,7 +2111,7 @@ State 123
 
 State 124
 
-   49 function: function_prototype OPENCURL $@2 • statement CLOSEDCURL $@3
+   49 function: function_prototype OPENCURL $@2 • statements CLOSEDCURL $@3
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -2139,7 +2139,8 @@ State 124
     OPENCURL     shift, and go to state 24
     SEMICOLON    shift, and go to state 25
 
-    statement              go to state 162
+    statements             go to state 162
+    statement              go to state 27
     type                   go to state 28
     assignment_statement   go to state 29
     var_declaration        go to state 30
@@ -2570,9 +2571,59 @@ State 161
 
 State 162
 
-   49 function: function_prototype OPENCURL $@2 statement • CLOSEDCURL $@3
+    1 statements: statements • statement
+   49 function: function_prototype OPENCURL $@2 statements • CLOSEDCURL $@3
 
-    CLOSEDCURL  shift, and go to state 179
+    IDENTIFIER   shift, and go to state 1
+    INT_NUM      shift, and go to state 2
+    FLOAT_VAL    shift, and go to state 3
+    TRUE_VAL     shift, and go to state 4
+    FALSE_VAL    shift, and go to state 5
+    INT          shift, and go to state 6
+    FLOAT        shift, and go to state 7
+    CHAR         shift, and go to state 8
+    BOOL         shift, and go to state 9
+    STRING       shift, and go to state 10
+    CONST        shift, and go to state 11
+    EXTERN       shift, and go to state 12
+    NOT          shift, and go to state 13
+    IF           shift, and go to state 14
+    WHILE        shift, and go to state 15
+    DO           shift, and go to state 16
+    FOR          shift, and go to state 17
+    SWITCH       shift, and go to state 18
+    BREAK        shift, and go to state 19
+    CONTINUE     shift, and go to state 20
+    VOID         shift, and go to state 21
+    RETURN       shift, and go to state 22
+    OPENBRACKET  shift, and go to state 23
+    OPENCURL     shift, and go to state 24
+    CLOSEDCURL   shift, and go to state 179
+    SEMICOLON    shift, and go to state 25
+
+    statement              go to state 78
+    type                   go to state 28
+    assignment_statement   go to state 29
+    var_declaration        go to state 30
+    constant_declaration   go to state 31
+    extern_declartion      go to state 32
+    function               go to state 33
+    function_prototype     go to state 34
+    function_call          go to state 35
+    expression             go to state 36
+    boolean_expression     go to state 37
+    arithmetic_expression  go to state 38
+    unary_expression       go to state 39
+    binary_expression      go to state 40
+    term                   go to state 41
+    factor                 go to state 42
+    if_statement           go to state 43
+    while_statement        go to state 44
+    do_while_statement     go to state 45
+    for_statement          go to state 46
+    switch_statement       go to state 47
+    break_statement        go to state 48
+    continue_statement     go to state 49
 
 
 State 163
@@ -2718,7 +2769,7 @@ State 178
 
 State 179
 
-   49 function: function_prototype OPENCURL $@2 statement CLOSEDCURL • $@3
+   49 function: function_prototype OPENCURL $@2 statements CLOSEDCURL • $@3
 
     $default  reduce using rule 48 ($@3)
 
@@ -2889,7 +2940,7 @@ State 191
 
 State 192
 
-   49 function: function_prototype OPENCURL $@2 statement CLOSEDCURL $@3 •
+   49 function: function_prototype OPENCURL $@2 statements CLOSEDCURL $@3 •
 
     $default  reduce using rule 49 (function)
 

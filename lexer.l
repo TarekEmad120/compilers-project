@@ -116,21 +116,22 @@ int yylex();
 "true"                          {
 								yylval.lexicalstruct.type = BOOLTYPE;
 								yylval.lexicalstruct.boolval = true;
-								yylval.lexicalstruct.valueinstring= strdup("true");
+								yylval.lexicalstruct.valueinstring= strdup(yytext);
 									return TRUE_VAL;}
 "false"                         {
 								yylval.lexicalstruct.type = BOOLTYPE;
 								yylval.lexicalstruct.boolval = false;
-								yylval.lexicalstruct.valueinstring= strdup("false");
+								yylval.lexicalstruct.valueinstring= strdup(yytext);
 								return FALSE_VAL;}
 [a-zA-Z_][a-zA-Z0-9_]*          {
 								yylval.name= strdup(yytext);
 								return IDENTIFIER;}
 
-['][a-zA-Z0-9][']              {
+\'[a-zA-Z0-9_]\'  {
 								yylval.lexicalstruct.type = CHARTYPE;
 								yylval.lexicalstruct.charval = yytext[1];
 								yylval.lexicalstruct.valueinstring= strdup(yytext);
+								printf("char %c\n",yytext[1]);
 								return CHAR_VAL;}
 [0-9]+                         { 
 								yylval.lexicalstruct.type = INTTYPE;
