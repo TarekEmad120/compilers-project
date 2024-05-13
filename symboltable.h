@@ -154,6 +154,7 @@ bool checkidentifiername(char *name)
         }
         temp = temp->next;
     }
+    return false;
 }
 
 bool is_Initialized(char *name)
@@ -437,7 +438,7 @@ char *getstringvalue(char *name, int scope)
 }
 void printsemanticerror(char *error, int line)
 {
-    FILE *file = fopen("semanticerrors.txt", "a");
+    FILE *file = fopen("semanticerrors.txt", "w");
     if (file == NULL)
     {
         printf("Error opening file\n");

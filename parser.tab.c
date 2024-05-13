@@ -3930,7 +3930,15 @@ void printVM(char * s,int num){
 
 int main (void)
 {
-	yyparse(); 
+
+	yyin = fopen("instructions.txt", "r");
+	if(yyin == NULL) {
+		printf("can't open input.txt file!\n");
+		exit(1);
+	}
+	//read the input file to parse it 
+	yyparse();
+
 	printSymbolTable();
     return 0;
 }
