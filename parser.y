@@ -3,11 +3,12 @@
 	#include <stdlib.h>
 	#include <string.h>
 	#include <stdbool.h>
-	#include <fcntl.h>    
+	#include <fcntl.h>
 	#include "symboltable.h"
-	 
-    #include <errno.h>             
 	extern FILE *yyin;
+
+	void printPushValue( char*  x );
+	void printPushOp( int x );
 	extern int yylineno; /* Line Number tacker from lexer */
 	extern int yylex(); 
 	extern void yyerror(char *s);
@@ -16,6 +17,7 @@
 	/* leave those for function declaration
 	i will implement it later on thursday  or any one try to implement it first*/
 	char* currentfunctionname = "";
+	int memaddress=0;
 	int argcount = 0;
 	int funcargs[30];
 	bool programerror = false;
@@ -537,7 +539,7 @@ var_declaration:
 			}
 			else{
 				printf("iam here\n");
-			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0);
+			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0,memaddress++);
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
 			}
@@ -569,7 +571,7 @@ var_declaration:
 			else{
 				printf("iam here\n");
 				//we create the symbol data and add it to the symbol table
-			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0);
+			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0,memaddress++);
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
 			}
@@ -586,7 +588,7 @@ var_declaration:
 			if (programerror == false){
 			int type = $1;
 			char* name = $2;
-			struct SymbolData *ptr = initalizesymboldata($1,name , NULL,scopeno, true,false, false, false, 0, 0);
+			struct SymbolData *ptr = initalizesymboldata($1,name , NULL,scopeno, true,false, false, false, 0, 0,memaddress);
 			createnode(ptr, count++);
 			}
 		}
@@ -623,7 +625,7 @@ constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Con
 				programerror = true;
 			}
 			//create the symbol data and add it to the symbol table
-				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno,true, true, false, false, 0, 0);
+				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno,true, true, false, false, 0, 0,memaddress++);
 				createnode(ptr, count++);
 				printf("count of node %d\n",countnodes());
 			}
@@ -670,7 +672,7 @@ function_prototype:
 		argcount = 0;
 		currentfunctionname = name;
 		//create the symbol data and add it to the symbol table but it is not yet implemented
-		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0);
+		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
 		createnode(ptr, count++);
 
 	} parameters CLOSEDBRACKET{
@@ -686,7 +688,7 @@ function_prototype:
 		char* name = $2;
 		currentfunctionname = name;
 		argcount = 0;
-		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0);
+		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
 		createnode(ptr, count++);
 
 	} CLOSEDBRACKET{ currentfunctionname = "";
@@ -701,7 +703,7 @@ function_prototype:
 		char* name = $2;
 		currentfunctionname = name;
 		argcount = 0;
-		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0);
+		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
 		createnode(ptr, count++);
 
 
@@ -716,7 +718,7 @@ function_prototype:
 		char* name = $2;
 		currentfunctionname = name;
 		argcount = 0;
-		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0);
+		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
 		createnode(ptr, count++);
 	}
 	 CLOSEDBRACKET{ currentfunctionname = ""; argcount = 0;}
@@ -744,7 +746,7 @@ single_parameter: 		type IDENTIFIER
 							}
 							int type = $1;
 							char* name = $2;
-							struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno+1, true,false, false, false, 0, 0);
+							struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno+1, true,false, false, false, 0, 0,memaddress++);
 							createnode(ptr, count++);
 							funcargs[argcount] = type;
 							argcount++;
@@ -764,7 +766,7 @@ single_parameter: 		type IDENTIFIER
 								return 0;
 							}
 							else{
-								struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno+1, true,false, false, false, 0, 0);
+								struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno+1, true,false, false, false, 0, 0,memaddress++);
 								createnode(ptr, count++);
 							}
 						}
@@ -1380,11 +1382,7 @@ unary_expression:
         ;
 
 binary_expression:
-
-        binary_expression PLUS term {printPushOp(1);}
-        | binary_expression MINUS term {printPushOp(2);}
-        | term 
-
+        binary_expression PLUS term
 		{
 			//check on the type of the expression
 			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
@@ -1448,6 +1446,11 @@ binary_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if (programerror==false){
+				        printPushOp(1);
+    
+			}
+			
 		}
         | binary_expression MINUS term
 		{
@@ -1499,18 +1502,19 @@ binary_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if (programerror==false){
+				        printPushOp(2);
+    
+			}
 		}
         | term
         ;
 
 term:
         factor
-
         | term MULT factor
 		{
 			//check on the type of the expression
-			printPushOp(3);
-			printPushOp(4);
 			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
 				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
 					int value = $1.intval * $3.intval;
@@ -1557,6 +1561,10 @@ term:
 			}else{
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
+			}
+			if (programerror==false){
+				        printPushOp(3);
+	
 			}
 		}
         | term DIV factor
@@ -1609,8 +1617,11 @@ term:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if (programerror==false){
+				        printPushOp(4);
+	
+			}
 		}
-
         ;
 
 factor:
@@ -2013,6 +2024,8 @@ break_statement: BREAK SEMICOLON {printf("Break statement\n");};
 continue_statement: CONTINUE SEMICOLON {printf("Continue statement\n");};
 
 %%
+
+
 void printPushValue( char* x ){
 		FILE *VMcode = fopen("VMcode.txt", "a");
 		if(VMcode == NULL) {
@@ -2044,7 +2057,7 @@ void printPushOp( int x ){
 				fprintf(VMcode, "DIV\n");
 				break;		
 		}
-		
+
 		fclose(VMcode);
 	}
 

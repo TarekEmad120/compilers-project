@@ -3,7 +3,8 @@ int y = 3;
 float z = 3.3;
 x= 3*y+1;
 {
-    int z =10;
-    z+=10;
+
+  int z =0;
+  z= x+y;
 }
 

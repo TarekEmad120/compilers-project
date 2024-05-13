@@ -1,1 +1,4 @@
 Line 7: Type mismatch
+Line 7: Type mismatch
+Line 7: Type mismatch
+Line 7: Type mismatch
