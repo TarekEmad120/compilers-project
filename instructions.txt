@@ -1,7 +1,9 @@
 int x =3;
 int y = 3;
-//float z = 3.3;
-//x= z*y;
-bool c=true ;
-bool z;
-z= (c)||(x==y);
+float z = 3.3;
+x= 3*y+1;
+{
+    int z =10;
+    z+=10;
+}
+

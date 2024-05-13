@@ -436,3 +436,14 @@ char* getstringvalue(char *name,int scope)
     }
     return NULL;
 }
+void printsemanticerror(char *error, int line)
+{
+    FILE *file = fopen("semanticerrors.txt", "a");
+    if (file == NULL)
+    {
+        printf("Error opening file\n");
+        return;
+    }
+    fprintf(file, "Line %d: %s\n", line, error);
+    fclose(file);
+}

@@ -1,11 +1,11 @@
 build: 
-		bison --yacc parser.y -d
 		flex lexer.l
-		gcc y.tab.c lex.yy.c -o a
+		 bison -d -v parser.y -v
+		 gcc lex.yy.c parser.tab.c
 
 
-run: a.out
-		./a.out < instructions.txt 
+run: a.exe
+		./a.exe < instructions.txt 
 
 clean:
 	rm -f a.out y.tab.c lex.yy.c y.tab.h

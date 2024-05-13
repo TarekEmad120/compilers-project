@@ -15,6 +15,7 @@
 	char* currentfunctionname = "";
 	int argcount = 0;
 	int funcargs[30];
+	bool programerror = false;
 %}
 %union {//this is the union for the token value from the lexer
 	char* name ;//identifier name 
@@ -248,13 +249,13 @@ assignment_statement:
 					printf("scopevar %d\n",scopevar);
 					//check if they expression and the variable are the same type
 					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
 				else{
-					printf("variable %s is not declared at line %d\n",$1,yylineno);
-					return 0;
+				 printsemanticerror("variable is not declared",yylineno);
+				 programerror = true;
 				}
 			}
 			else{
@@ -263,11 +264,11 @@ assignment_statement:
 			}
 
 				//check the types
-				
+				if (programerror == false){
 				int type = getsymboltype($1);
 				if(is_Modifiable($1) == false){
-						printf("variable is not modifiable\n");
-						return 0;
+						 printsemanticerror("variable is not modifiable",yylineno);
+				 programerror = true;
 				}
 				else if (type != $3.type ){
 					if(getsymboltype($1) == BOOLTYPE)
@@ -281,8 +282,8 @@ assignment_statement:
 						}
 					}else
 					{
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
 				else{
@@ -290,6 +291,7 @@ assignment_statement:
 						printf("value in string %s\n",$3.valueinstring);
 						Modify_Value($1, $3.valueinstring,scopevar);
 					
+				}
 				}
 		  }
         | IDENTIFIER PLUS_EQ expression SEMICOLON
@@ -302,29 +304,29 @@ assignment_statement:
 					scopevar= ptr->data->scope;
 					//check if they expression and the variable are the same type
 					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
 				else{
-					printf("variable %s is not declared at line %d\n",$1,yylineno);
-					return 0;
+					printsemanticerror("variable is not declared",yylineno);
+					programerror = true;
 				}
 			}
 			else{
 				ptr =getsymbolAndScope($1, scopeno);
 				scopevar= ptr->data->scope;
 			}
-			
+			if(programerror == false){
 				//check the types
 				int type = getsymboltype($1);
 				if(is_Modifiable($1) == false){
-						printf("variable is not modifiable\n");
-						return 0;
+						printsemanticerror("variable is not modifiable",yylineno);
+						programerror = true;
 				}
 				else if (type != $3.type ){
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 				else{
 					if (type ==INTTYPE){
@@ -340,10 +342,11 @@ assignment_statement:
 						Modify_Value($1, valueinstring,scopevar);
 					}
 					else{
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
+			}
 			
 		}
 		| IDENTIFIER MINUS_EQ expression SEMICOLON
@@ -356,29 +359,28 @@ assignment_statement:
 					scopevar= ptr->data->scope;
 					//check if they expression and the variable are the same type
 					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
 				else{
-					printf("variable %s is not declared at line %d\n",$1,yylineno);
-					return 0;
+					printsemanticerror("variable is not declared",yylineno);
 				}
 			}
 			else{
 				ptr =getsymbolAndScope($1, scopeno);
 				scopevar= ptr->data->scope;
 			}
-			
+			if (programerror == false){
 				//check the types
 				int type = getsymboltype($1);
 				if(is_Modifiable($1) == false){
-						printf("variable is not modifiable\n");
-						return 0;
+						printsemanticerror("variable is not modifiable",yylineno);
+						programerror = true;
 				}
 				else if (type != $3.type ){
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 				else{
 					if (type ==INTTYPE){
@@ -394,11 +396,11 @@ assignment_statement:
 						Modify_Value($1, valueinstring,scopevar);
 					}
 					else{
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
-			
+			}
 		}
 		| IDENTIFIER MULT_EQ expression SEMICOLON{
 					int scopevar;
@@ -409,29 +411,29 @@ assignment_statement:
 					scopevar= ptr->data->scope;
 					//check if they expression and the variable are the same type
 					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
 				else{
-					printf("variable %s is not declared at line %d\n",$1,yylineno);
-					return 0;
+					printsemanticerror("variable is not declared",yylineno);
+					programerror = true;
 				}
 			}
 			else{
 				ptr =getsymbolAndScope($1, scopeno);
 				scopevar= ptr->data->scope;
 			}
-			
+			if (programerror == false){
 				//check the types
 				int type = getsymboltype($1);
 				if(is_Modifiable($1) == false){
-						printf("variable is not modifiable\n");
-						return 0;
+						printsemanticerror("variable is not modifiable",yylineno);
+						programerror = true;
 				}
 				else if (type != $3.type ){
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 				else{
 					if (type ==INTTYPE){
@@ -447,11 +449,11 @@ assignment_statement:
 						Modify_Value($1, valueinstring,scopevar);
 					}
 					else{
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
-			
+			}
 		}
 		| IDENTIFIER DIV_EQ expression SEMICOLON{
 			int scopevar;
@@ -462,29 +464,29 @@ assignment_statement:
 					scopevar= ptr->data->scope;
 					//check if they expression and the variable are the same type
 					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
 				else{
-					printf("variable %s is not declared at line %d\n",$1,yylineno);
-					return 0;
+					printsemanticerror("variable is not declared",yylineno);
+					programerror = true;
 				}
 			}
 			else{
 				ptr =getsymbolAndScope($1, scopeno);
 				scopevar= ptr->data->scope;
 			}
-			
+		if (programerror == false){
 				//check the types
 				int type = getsymboltype($1);
 				if(is_Modifiable($1) == false){
-						printf("variable is not modifiable\n");
-						return 0;
+						printsemanticerror("variable is not modifiable",yylineno);
+						programerror = true;
 				}
 				else if (type != $3.type ){
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 				else{
 					if (type ==INTTYPE){
@@ -500,11 +502,10 @@ assignment_statement:
 						Modify_Value($1, valueinstring,scopevar);
 					}
 					else{
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
 					}
 				}
-			
+			}
 		}
         | IDENTIFIER EQUAL function_call//it is not yet implemented
         ;
@@ -516,9 +517,10 @@ var_declaration:
 			//here we check if the variable is already declared in the scope or not
 			if (checkidentifiernameAndScope($2, scopeno) == 1){
 
-				printf("variable is aleady declared\n");
-			return 0;
+				printsemanticerror("variable is aleady declared",yylineno);
+				programerror = true;
 			}
+			if (programerror == false){
 			printf("identifier name %s\n", $2);
 			
 			int type = $1;// type of the variable
@@ -527,8 +529,8 @@ var_declaration:
 			printf("value is %d\n",value);
 			char* valueinstring = $4.valueinstring; // value in string
 			if (type != value){// if the type of the variable and the value type is not same then we return the error
-				printf( "Type mismatch\n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 			else{
 				printf("iam here\n");
@@ -536,16 +538,17 @@ var_declaration:
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
 			}
-
+		}
 		  }
         | type IDENTIFIER EQUAL function_call
 		{
 			//here we check if the variable is already declared in the scope or not
 			if (checkidentifiernameAndScope($2, scopeno) == 1){
 
-				printf("variable is aleady declared\n");
-			return 0;
+				printsemanticerror("variable is aleady declared",yylineno);
+				programerror = true;
 			}
+			if (programerror == false){
 			printf("identifier name %s\n", $2);
 
 			int type = $1;// type of the variable
@@ -557,8 +560,8 @@ var_declaration:
 			int value = $4.type;// value(type) of the variable
 			
 			if (type != getsymboltype($4.stringval) ){// if the type of the variable and the value type is not same then we return the error
-				printf( "Type mismatch\n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 			else{
 				printf("iam here\n");
@@ -567,35 +570,39 @@ var_declaration:
     		createnode(ptr, count++);
 			printf("count of node %d\n",countnodes());
 			}
+			}
 		}
 
 
         | type IDENTIFIER SEMICOLON{
 			// same as above 
 			if (checkidentifiernameAndScope($2, scopeno) == 1){
-				printf("variable is aleady declared\n");
-				return 0;
+				printsemanticerror("variable is aleady declared",yylineno);
+				programerror = true;
 			}
+			if (programerror == false){
 			int type = $1;
 			char* name = $2;
 			struct SymbolData *ptr = initalizesymboldata($1,name , NULL,scopeno, true,false, false, false, 0, 0);
 			createnode(ptr, count++);
+			}
 		}
 
 constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Constant declaration\n");
 			// same as above
 			if (checkidentifiernameAndScope($3, scopeno) == 1){
-				printf("variable is aleady declared\n");
-				return 0;
+				printsemanticerror("variable is aleady declared",yylineno);
+				programerror = true;
 			}
+			if (programerror == false){
 			int type = $2;
 
 			char* name = $3;
 			int value = $5.type;
 			char* valueinstring = $5.valueinstring;
 			if (type != value){
-				printf( "Type mismatch\n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 
 			else{//cange the type of the variable to constant type
@@ -609,13 +616,14 @@ constant_declaration: 	CONST type IDENTIFIER EQUAL value SEMICOLON  {printf("Con
 				type = CONSTCHARTYPE;
 			}
 			else {
-				printf("Type mismatch for constant declation it can be only int , float , char \n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 			//create the symbol data and add it to the symbol table
 				struct SymbolData *ptr = initalizesymboldata(type,name , valueinstring,scopeno,true, true, false, false, 0, 0);
 				createnode(ptr, count++);
 				printf("count of node %d\n",countnodes());
+			}
 			}
 				};
 
@@ -788,8 +796,8 @@ expression:
 			// printf("variable name  =   =  %s\n",var_name);
 			if(var_name != NULL){
 				if(is_Initialized(var_name) == false){
-					printf("variable is not initialized\n");
-					return 0;
+					printsemanticerror("variable is not initialized",yylineno);
+					programerror = true;
 				}
 				else{
 					printf("variable is initialized\n");
@@ -892,8 +900,8 @@ boolean_expression:
 				}
 			}
 			else{
-				printf("Type mismatch in boolean expression at line %d\n",yylineno);
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | expression NE arithmetic_expression
@@ -977,8 +985,8 @@ boolean_expression:
 				}
 			}
 			else{
-				printf("Type mismatch in boolean expression at line %d\n",yylineno);
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | expression GE arithmetic_expression
@@ -1019,8 +1027,8 @@ boolean_expression:
 				}
 			}
 			else{
-				printf("Type mismatch in boolean expression at line %d\n",yylineno);
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | expression LE arithmetic_expression
@@ -1061,8 +1069,8 @@ boolean_expression:
 				}
 			}
 			else{
-				printf("Type mismatch in boolean expression at line %d\n",yylineno);
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | expression GT arithmetic_expression
@@ -1103,8 +1111,8 @@ boolean_expression:
 				}
 			}
 			else{
-				printf("Type mismatch in boolean expression at line %d\n",yylineno);
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | expression LT arithmetic_expression
@@ -1145,8 +1153,8 @@ boolean_expression:
 				}
 			}
 			else{
-				printf("Type mismatch in boolean expression at line %d\n",yylineno);
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | expression AND arithmetic_expression
@@ -1171,8 +1179,8 @@ boolean_expression:
 				}
 			}
 			else{
-				printf("Type mismatch in boolean expression at line %d\n",yylineno);
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | expression OR arithmetic_expression
@@ -1197,8 +1205,8 @@ boolean_expression:
 				}
 			}
 			else{
-				printf("Type mismatch in boolean expression at line %d\n",yylineno);
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
 		| NOT expression
@@ -1217,8 +1225,8 @@ boolean_expression:
 				}
 			}
 			else{
-				printf("Type mismatch in boolean expression at line %d\n",yylineno);
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
 		| TRUE_VAL
@@ -1257,13 +1265,13 @@ unary_expression:
 					scopevar= ptr->data->scope;
 					//check if they expression and the variable are the same type
 					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
 				else{
-					printf("variable %s is not declared at line %d\n",$1,yylineno);
-					return 0;
+					printsemanticerror("variable is not declared",yylineno);
+					programerror = true;
 				}
 			}
 			else{
@@ -1272,15 +1280,16 @@ unary_expression:
 			}
 			//check if the variable is initialized or not
 			if(is_Initialized($1) == false){
-				printf("variable is not initialized\n");
-				return 0;
+				printsemanticerror("variable is not initialized",yylineno);
+				programerror = true;
 			}
 			//check if the variable is modifiable or not
 			if(is_Modifiable($1) == false){
-				printf("variable is not modifiable\n");
-				return 0;
+				printsemanticerror("variable is not modifiable",yylineno);
+				programerror = true;
 			}
 			//increment the value of the variable
+			if (programerror==false){
 			if (getsymboltype($1) == INTTYPE || getsymboltype($1) == CONSTINTTYPE){
 				int value = getintvalue($1,scopevar) + 1;
 				char* valueinstring = (char*)malloc(10);
@@ -1300,10 +1309,10 @@ unary_expression:
 				$$.floatval = value;
 			}
 			else{
-				printf("Type mismatch\n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
-
+		}
 		}
         | IDENTIFIER DEC
 		{
@@ -1316,13 +1325,13 @@ unary_expression:
 					scopevar= ptr->data->scope;
 					//check if they expression and the variable are the same type
 					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
 				else{
-					printf("variable %s is not declared at line %d\n",$1,yylineno);
-					return 0;
+					printsemanticerror("variable is not declared",yylineno);
+					programerror = true;
 				}
 			}
 			else{
@@ -1331,15 +1340,16 @@ unary_expression:
 			}
 			//check if the variable is initialized or not
 			if(is_Initialized($1) == false){
-				printf("variable is not initialized\n");
-				return 0;
+				printsemanticerror("variable is not initialized",yylineno);
+				programerror = true;
 			}
 			//check if the variable is modifiable or not
 			if(is_Modifiable($1) == false){
-				printf("variable is not modifiable\n");
-				return 0;
+				printsemanticerror("variable is not modifiable",yylineno);
+				programerror = true;
 			}
 			//decrement the value of the variable
+			if (programerror==false){
 			if (getsymboltype($1) == INTTYPE || getsymboltype($1) == CONSTINTTYPE){
 				int value = getintvalue($1,scopevar) - 1;
 				char* valueinstring = (char*)malloc(10);
@@ -1359,8 +1369,9 @@ unary_expression:
 				$$.floatval = value;
 			}
 			else{
-				printf("Type mismatch\n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
+			}
 			}
 		}
         ;
@@ -1387,8 +1398,8 @@ binary_expression:
 					$$.floatval = value;
 				}
 				else{
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 			}
 			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
@@ -1409,8 +1420,8 @@ binary_expression:
 					$$.floatval = value;
 				}
 				else{
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 			}else if ($1.type == STRINGTYPE){
 				if ($3.type == STRINGTYPE){
@@ -1422,13 +1433,13 @@ binary_expression:
 					$$.stringval = value;
 				}
 				else{
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 			}
 			else{
-				printf("Type mismatch\n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | binary_expression MINUS term
@@ -1452,8 +1463,8 @@ binary_expression:
 					$$.floatval = value;
 				}
 				else{
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 			}
 			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
@@ -1474,12 +1485,12 @@ binary_expression:
 					$$.floatval = value;
 				}
 				else{
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 			}else{
-				printf("Type mismatch\n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | term
@@ -1508,8 +1519,8 @@ term:
 					$$.floatval = value;
 				}
 				else{
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 			}
 			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
@@ -1530,12 +1541,12 @@ term:
 					$$.floatval = value;
 				}
 				else{
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 			}else{
-				printf("Type mismatch\n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         | term DIV factor
@@ -1559,8 +1570,8 @@ term:
 					$$.floatval = value;
 				}
 				else{
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 			}
 			else if ($1.type == FLOATTYPE || $1.type == CONSTFLOATTYPE){
@@ -1581,12 +1592,12 @@ term:
 					$$.floatval = value;
 				}
 				else{
-					printf("Type mismatch\n");
-					return 0;
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
 				}
 			}else{
-				printf("Type mismatch\n");
-				return 0;
+				printsemanticerror("Type mismatch",yylineno);
+				programerror = true;
 			}
 		}
         ;
@@ -1616,13 +1627,13 @@ factor:
 					scopevar= ptr->data->scope;
 					//check if they expression and the variable are the same type
 					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printf("Type mismatch\n");
-						return 0;
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
 					}
 				}
 				else{
-					printf("variable %s is not declared at line %d\n",$1,yylineno);
-					return 0;
+					printsemanticerror("variable is not declared",yylineno);
+					programerror = true;
 				}
 			}
 			else{
@@ -1631,9 +1642,10 @@ factor:
 			}
 			// check if the variable is initialized or not
 			if(is_Initialized($1) == false){
-				printf("variable is not initialized\n");
-				return 0;
+				printsemanticerror("variable is not initialized",yylineno);
+				programerror = true;
 			}
+			if (programerror==false){
 			$$.type= getsymboltype($1);
 			$$.valueinstring=getvalue($1,scopevar);
 			if ($$.type==INTTYPE || $$.type==CONSTINTTYPE){
@@ -1652,7 +1664,7 @@ factor:
 				$$.boolval= getboolvalue($1,scopevar);
 				printf("boolval = %d\n", $$.boolval);
 			}
-			
+			}
 		}
         | OPENBRACKET expression CLOSEDBRACKET
 		{
@@ -1670,7 +1682,8 @@ factor:
 /* If statement */
 
 if_statement:
-        IF OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;} else_if_statement  
+        IF OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} statements
+		 CLOSEDCURL{endscope(scopeno); scopeno--;} else_if_statement  
 		{
 			printf("If then statement\n");
 			// printf("variable name  ==  %s\n",$3.s);
@@ -1733,13 +1746,235 @@ for_expression:
 				ptr =getsymbolAndScope($1, scopeno);
 				scopevar= ptr->data->scope;
 			}
-
-
+			//check if the variable is initialized or not
+			if(is_Initialized($1) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			//check if the variable is modifiable or not
+			if(is_Modifiable($1) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			if (getsymboltype($1) == INTTYPE || getsymboltype($1) == CONSTINTTYPE){
+				int value = $3.intval;
+				char* valuesstring = $3.valueinstring;
+				Modify_Value($1, valuesstring,scopevar);
+			}
+			else if (getsymboltype($1) == FLOATTYPE || getsymboltype($1) == CONSTFLOATTYPE){
+				float value = $3.floatval;
+				char* valuesstring = $3.valueinstring;
+				Modify_Value($1, valuesstring,scopevar);
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
 		 }
         | IDENTIFIER PLUS_EQ expression
+		{
+			//check if the variable is declared or not
+			int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			//check if the variable is initialized or not
+			if(is_Initialized($1) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			//check if the variable is modifiable or not
+			if(is_Modifiable($1) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			if (getsymboltype($1) == INTTYPE || getsymboltype($1) == CONSTINTTYPE){
+				int value = getintvalue($1,scopevar) + $3.intval;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%d", value);
+				Modify_Value($1, valueinstring,scopevar);
+			}
+			else if (getsymboltype($1) == FLOATTYPE || getsymboltype($1) == CONSTFLOATTYPE){
+				float value = getfloatvalue($1,scopevar) + $3.floatval;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%f", value);
+				Modify_Value($1, valueinstring,scopevar);
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
 		| IDENTIFIER MINUS_EQ expression
+		{
+			//check if the variable is declared or not
+			int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			//check if the variable is initialized or not
+			if(is_Initialized($1) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			//check if the variable is modifiable or not
+			if(is_Modifiable($1) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			if (getsymboltype($1) == INTTYPE || getsymboltype($1) == CONSTINTTYPE){
+				int value = getintvalue($1,scopevar) - $3.intval;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%d", value);
+				Modify_Value($1, valueinstring,scopevar);
+			}
+			else if (getsymboltype($1) == FLOATTYPE || getsymboltype($1) == CONSTFLOATTYPE){
+				float value = getfloatvalue($1,scopevar) - $3.floatval;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%f", value);
+				Modify_Value($1, valueinstring,scopevar);
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
 		| IDENTIFIER MULT_EQ expression
+		{
+			//check if the variable is declared or not
+			int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			//check if the variable is initialized or not
+			if(is_Initialized($1) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			//check if the variable is modifiable or not
+			if(is_Modifiable($1) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			if (getsymboltype($1) == INTTYPE || getsymboltype($1) == CONSTINTTYPE){
+				int value = getintvalue($1,scopevar) * $3.intval;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%d", value);
+				Modify_Value($1, valueinstring,scopevar);
+			}
+			else if (getsymboltype($1) == FLOATTYPE || getsymboltype($1) == CONSTFLOATTYPE){
+				float value = getfloatvalue($1,scopevar) * $3.floatval;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%f", value);
+				Modify_Value($1, valueinstring,scopevar);
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
 		| IDENTIFIER DIV_EQ expression
+		{
+			//check if the variable is declared or not
+			int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+					//check if they expression and the variable are the same type
+					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
+						printf("Type mismatch\n");
+						return 0;
+					}
+				}
+				else{
+					printf("variable %s is not declared at line %d\n",$1,yylineno);
+					return 0;
+				}
+			}
+			else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			//check if the variable is initialized or not
+			if(is_Initialized($1) == false){
+				printf("variable is not initialized\n");
+				return 0;
+			}
+			//check if the variable is modifiable or not
+			if(is_Modifiable($1) == false){
+				printf("variable is not modifiable\n");
+				return 0;
+			}
+			if (getsymboltype($1) == INTTYPE || getsymboltype($1) == CONSTINTTYPE){
+				int value = getintvalue($1,scopevar) / $3.intval;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%d", value);
+				Modify_Value($1, valueinstring,scopevar);
+			}
+			else if (getsymboltype($1) == FLOATTYPE || getsymboltype($1) == CONSTFLOATTYPE){
+				float value = getfloatvalue($1,scopevar) / $3.floatval;
+				char* valueinstring = (char*)malloc(10);
+				sprintf(valueinstring, "%f", value);
+				Modify_Value($1, valueinstring,scopevar);
+			}
+			else{
+				printf("Type mismatch\n");
+				return 0;
+			}
+		}
         | value
         |
         ;
