@@ -73,7 +73,10 @@
 	#include <stdlib.h>
 	#include <string.h>
 	#include <stdbool.h>
+	#include <fcntl.h>    
 	#include "symboltable.h"
+	 
+    #include <errno.h>             
 	extern FILE *yyin;
 	extern int yylineno; /* Line Number tacker from lexer */
 	extern int yylex(); 
@@ -86,7 +89,84 @@
 	int argcount = 0;
 	int funcargs[30];
 
-#line 90 "y.tab.c"
+
+	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	void printPushValue( char*  x );
+	void printPushOp( int x );
+
+	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	#define MAX_SIZE 100 // Maximum size of the stack
+	#define MAX_MAP_SIZE 100 // Maximum size of each map
+
+	// Define the map entry structure
+typedef struct {
+    char key[50];
+    int value;
+} MapEntry;
+
+// Define the map structure
+typedef struct {
+    MapEntry entries[MAX_SIZE];
+    int size;
+} Map;
+
+	// Define the stack structure
+	typedef struct {
+		Map maps[MAX_SIZE];
+		int top;
+	} Stack;
+
+	// Initialize a new stack
+	Stack* createStack() {
+		Stack* stack = malloc(sizeof(Stack));
+		stack->top = -1;
+		return stack;
+	}
+
+	// Initialize a new map
+	Map* createMap() {
+		Map* map = malloc(sizeof(Map));
+		map->size = 0;
+		return map;
+	}
+
+	// Add a key-value pair to the map
+	void put(Map* map, char* key, int value) {
+		strcpy(map->entries[map->size].key, key);
+		map->entries[map->size].value = value;
+		map->size++;
+	}
+
+	// Get a value from the map by key
+	int get(Map* map, char* key) {
+		for (int i = 0; i < map->size; i++) {
+			if (strcmp(map->entries[i].key, key) == 0) {
+				return map->entries[i].value;
+			}
+		}
+		printf("Key not found\n");
+		return -1;
+	}
+	// Push a map onto the stack
+	void push(Stack* stack, Map map) {
+		if (stack->top == MAX_SIZE - 1) {
+			printf("Stack overflow\n");
+			return;
+		}
+		stack->maps[++stack->top] = map;
+	}
+
+	// Pop a map from the stack
+	Map pop(Stack* stack) {
+		if (stack->top == -1) {
+			printf("Stack underflow\n");
+			exit(1);
+		}
+		return stack->maps[stack->top--];
+	}	
+	
+
+#line 170 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -251,7 +331,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 19 "parser.y"
+#line 99 "parser.y"
 //this is the union for the token value from the lexer
 	char* name ;//identifier name 
 	int var_type;//type
@@ -266,7 +346,7 @@ union YYSTYPE
 		char* valueinstring;//value in string
 	} lexicalstruct;
 
-#line 270 "y.tab.c"
+#line 350 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -797,6 +877,19 @@ static const yytype_int16 yyrline[] =
     1681,  1681,  1682,  1682,  1683,  1689,  1695,  1701,  1705,  1706,
     1707,  1708,  1712,  1739,  1740,  1741,  1742,  1743,  1744,  1750,
     1750,  1750,  1754,  1755,  1759,  1760,  1765,  1766
+       0,   245,   245,   246,   250,   251,   252,   253,   254,   255,
+     256,   257,   258,   259,   260,   261,   262,   263,   264,   264,
+     276,   279,   284,   284,   284,   286,   286,   286,   286,   286,
+     288,   288,   288,   288,   288,   288,   299,   322,   323,   324,
+     325,   326,   330,   358,   390,   402,   442,   443,   449,   449,
+     449,   452,   465,   468,   468,   486,   486,   501,   501,   516,
+     516,   531,   531,   533,   558,   579,   595,   595,   597,   597,
+     603,   616,   626,   630,   631,   632,   633,   634,   635,   636,
+     637,   638,   639,   645,   649,   653,   654,   658,   659,   660,
+     667,   673,   674,   678,   685,   691,   722,   729,   729,   729,
+     737,   737,   738,   738,   739,   745,   751,   757,   761,   762,
+     763,   764,   768,   769,   770,   771,   772,   773,   774,   780,
+     780,   780,   784,   785,   789,   790,   795,   796
 };
 #endif
 
@@ -1599,42 +1692,42 @@ yyreduce:
   switch (yyn)
     {
   case 4: /* statement: expression SEMICOLON  */
-#line 170 "parser.y"
+#line 250 "parser.y"
                                 {printf("Expression statement\n");}
-#line 1605 "y.tab.c"
+#line 1685 "y.tab.c"
     break;
 
   case 5: /* statement: assignment_statement  */
-#line 171 "parser.y"
+#line 251 "parser.y"
                                 {printf("Assignment Statement \n");}
-#line 1611 "y.tab.c"
+#line 1691 "y.tab.c"
     break;
 
   case 6: /* statement: var_declaration  */
-#line 172 "parser.y"
+#line 252 "parser.y"
                                 {printf("Variable declaration\n");}
-#line 1617 "y.tab.c"
+#line 1697 "y.tab.c"
     break;
 
   case 16: /* statement: function  */
-#line 182 "parser.y"
+#line 262 "parser.y"
                         {printf("Function statement\n");}
-#line 1623 "y.tab.c"
+#line 1703 "y.tab.c"
     break;
 
   case 18: /* $@1: %empty  */
-#line 184 "parser.y"
+#line 264 "parser.y"
                    {
 		//when open curly bracket is found the scope is opened so scope number is increased
 		scopeno++;
 		printf("Scope Opened\n");
 	
 	}
-#line 1634 "y.tab.c"
+#line 1714 "y.tab.c"
     break;
 
   case 19: /* statement: OPENCURL $@1 statements CLOSEDCURL  */
-#line 189 "parser.y"
+#line 269 "parser.y"
                                 {
 		//when close curly bracket is found the scope is closed so we use end scope function to close the scope
 		// we decrease the scope number
@@ -1642,14 +1735,14 @@ yyreduce:
 		scopeno--;
 		printf("Scope Closed\n");
 	}
-#line 1646 "y.tab.c"
+#line 1726 "y.tab.c"
     break;
 
   case 20: /* statement: RETURN return_value SEMICOLON  */
-#line 197 "parser.y"
+#line 277 "parser.y"
                 {	printf("Return statement\n");
 		}
-#line 1653 "y.tab.c"
+#line 1733 "y.tab.c"
     break;
 
   case 22: /* value: expression  */
@@ -1690,6 +1783,7 @@ yyreduce:
 
   case 36: /* assignment_statement: IDENTIFIER EQUAL expression SEMICOLON  */
 #line 241 "parser.y"
+#line 300 "parser.y"
                   {
 					int scopevar;
 			struct SymbolNode *ptr;
@@ -1977,10 +2071,17 @@ yyreduce:
 			
 		}
 #line 1980 "y.tab.c"
+					//update the value of the variable
+					Modify_Value((yyvsp[-3].name), (yyvsp[-1].lexicalstruct).valueinstring);
+				}
+			}
+		  }
+#line 1760 "y.tab.c"
     break;
 
   case 42: /* var_declaration: type IDENTIFIER EQUAL value SEMICOLON  */
 #line 514 "parser.y"
+#line 331 "parser.y"
                   {
 			
 			//here we check if the variable is already declared in the scope or not
@@ -2009,10 +2110,12 @@ yyreduce:
 
 		  }
 #line 2012 "y.tab.c"
+#line 1792 "y.tab.c"
     break;
 
   case 43: /* var_declaration: type IDENTIFIER EQUAL function_call  */
 #line 542 "parser.y"
+#line 359 "parser.y"
                 {
 			//here we check if the variable is already declared in the scope or not
 			if (checkidentifiernameAndScope((yyvsp[-2].name), scopeno) == 1){
@@ -2043,10 +2146,12 @@ yyreduce:
 			}
 		}
 #line 2046 "y.tab.c"
+#line 1826 "y.tab.c"
     break;
 
   case 44: /* var_declaration: type IDENTIFIER SEMICOLON  */
 #line 573 "parser.y"
+#line 390 "parser.y"
                                    {
 			// same as above 
 			if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
@@ -2059,10 +2164,12 @@ yyreduce:
 			createnode(ptr, count++);
 		}
 #line 2062 "y.tab.c"
+#line 1842 "y.tab.c"
     break;
 
   case 45: /* constant_declaration: CONST type IDENTIFIER EQUAL value SEMICOLON  */
 #line 585 "parser.y"
+#line 402 "parser.y"
                                                                      {printf("Constant declaration\n");
 			// same as above
 			if (checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 1){
@@ -2100,28 +2207,36 @@ yyreduce:
 			}
 				}
 #line 2103 "y.tab.c"
+#line 1883 "y.tab.c"
     break;
 
   case 48: /* $@2: %empty  */
 #line 632 "parser.y"
+#line 449 "parser.y"
                                                            {scopeno++;}
 #line 2109 "y.tab.c"
+#line 1889 "y.tab.c"
     break;
 
   case 49: /* $@3: %empty  */
 #line 632 "parser.y"
+#line 449 "parser.y"
                                                                                              {endscope(scopeno); scopeno--;}
 #line 2115 "y.tab.c"
+#line 1895 "y.tab.c"
     break;
 
   case 50: /* function: function_prototype OPENCURL $@2 statements CLOSEDCURL $@3  */
 #line 632 "parser.y"
+#line 449 "parser.y"
                                                                                                                              {printf("Function Definition\n");}
 #line 2121 "y.tab.c"
+#line 1901 "y.tab.c"
     break;
 
   case 51: /* return_value: value  */
 #line 636 "parser.y"
+#line 453 "parser.y"
                         {
 				// print the return value
 				printf("return value intval %s\n", (yyvsp[0].lexicalstruct).valueinstring);
@@ -2135,10 +2250,12 @@ yyreduce:
 				
 			}
 #line 2138 "y.tab.c"
+#line 1918 "y.tab.c"
     break;
 
   case 53: /* $@4: %empty  */
 #line 651 "parser.y"
+#line 468 "parser.y"
                                 {
 		//check if the function is already declared or not
 		if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
@@ -2155,19 +2272,23 @@ yyreduce:
 
 	}
 #line 2158 "y.tab.c"
+#line 1938 "y.tab.c"
     break;
 
   case 54: /* function_prototype: type IDENTIFIER OPENBRACKET $@4 parameters CLOSEDBRACKET  */
 #line 665 "parser.y"
+#line 482 "parser.y"
                                   {
 		currentfunctionname = "";
 		argcount = 0;
 	}
 #line 2167 "y.tab.c"
+#line 1947 "y.tab.c"
     break;
 
   case 55: /* $@5: %empty  */
 #line 669 "parser.y"
+#line 486 "parser.y"
                                  {
 		if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
@@ -2182,18 +2303,22 @@ yyreduce:
 
 	}
 #line 2185 "y.tab.c"
+#line 1965 "y.tab.c"
     break;
 
   case 56: /* function_prototype: type IDENTIFIER OPENBRACKET $@5 CLOSEDBRACKET  */
 #line 681 "parser.y"
+#line 498 "parser.y"
                        { currentfunctionname = "";
 		argcount = 0;
 	}
 #line 2193 "y.tab.c"
+#line 1973 "y.tab.c"
     break;
 
   case 57: /* $@6: %empty  */
 #line 684 "parser.y"
+#line 501 "parser.y"
                                   {
 		if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
@@ -2209,16 +2334,20 @@ yyreduce:
 
 	}
 #line 2212 "y.tab.c"
+#line 1992 "y.tab.c"
     break;
 
   case 58: /* function_prototype: VOID IDENTIFIER OPENBRACKET $@6 parameters CLOSEDBRACKET  */
 #line 698 "parser.y"
+#line 515 "parser.y"
                                                 { currentfunctionname = ""; argcount = 0;}
 #line 2218 "y.tab.c"
+#line 1998 "y.tab.c"
     break;
 
   case 59: /* $@7: %empty  */
 #line 699 "parser.y"
+#line 516 "parser.y"
                                  {
 		if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
 			printf("function name is aleady declared at line %d\n",yylineno);
@@ -2232,16 +2361,20 @@ yyreduce:
 		createnode(ptr, count++);
 	}
 #line 2235 "y.tab.c"
+#line 2015 "y.tab.c"
     break;
 
   case 60: /* function_prototype: VOID IDENTIFIER OPENBRACKET $@7 CLOSEDBRACKET  */
 #line 711 "parser.y"
+#line 528 "parser.y"
                       { currentfunctionname = ""; argcount = 0;}
 #line 2241 "y.tab.c"
+#line 2021 "y.tab.c"
     break;
 
   case 63: /* single_parameter: type IDENTIFIER  */
 #line 717 "parser.y"
+#line 534 "parser.y"
                                                 {
 							//check if the variable is already declared or not but scope is increased by 1
 							//because the varible  will be used in the function so it is in the scope of the function
@@ -2267,10 +2400,12 @@ yyreduce:
 							argcount++;
 						}
 #line 2270 "y.tab.c"
+#line 2050 "y.tab.c"
     break;
 
   case 64: /* single_parameter: type IDENTIFIER EQUAL constant  */
 #line 742 "parser.y"
+#line 559 "parser.y"
                                                 {
 							if (chekidentifiernameandScopeoutofscope((yyvsp[-2].name), scopeno+1) == 1){
 								printf("variable is aleady declared\n");
@@ -2290,10 +2425,12 @@ yyreduce:
 							}
 						}
 #line 2293 "y.tab.c"
+#line 2073 "y.tab.c"
     break;
 
   case 65: /* function_call: IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON  */
 #line 763 "parser.y"
+#line 580 "parser.y"
                                                 {
 							//check if the function is declared or not
 							if (checkidentifiernameAndScope((yyvsp[-4].name), scopeno) == 0){
@@ -2308,10 +2445,12 @@ yyreduce:
 							(yyval.lexicalstruct).stringval = (yyvsp[-4].name);
 						}
 #line 2311 "y.tab.c"
+#line 2091 "y.tab.c"
     break;
 
   case 70: /* expression: boolean_expression  */
 #line 786 "parser.y"
+#line 603 "parser.y"
                             {
 			char* var_name = (yyvsp[0].lexicalstruct).stringval;
 			// printf("variable name  =   =  %s\n",var_name);
@@ -2326,14 +2465,17 @@ yyreduce:
 			}
 		}
 #line 2329 "y.tab.c"
+#line 2109 "y.tab.c"
     break;
 
   case 71: /* expression: arithmetic_expression  */
 #line 800 "parser.y"
+#line 617 "parser.y"
                 {
 			// $$.stringval = $1.stringval; // 8aleban malo4 lazma
 		}
 #line 2337 "y.tab.c"
+#line 2117 "y.tab.c"
     break;
 
   case 72: /* boolean_expression: expression EQ_EQ arithmetic_expression  */
@@ -2567,6 +2709,7 @@ yyreduce:
 
   case 75: /* boolean_expression: expression LE arithmetic_expression  */
 #line 1027 "parser.y"
+#line 627 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2805,15 +2948,30 @@ yyreduce:
 			(yyval.lexicalstruct).valueinstring = "0";
 		}
 #line 2808 "y.tab.c"
+#line 2125 "y.tab.c"
     break;
 
   case 83: /* arithmetic_expression: binary_expression  */
 #line 1241 "parser.y"
+#line 645 "parser.y"
                           { 
 			// $$.stringval = $1.stringval;
 			
 		 }
 #line 2817 "y.tab.c"
+#line 2134 "y.tab.c"
+    break;
+
+  case 87: /* binary_expression: binary_expression PLUS term  */
+#line 658 "parser.y"
+                                    {printPushOp(1);}
+#line 2140 "y.tab.c"
+    break;
+
+  case 88: /* binary_expression: binary_expression MINUS term  */
+#line 659 "parser.y"
+                                       {printPushOp(2);}
+#line 2146 "y.tab.c"
     break;
 
   case 85: /* unary_expression: IDENTIFIER INC  */
@@ -2876,8 +3034,13 @@ yyreduce:
 				return 0;
 			}
 
+  case 89: /* binary_expression: term  */
+#line 661 "parser.y"
+                {
+			// $$.stringval = $1.stringval;
 		}
 #line 2881 "y.tab.c"
+#line 2154 "y.tab.c"
     break;
 
   case 86: /* unary_expression: IDENTIFIER DEC  */
@@ -3013,6 +3176,8 @@ yyreduce:
 
   case 88: /* binary_expression: binary_expression MINUS term  */
 #line 1435 "parser.y"
+  case 90: /* term: factor  */
+#line 668 "parser.y"
                 {
 			//check on the type of the expression
 			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
@@ -3174,32 +3339,51 @@ yyreduce:
 			}
 		}
 #line 3177 "y.tab.c"
+#line 2164 "y.tab.c"
+    break;
+
+  case 91: /* term: term MULT factor  */
+#line 673 "parser.y"
+                           {printPushOp(3);}
+#line 2170 "y.tab.c"
+    break;
+
+  case 92: /* term: term DIV factor  */
+#line 674 "parser.y"
+                          {printPushOp(4);}
+#line 2176 "y.tab.c"
     break;
 
   case 93: /* factor: INT_NUM  */
 #line 1595 "parser.y"
+#line 678 "parser.y"
                 {
 	
 			(yyval.lexicalstruct).type = INTTYPE;
 			(yyval.lexicalstruct).valueinstring = (yyvsp[0].lexicalstruct).valueinstring;
 			(yyval.lexicalstruct).intval = (yyvsp[0].lexicalstruct).intval;
-
+			printPushValue((yyvsp[0].lexicalstruct).valueinstring);
 		}
 #line 3189 "y.tab.c"
+#line 2188 "y.tab.c"
     break;
 
   case 94: /* factor: FLOAT_VAL  */
 #line 1602 "parser.y"
+#line 685 "parser.y"
                    {
 			(yyval.lexicalstruct).type = FLOATTYPE;
 			(yyval.lexicalstruct).valueinstring = (yyvsp[0].lexicalstruct).valueinstring;
 			(yyval.lexicalstruct).floatval = (yyvsp[0].lexicalstruct).floatval;
+			printPushValue((yyvsp[0].lexicalstruct).valueinstring);
 		}
 #line 3199 "y.tab.c"
+#line 2199 "y.tab.c"
     break;
 
   case 95: /* factor: IDENTIFIER  */
 #line 1608 "parser.y"
+#line 692 "parser.y"
                 {
 			// check if the variable is declared or not
 			//check if the variable is declared or not
@@ -3264,67 +3448,87 @@ yyreduce:
 			(yyval.lexicalstruct).boolval = (yyvsp[-1].lexicalstruct).boolval;
 		}
 #line 3267 "y.tab.c"
+#line 2234 "y.tab.c"
     break;
 
   case 97: /* $@8: %empty  */
 #line 1673 "parser.y"
+#line 729 "parser.y"
                                                    {scopeno++;}
 #line 3273 "y.tab.c"
+#line 2240 "y.tab.c"
     break;
 
   case 98: /* $@9: %empty  */
 #line 1673 "parser.y"
+#line 729 "parser.y"
                                                                                      {endscope(scopeno); scopeno--;}
 #line 3279 "y.tab.c"
+#line 2246 "y.tab.c"
     break;
 
   case 99: /* if_statement: IF OPENBRACKET value CLOSEDBRACKET OPENCURL $@8 statements CLOSEDCURL $@9 else_if_statement  */
 #line 1674 "parser.y"
+#line 730 "parser.y"
                 {
 			printf("If then statement\n");
 			// printf("variable name  ==  %s\n",$3.s);
 		}
 #line 3288 "y.tab.c"
+#line 2255 "y.tab.c"
     break;
 
   case 100: /* $@10: %empty  */
 #line 1681 "parser.y"
+#line 737 "parser.y"
                                                                      {scopeno++;}
 #line 3294 "y.tab.c"
+#line 2261 "y.tab.c"
     break;
 
   case 101: /* else_if_statement: else_if_statement ELSEIF OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL  */
 #line 1681 "parser.y"
+#line 737 "parser.y"
                                                                                                         { endscope(scopeno); scopeno--;}
 #line 3300 "y.tab.c"
+#line 2267 "y.tab.c"
     break;
 
   case 102: /* $@11: %empty  */
 #line 1682 "parser.y"
+#line 738 "parser.y"
                        {scopeno++;}
 #line 3306 "y.tab.c"
+#line 2273 "y.tab.c"
     break;
 
   case 103: /* else_if_statement: ELSE OPENCURL $@11 statements CLOSEDCURL  */
 #line 1682 "parser.y"
+#line 738 "parser.y"
                                                           {endscope(scopeno); scopeno--;}
 #line 3312 "y.tab.c"
+#line 2279 "y.tab.c"
     break;
 
   case 105: /* while_statement: WHILE OPENBRACKET value CLOSEDBRACKET statement  */
 #line 1689 "parser.y"
+#line 745 "parser.y"
                                                                   {printf("while loop\n");}
 #line 3318 "y.tab.c"
+#line 2285 "y.tab.c"
     break;
 
   case 106: /* do_while_statement: DO statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON  */
 #line 1695 "parser.y"
+#line 751 "parser.y"
                                                                       {printf("do-while loop\n");}
 #line 3324 "y.tab.c"
+#line 2291 "y.tab.c"
     break;
 
   case 107: /* for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement  */
 #line 1701 "parser.y"
+#line 757 "parser.y"
                                                                                                   {printf("for loop\n");}
 #line 3330 "y.tab.c"
     break;
@@ -3358,40 +3562,52 @@ yyreduce:
 
 		 }
 #line 3361 "y.tab.c"
+#line 2297 "y.tab.c"
     break;
 
   case 119: /* $@12: %empty  */
 #line 1750 "parser.y"
+#line 780 "parser.y"
                                                    {scopeno++;}
 #line 3367 "y.tab.c"
+#line 2303 "y.tab.c"
     break;
 
   case 120: /* $@13: %empty  */
 #line 1750 "parser.y"
+#line 780 "parser.y"
                                                                                     {endscope(scopeno); scopeno--;}
 #line 3373 "y.tab.c"
+#line 2309 "y.tab.c"
     break;
 
   case 121: /* switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@12 case_list CLOSEDCURL $@13  */
 #line 1750 "parser.y"
+#line 780 "parser.y"
                                                                                                                    {printf("switch case\n");}
 #line 3379 "y.tab.c"
+#line 2315 "y.tab.c"
     break;
 
   case 126: /* break_statement: BREAK SEMICOLON  */
 #line 1765 "parser.y"
+#line 795 "parser.y"
                                  {printf("Break statement\n");}
 #line 3385 "y.tab.c"
+#line 2321 "y.tab.c"
     break;
 
   case 127: /* continue_statement: CONTINUE SEMICOLON  */
 #line 1766 "parser.y"
+#line 796 "parser.y"
                                        {printf("Continue statement\n");}
 #line 3391 "y.tab.c"
+#line 2327 "y.tab.c"
     break;
 
 
 #line 3395 "y.tab.c"
+#line 2331 "y.tab.c"
 
       default: break;
     }
@@ -3585,7 +3801,42 @@ yyreturnlab:
 }
 
 #line 1768 "parser.y"
+#line 798 "parser.y"
 
+void printPushValue( char* x ){
+		FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		fprintf(VMcode, "PUSH \t%s\n", x);
+		fclose(VMcode);
+	}
+
+void printPushOp( int x ){
+		FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		switch(x)
+		{
+			case 1:
+				fprintf(VMcode, "ADD\n");
+				break;
+			case 2:
+				fprintf(VMcode, "MNIUS\n");
+				break;
+			case 3:
+				fprintf(VMcode, "MUTI\n");
+				break;	
+			case 4:
+				fprintf(VMcode, "DIV\n");
+				break;		
+		}
+		
+		fclose(VMcode);
+	}
 
 int main (void)
 {

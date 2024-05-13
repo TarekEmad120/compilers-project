@@ -3,7 +3,10 @@
 	#include <stdlib.h>
 	#include <string.h>
 	#include <stdbool.h>
+	#include <fcntl.h>    
 	#include "symboltable.h"
+	 
+    #include <errno.h>             
 	extern FILE *yyin;
 	extern int yylineno; /* Line Number tacker from lexer */
 	extern int yylex(); 
@@ -1377,7 +1380,11 @@ unary_expression:
         ;
 
 binary_expression:
-        binary_expression PLUS term
+
+        binary_expression PLUS term {printPushOp(1);}
+        | binary_expression MINUS term {printPushOp(2);}
+        | term 
+
 		{
 			//check on the type of the expression
 			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
@@ -1498,9 +1505,12 @@ binary_expression:
 
 term:
         factor
+
         | term MULT factor
 		{
 			//check on the type of the expression
+			printPushOp(3);
+			printPushOp(4);
 			if ($1.type == INTTYPE || $1.type == CONSTINTTYPE){
 				if ($3.type == INTTYPE || $3.type == CONSTINTTYPE){
 					int value = $1.intval * $3.intval;
@@ -1600,6 +1610,7 @@ term:
 				programerror = true;
 			}
 		}
+
         ;
 
 factor:
@@ -1608,12 +1619,13 @@ factor:
 			$$.type = INTTYPE;
 			$$.valueinstring = $1.valueinstring;
 			$$.intval = $1.intval;
-
+			printPushValue($1.valueinstring);
 		}
         | FLOAT_VAL{
 			$$.type = FLOATTYPE;
 			$$.valueinstring = $1.valueinstring;
 			$$.floatval = $1.floatval;
+			printPushValue($1.valueinstring);
 		}
         | IDENTIFIER
 		{
@@ -2001,6 +2013,40 @@ break_statement: BREAK SEMICOLON {printf("Break statement\n");};
 continue_statement: CONTINUE SEMICOLON {printf("Continue statement\n");};
 
 %%
+void printPushValue( char* x ){
+		FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		fprintf(VMcode, "PUSH \t%s\n", x);
+		fclose(VMcode);
+	}
+
+void printPushOp( int x ){
+		FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		switch(x)
+		{
+			case 1:
+				fprintf(VMcode, "ADD\n");
+				break;
+			case 2:
+				fprintf(VMcode, "MNIUS\n");
+				break;
+			case 3:
+				fprintf(VMcode, "MUTI\n");
+				break;	
+			case 4:
+				fprintf(VMcode, "DIV\n");
+				break;		
+		}
+		
+		fclose(VMcode);
+	}
 
 int main (void)
 {

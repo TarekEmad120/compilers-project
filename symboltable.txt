@@ -1,22 +1,22 @@
 Name: z
-Type: int
-Value: 20
-Scope: -1
-Used: true
-Initialized: true
+Type: bool
+Value: 1
+Scope: 0
+Used: false
+Initialized: false
 Is Function: false
 
-Name: z
-Type: float
-Value: 3.3
+Name: c
+Type: bool
+Value: 1
 Scope: 0
 Used: true
 Initialized: true
 Is Function: false
 
-Name: y
+Name: w
 Type: int
-Value: 3
+Value: 20
 Scope: 0
 Used: true
 Initialized: true
@@ -24,7 +24,7 @@ Is Function: false
 
 Name: x
 Type: int
-Value: 10
+Value: 3
 Scope: 0
 Used: true
 Initialized: true
