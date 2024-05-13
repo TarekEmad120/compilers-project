@@ -536,7 +536,7 @@ var_declaration:
 				printsemanticerror("variable is aleady declared",yylineno);
 				programerror = true;
 			}
-			if (programerror == false){
+			
 			printf("identifier name %s\n", $2);
 			
 			int type = $1;// type of the variable
@@ -548,7 +548,7 @@ var_declaration:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
-			else{
+			if (programerror == false){
 				printf("iam here\n");
 			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0,memaddress);
 			
@@ -561,7 +561,6 @@ var_declaration:
 			}
 			
 		}
-		  }
         | type IDENTIFIER EQUAL function_call
 		{
 			//here we check if the variable is already declared in the scope or not
@@ -570,7 +569,7 @@ var_declaration:
 				printsemanticerror("variable is aleady declared",yylineno);
 				programerror = true;
 			}
-			if (programerror == false){
+			
 			printf("identifier name %s\n", $2);
 
 			int type = $1;// type of the variable
@@ -585,7 +584,7 @@ var_declaration:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
-			else{
+			if (programerror == false){
 				printf("iam here\n");
 				//we create the symbol data and add it to the symbol table
 			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0,memaddress);
@@ -594,7 +593,7 @@ var_declaration:
 			printf("count of node %d\n",countnodes());
 			}
 			}
-		}
+		
 
 
         | type IDENTIFIER SEMICOLON{
@@ -1285,7 +1284,7 @@ boolean_expression:
 				programerror = true;
 			}
 			if(programerror==false){
-				print
+				
 			}
 			if(programerror==false){
 					printBoolenOp(9);
@@ -1693,13 +1692,17 @@ factor:
 			$$.type = INTTYPE;
 			$$.valueinstring = $1.valueinstring;
 			$$.intval = $1.intval;
-			printPushValue($1.valueinstring);
+			if (programerror==false){
+				printPushValue($1.valueinstring);
+			}
 		}
         | FLOAT_VAL{
 			$$.type = FLOATTYPE;
 			$$.valueinstring = $1.valueinstring;
 			$$.floatval = $1.floatval;
-			printPushValue($1.valueinstring);
+			if (programerror==false){
+				printPushValue($1.valueinstring);
+			}
 		}
         | IDENTIFIER
 		{

@@ -1,2 +1,5 @@
-int  x=9;
-int z =9.0;
+int x =0;
+int y =1;
+int z =1;
+y =z+1;
+x =1.873387;

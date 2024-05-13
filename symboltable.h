@@ -438,7 +438,7 @@ char *getstringvalue(char *name, int scope)
 }
 void printsemanticerror(char *error, int line)
 {
-    FILE *file = fopen("semanticerrors.txt", "w");
+    FILE *file = fopen("semanticerrors.txt", "a");
     if (file == NULL)
     {
         printf("Error opening file\n");

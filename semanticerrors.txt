@@ -1,7 +1,1 @@
-Line 7: Type mismatch
-Line 7: Type mismatch
-Line 7: Type mismatch
-Line 7: Type mismatch
-Line 1: variable is not declared
-Line 1: variable is not initialized
-Line 1: Type mismatch
+Line 5: Type mismatch
