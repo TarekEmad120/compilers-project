@@ -1,1 +1,6 @@
-int x;
+float add(float x , float y ){
+return x+y;
+}
+
+
+float x =add(0.6);

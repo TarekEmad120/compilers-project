@@ -1,7 +1,25 @@
-Name: x
-Type: int
-Value: (null)
+Name: add
+Type: float
+Value: 
 Scope: 0
+Used: false
+Initialized: false
+Is Function: true
+Arg Count: 2
+Arg Types: float float 
+
+Name: y
+Type: float
+Value: 
+Scope: -1
+Used: false
+Initialized: false
+Is Function: false
+
+Name: x
+Type: float
+Value: 
+Scope: -1
 Used: false
 Initialized: false
 Is Function: false

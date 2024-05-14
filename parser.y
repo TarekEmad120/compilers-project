@@ -15,6 +15,7 @@
 	/* leave those for function declaration
 	i will implement it later on thursday  or any one try to implement it first*/
 	char* currentfunctionname = "";
+	int functiontype = 0;
 	int memaddress=0;
 	int Ifcounter=0;
 	int argcount = 0;
@@ -38,7 +39,7 @@
 	int var_type;//type
 	struct lexical{
 		int type ;//type value 
-		// char* name2 ;// name
+	    char* name2 ;// name
 		int intval;//value int 
 		float floatval;//float value
 		char charval;//char value
@@ -197,7 +198,7 @@ statement :
     | break_statement
     | continue_statement
 	| function 	{printf("Function statement\n");}
-	| function_call
+	| function_call{printf("Function call statement\n");}
 	| OPENCURL {
 		//when open curly bracket is found the scope is opened so scope number is increased
 		scopeno++;
@@ -563,29 +564,55 @@ var_declaration:
 		}
         | type IDENTIFIER EQUAL function_call
 		{
+			struct SymbolNode *ptr ;
+			int scopevar = 0;
+			printf("function name isssss  %s\n",$4.name2);
+			if (programerror == false){
 			//here we check if the variable is already declared in the scope or not
-			if (checkidentifiernameAndScope($2, scopeno) == 1){
+			if (checkidentifiernameAndScope($4.name2, scopeno) == 0){
+				if (checkidentifiername($4.name2)==1){
+					ptr =getsymbolAndScope($4.name2, scopeno);
+					scopevar= ptr->data->scope;
+					if (ptr->data->type != $1){
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
+					}
+					else if (ptr->data->isfunc == false){
+						printsemanticerror("variable is not a function",yylineno);
+						programerror = true;
+					}
 
-				printsemanticerror("variable is aleady declared",yylineno);
-				programerror = true;
+				}
+				else{
+					printsemanticerror("variable is not declared",yylineno);
+					programerror = true;
+				}
+			}
+			else{
+				printf("iam here1\n");
+				ptr =getsymbolAndScope($4.name2, scopeno);
+				scopevar= ptr->data->scope;
+				if (ptr->data->type != $1){
+					printsemanticerror("Type mismatch",yylineno);
+					programerror = true;
+				}
+				if (ptr->data->isfunc == false){
+					printsemanticerror("variable is not a function",yylineno);
+					programerror = true;
+				}
 			}
 			
-			printf("identifier name %s\n", $2);
+
+			if (programerror == false){
+		printf("identifier name %s\n", $2);
 
 			int type = $1;// type of the variable
 			char* name = $2;// name of the variable
 			char* valueinstring = NULL; // value in string
-			printf("function name isssss  %s\n",$4.stringval );
+			printf("function name isssss  %s\n",$4.name2);
 			printf("type isssss  %d\n",$1 );
 			
 			int value = $4.type;// value(type) of the variable
-			
-			if (type != getsymboltype($4.stringval) ){// if the type of the variable and the value type is not same then we return the error
-				printsemanticerror("Type mismatch",yylineno);
-				programerror = true;
-			}
-			if (programerror == false){
-				printf("iam here\n");
 				//we create the symbol data and add it to the symbol table
 			struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno,true ,true, true, false, 0, 0,memaddress);
 			memaddress++;
@@ -593,6 +620,7 @@ var_declaration:
 			printf("count of node %d\n",countnodes());
 			}
 			}
+		}
 		
 
 
@@ -661,90 +689,119 @@ extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
 /*same comments
 for the function declaration
 */
-function: 			function_prototype OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;} {printf("Function Definition\n");};
+function: 			function_prototype OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;currentfunctionname = "";argcount=0;} {printf("Function Definition\n");};
 
 return_value: 	
 			value
 			{
-				// print the return value
-				printf("return value intval %s\n", $1.valueinstring);
-				$$.intval = $1.intval;
-				$$.floatval = $1.floatval;
-				$$.charval = $1.charval;
-				$$.boolval = $1.boolval;
-				$$.stringval = $1.stringval;
-				$$.valueinstring = $1.valueinstring;
-				$$.type = $1.type;
-				
+				if (currentfunctionname == ""){
+					printsemanticerror("return statement is not in the function",yylineno);
+					programerror = true;
+				}
+				if (functiontype==VOIDTYPE){
+					printsemanticerror("return statement is not in the function",yylineno);
+					programerror = true;
+				}
+				if (programerror == false){
+					if (functiontype == $1.type){
+						//check if the return type is the same as the function type
+						//if it is the same then we return the value
+						$$.type = $1.type;
+						$$.intval = $1.intval;
+						$$.floatval = $1.floatval;
+						$$.charval = $1.charval;
+						$$.boolval = $1.boolval;
+						$$.stringval = $1.stringval;
+						$$.valueinstring = $1.valueinstring;
+					}
+					else{
+						printsemanticerror("Type mismatch",yylineno);
+						programerror = true;
+					}
+				}
 			}
  			| ;
 /*it is not yet implemented Do you want to give it a try ?*/
 function_prototype:
     type IDENTIFIER OPENBRACKET {
-		//check if the function is already declared or not
-		if (checkidentifiernameAndScope($2, scopeno) == 1){
-			printf("function name is aleady declared at line %d\n",yylineno);
-			return 0;
-		}
-		int type = $1;//type of the function
-		char* name = $2;//name of the function
 		argcount = 0;
-		currentfunctionname = name;
-		//create the symbol data and add it to the symbol table but it is not yet implemented
-		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0,memaddress);
-		memaddress++;
-		createnode(ptr, count++);
 
 	} parameters CLOSEDBRACKET{
-		currentfunctionname = "";
+				//check if the function is already declared or not
+		if (checkidentifiernameAndScope($2, scopeno) == 1){
+			printsemanticerror("function name is aleady declared",yylineno);
+			programerror = true;
+		}
+		if (programerror == false){
+			int type = $1;//type of the function
+			char* name = $2;//name of the function
+			currentfunctionname = name;
+			functiontype=type;
+			//create the symbol data and add it to the symbol table but it is not yet implemented
+			struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0,memaddress);
+			setfunction(argcount, funcargs, ptr);
+			memaddress++;
+			createnode(ptr, count++);
+		}
 		argcount = 0;
 	}
     | type IDENTIFIER OPENBRACKET{
+	
+
+	} CLOSEDBRACKET{ 
 		if (checkidentifiernameAndScope($2, scopeno) == 1){
-			printf("function name is aleady declared at line %d\n",yylineno);
-			return 0;
+			printsemanticerror("function name is aleady declared",yylineno);
+			programerror = true;
 		}
+		if (programerror == false){
+
+		
 		int type = $1;
 		char* name = $2;
 		currentfunctionname = name;
-		argcount = 0;
+		functiontype=type;
 		struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
 		memaddress++;
 		createnode(ptr, count++);
-
-	} CLOSEDBRACKET{ currentfunctionname = "";
-		argcount = 0;
-	}
-    | VOID IDENTIFIER OPENBRACKET {
-		if (checkidentifiernameAndScope($2, scopeno) == 1){
-			printf("function name is aleady declared at line %d\n",yylineno);
-			return 0;
 		}
-		int type = VOIDTYPE;
-		char* name = $2;
-		currentfunctionname = name;
-		argcount = 0;
-		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
-		memaddress++;
-		createnode(ptr, count++);
-
-
 	}
-			parameters CLOSEDBRACKET{ currentfunctionname = ""; argcount = 0;}
+    | VOID IDENTIFIER OPENBRACKET{argcount=0;}
+	parameters CLOSEDBRACKET{
+			if (checkidentifiernameAndScope($2, scopeno) == 1){
+				printsemanticerror("function name is aleady declared",yylineno);
+				programerror = true;
+			}
+			if (programerror == false){
+				int type = VOIDTYPE;
+				char* name = $2;
+				currentfunctionname = name;
+				functiontype= type;
+				struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
+				setfunction(argcount, funcargs, ptr);
+				memaddress++;
+				createnode(ptr, count++);
+				argcount = 0;
+			}
+		 }
     | VOID IDENTIFIER OPENBRACKET{
+	
+	}
+	 CLOSEDBRACKET{ 
 		if (checkidentifiernameAndScope($2, scopeno) == 1){
-			printf("function name is aleady declared at line %d\n",yylineno);
-			return 0;
+			printsemanticerror("function name is aleady declared",yylineno);
+			programerror = true;
 		}
+		if (programerror == false){
 		int type = VOIDTYPE;
 		char* name = $2;
 		currentfunctionname = name;
-		argcount = 0;
+		functiontype= type;
 		struct SymbolData *ptr = initalizesymboldata(VOIDTYPE,name , "",scopeno, false,false, false, true, argcount, 0,memaddress++);
 		memaddress++;
 		createnode(ptr, count++);
-	}
-	 CLOSEDBRACKET{ currentfunctionname = ""; argcount = 0;}
+		 argcount = 0;
+		 }
+	 }
     ;
 
 parameters: 			parameters COMMA single_parameter | single_parameter ;
@@ -764,9 +821,10 @@ single_parameter: 		type IDENTIFIER
 							}
 							*/
 							if (chekidentifiernameandScopeoutofscope($2, scopeno+1) == 1){
-								printf("variable is aleady declared\n");
-								return 0;
+								printsemanticerror("variable is aleady declared",yylineno);
+								programerror = true;
 							}
+							if (programerror == false){
 							int type = $1;
 							char* name = $2;
 							struct SymbolData *ptr = initalizesymboldata($1,name , "",scopeno+1, true,false, false, false, 0, 0,memaddress);
@@ -774,48 +832,81 @@ single_parameter: 		type IDENTIFIER
 							createnode(ptr, count++);
 							funcargs[argcount] = type;
 							argcount++;
+							}
 						}
 						| type IDENTIFIER EQUAL constant 
 						{
 							if (chekidentifiernameandScopeoutofscope($2, scopeno+1) == 1){
-								printf("variable is aleady declared\n");
-								return 0;
+								printsemanticerror("variable is aleady declared",yylineno);
+								programerror = true;
 							}
 							int type = $1;
 							char* name = $2;
 							int value = $4.type;
 							char* valueinstring = $4.valueinstring;
 							if (type != value){
-								printf( "Type mismatch\n");
-								return 0;
+								printsemanticerror("Type mismatch",yylineno);
+								programerror = true;
 							}
-							else{
+							if (programerror == false){
 								struct SymbolData *ptr = initalizesymboldata($1,name , valueinstring,scopeno+1, true,false, false, false, 0, 0,memaddress);
 								memaddress++;
+								funcargs[argcount] = type;
+								argcount++;
 								createnode(ptr, count++);
 							}
 						}
 						;
 
-function_call: 			IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON  
+function_call: 			IDENTIFIER OPENBRACKET{argcount=0;} call_parameters CLOSEDBRACKET SEMICOLON  
 						{
-							//check if the function is declared or not
-							if (checkidentifiernameAndScope($1, scopeno) == 0){
-								printf("%s function is not declared\n", $1);
-								return 0;
-							}
-							//check if the function is function or not
-							if (is_Function($1) == false){
-								printf("%s is variable is not a function\n", $1);
-								return 0;
-							}
-							$$.stringval = $1;
+							int scopevar;
+			struct SymbolNode *ptr;
+			if(checkidentifiernameAndScope($1, scopeno) == 0){
+				if (checkidentifiername($1)==1){
+					ptr =getsymbolAndScope($1, scopeno);
+					scopevar= ptr->data->scope;
+				}
+				else{
+					printsemanticerror("Function variable is not declared",yylineno);
+					programerror = true;
+				}
+			}else{
+				ptr =getsymbolAndScope($1, scopeno);
+				scopevar= ptr->data->scope;
+			}
+			if (programerror==false){
+			//check on argcount and argtypes using bool checkargs
+				if (checkargs(argcount,funcargs,ptr) == false){
+					printsemanticerror("Function arguments mismatch",yylineno);
+					printf("argcount %d\n",argcount);
+					programerror = true;
+				
+				}
+			}
+			if (programerror == false){
+				$$.name2 = $1;
+
+			}
+			printf("Function call\n");
 						}
 						;
 
 call_parameters:		call_parameter |;
 
-call_parameter:			call_parameter COMMA value | value ;
+call_parameter:			call_parameter COMMA value
+						{
+							int type= $3 .type;
+							funcargs[argcount] = type;
+							argcount++;
+						}
+						 | value 
+						 {
+							int type= $1 .type;
+							funcargs[argcount] = type;
+							argcount++;
+						 }
+						 ;
 
 
 /* Expression */

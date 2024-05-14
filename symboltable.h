@@ -269,24 +269,20 @@ void setfunction(int argcount, int *argtypes, struct SymbolData *data)
     }
 }
 
-int checkargs(int argcount, int *argtypes, char *name, int scope)
+bool checkargs(int argcount, int *argtypes, struct SymbolNode *ptr)
 {
-    struct SymbolNode *temp = getsymbolAndScope(name, scope);
-    if (temp != NULL)
+    if (ptr->data->argcount != argcount)
     {
-        if (temp->data->argcount == argcount)
+        return false;
+    }
+    for (int i = 0; i < argcount; i++)
+    {
+        if (ptr->data->argtypes[i] != argtypes[i])
         {
-            for (int i = 0; i < argcount; i++)
-            {
-                if (temp->data->argtypes[i] != argtypes[i])
-                {
-                    return 0;
-                }
-            }
-            return 1;
+            return false;
         }
     }
-    return 0;
+    return true;
 }
 
 void endscope(int scope)

@@ -90,117 +90,119 @@ Grammar
    62 single_parameter: type IDENTIFIER
    63                 | type IDENTIFIER EQUAL constant
 
-   64 function_call: IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON
+   64 $@8: ε
 
-   65 call_parameters: call_parameter
-   66                | ε
+   65 function_call: IDENTIFIER OPENBRACKET $@8 call_parameters CLOSEDBRACKET SEMICOLON
 
-   67 call_parameter: call_parameter COMMA value
-   68               | value
+   66 call_parameters: call_parameter
+   67                | ε
 
-   69 expression: boolean_expression
-   70           | arithmetic_expression
+   68 call_parameter: call_parameter COMMA value
+   69               | value
 
-   71 boolean_expression: expression EQ_EQ arithmetic_expression
-   72                   | expression NE arithmetic_expression
-   73                   | expression GE arithmetic_expression
-   74                   | expression LE arithmetic_expression
-   75                   | expression GT arithmetic_expression
-   76                   | expression LT arithmetic_expression
-   77                   | expression AND arithmetic_expression
-   78                   | expression OR arithmetic_expression
-   79                   | NOT expression
-   80                   | TRUE_VAL
-   81                   | FALSE_VAL
+   70 expression: boolean_expression
+   71           | arithmetic_expression
 
-   82 arithmetic_expression: binary_expression
-   83                      | unary_expression
+   72 boolean_expression: expression EQ_EQ arithmetic_expression
+   73                   | expression NE arithmetic_expression
+   74                   | expression GE arithmetic_expression
+   75                   | expression LE arithmetic_expression
+   76                   | expression GT arithmetic_expression
+   77                   | expression LT arithmetic_expression
+   78                   | expression AND arithmetic_expression
+   79                   | expression OR arithmetic_expression
+   80                   | NOT expression
+   81                   | TRUE_VAL
+   82                   | FALSE_VAL
 
-   84 unary_expression: IDENTIFIER INC
-   85                 | IDENTIFIER DEC
+   83 arithmetic_expression: binary_expression
+   84                      | unary_expression
 
-   86 binary_expression: binary_expression PLUS term
-   87                  | binary_expression MINUS term
-   88                  | term
+   85 unary_expression: IDENTIFIER INC
+   86                 | IDENTIFIER DEC
 
-   89 term: factor
-   90     | term MULT factor
-   91     | term DIV factor
+   87 binary_expression: binary_expression PLUS term
+   88                  | binary_expression MINUS term
+   89                  | term
 
-   92 factor: INT_NUM
-   93       | FLOAT_VAL
-   94       | IDENTIFIER
-   95       | OPENBRACKET expression CLOSEDBRACKET
+   90 term: factor
+   91     | term MULT factor
+   92     | term DIV factor
 
-   96 $@8: ε
+   93 factor: INT_NUM
+   94       | FLOAT_VAL
+   95       | IDENTIFIER
+   96       | OPENBRACKET expression CLOSEDBRACKET
 
    97 $@9: ε
 
    98 $@10: ε
 
-   99 if_statement: IF $@8 OPENBRACKET value CLOSEDBRACKET OPENCURL $@9 statements CLOSEDCURL $@10 else_if_statement
+   99 $@11: ε
 
-  100 $@11: ε
+  100 if_statement: IF $@9 OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL $@11 else_if_statement
 
   101 $@12: ε
 
   102 $@13: ε
 
-  103 else_if_statement: else_if_statement ELSEIF $@11 OPENBRACKET value CLOSEDBRACKET $@12 OPENCURL $@13 statements CLOSEDCURL
+  103 $@14: ε
 
-  104 $@14: ε
+  104 else_if_statement: else_if_statement ELSEIF $@12 OPENBRACKET value CLOSEDBRACKET $@13 OPENCURL $@14 statements CLOSEDCURL
 
   105 $@15: ε
 
-  106 else_if_statement: ELSE $@14 OPENCURL $@15 statements CLOSEDCURL
-  107                  | ε
+  106 $@16: ε
 
-  108 while_statement: WHILE OPENBRACKET value CLOSEDBRACKET statement
+  107 else_if_statement: ELSE $@15 OPENCURL $@16 statements CLOSEDCURL
+  108                  | ε
 
-  109 do_while_statement: DO statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON
+  109 while_statement: WHILE OPENBRACKET value CLOSEDBRACKET statement
 
-  110 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement
+  110 do_while_statement: DO statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON
 
-  111 for_initialization: assignment_statement
-  112                   | var_declaration
-  113                   | value SEMICOLON
-  114                   | SEMICOLON
+  111 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement
 
-  115 for_expression: IDENTIFIER EQUAL value SEMICOLON
-  116               | IDENTIFIER PLUS_EQ expression
-  117               | IDENTIFIER MINUS_EQ expression
-  118               | IDENTIFIER MULT_EQ expression
-  119               | IDENTIFIER DIV_EQ expression
-  120               | value
-  121               | ε
+  112 for_initialization: assignment_statement
+  113                   | var_declaration
+  114                   | value SEMICOLON
+  115                   | SEMICOLON
 
-  122 $@16: ε
+  116 for_expression: IDENTIFIER EQUAL value SEMICOLON
+  117               | IDENTIFIER PLUS_EQ expression
+  118               | IDENTIFIER MINUS_EQ expression
+  119               | IDENTIFIER MULT_EQ expression
+  120               | IDENTIFIER DIV_EQ expression
+  121               | value
+  122               | ε
 
   123 $@17: ε
 
-  124 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@16 case_list CLOSEDCURL $@17
+  124 $@18: ε
 
-  125 case_list: case_list case_statement
-  126          | case_statement
+  125 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@17 case_list CLOSEDCURL $@18
 
-  127 case_statement: CASE value COLON statements
-  128               | DEFAULT COLON statements
+  126 case_list: case_list case_statement
+  127          | case_statement
 
-  129 break_statement: BREAK SEMICOLON
+  128 case_statement: CASE value COLON statements
+  129               | DEFAULT COLON statements
 
-  130 continue_statement: CONTINUE SEMICOLON
+  130 break_statement: BREAK SEMICOLON
+
+  131 continue_statement: CONTINUE SEMICOLON
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    IDENTIFIER <name> (258) 35 36 37 38 39 40 41 42 43 44 45 46 53 55 57 59 62 63 64 84 85 94 115 116 117 118 119
-    INT_NUM <lexicalstruct> (259) 29 92
-    FLOAT_VAL <lexicalstruct> (260) 30 93
+    IDENTIFIER <name> (258) 35 36 37 38 39 40 41 42 43 44 45 46 53 55 57 59 62 63 65 85 86 95 116 117 118 119 120
+    INT_NUM <lexicalstruct> (259) 29 93
+    FLOAT_VAL <lexicalstruct> (260) 30 94
     STRING_VAL <lexicalstruct> (261) 22 31
-    TRUE_VAL <lexicalstruct> (262) 32 80
-    FALSE_VAL <lexicalstruct> (263) 33 81
+    TRUE_VAL <lexicalstruct> (262) 32 81
+    FALSE_VAL <lexicalstruct> (263) 33 82
     CHAR_VAL <lexicalstruct> (264) 23 34
     INT <var_type> (265) 24
     FLOAT <var_type> (266) 25
@@ -209,46 +211,46 @@ Terminals, with rules where they appear
     STRING <var_type> (269) 27
     CONST (270) 44
     EXTERN (271) 45 46
-    PLUS (272) 86
-    MINUS (273) 87
-    MULT (274) 90
-    DIV (275) 91
-    PLUS_EQ (276) 36 116
-    MINUS_EQ (277) 37 117
-    MULT_EQ (278) 38 118
-    DIV_EQ (279) 39 119
-    INC (280) 84
-    DEC (281) 85
-    LT (282) 76
-    GT (283) 75
-    GE (284) 73
-    LE (285) 74
-    EQ_EQ (286) 71
-    NE (287) 72
-    AND (288) 77
-    OR (289) 78
-    NOT (290) 79
-    EQUAL (291) 35 40 41 42 44 46 63 115
-    IF (292) 99
-    ELSEIF (293) 103
-    ELSE (294) 106
-    WHILE (295) 108 109
-    DO (296) 109
-    FOR (297) 110
-    SWITCH (298) 124
-    CASE (299) 127
-    DEFAULT (300) 128
-    BREAK (301) 129
-    CONTINUE (302) 130
+    PLUS (272) 87
+    MINUS (273) 88
+    MULT (274) 91
+    DIV (275) 92
+    PLUS_EQ (276) 36 117
+    MINUS_EQ (277) 37 118
+    MULT_EQ (278) 38 119
+    DIV_EQ (279) 39 120
+    INC (280) 85
+    DEC (281) 86
+    LT (282) 77
+    GT (283) 76
+    GE (284) 74
+    LE (285) 75
+    EQ_EQ (286) 72
+    NE (287) 73
+    AND (288) 78
+    OR (289) 79
+    NOT (290) 80
+    EQUAL (291) 35 40 41 42 44 46 63 116
+    IF (292) 100
+    ELSEIF (293) 104
+    ELSE (294) 107
+    WHILE (295) 109 110
+    DO (296) 110
+    FOR (297) 111
+    SWITCH (298) 125
+    CASE (299) 128
+    DEFAULT (300) 129
+    BREAK (301) 130
+    CONTINUE (302) 131
     VOID (303) 57 59
     RETURN (304) 19
-    COMMA (305) 60 67
-    COLON (306) 127 128
-    OPENBRACKET (307) 53 55 57 59 64 95 99 103 108 109 110 124
-    CLOSEDBRACKET (308) 53 55 57 59 64 95 99 103 108 109 110 124
-    OPENCURL (309) 18 49 99 103 106 124
-    CLOSEDCURL (310) 18 49 99 103 106 124
-    SEMICOLON (311) 3 19 20 35 36 37 38 39 41 43 44 45 46 64 109 110 113 114 115 129 130
+    COMMA (305) 60 68
+    COLON (306) 128 129
+    OPENBRACKET (307) 53 55 57 59 65 96 100 104 109 110 111 125
+    CLOSEDBRACKET (308) 53 55 57 59 65 96 100 104 109 110 111 125
+    OPENCURL (309) 18 49 100 104 107 125
+    CLOSEDCURL (310) 18 49 100 104 107 125
+    SEMICOLON (311) 3 19 20 35 36 37 38 39 41 43 44 45 46 65 110 111 114 115 116 130 131
 
 
 Nonterminals, with rules where they appear
@@ -257,16 +259,16 @@ Nonterminals, with rules where they appear
         on left: 0
     statements (58)
         on left: 1 2
-        on right: 0 1 18 49 99 103 106 127 128
+        on right: 0 1 18 49 100 104 107 128 129
     statement (59)
         on left: 3 4 5 6 7 8 9 10 11 12 13 14 15 16 18 19 20
-        on right: 1 2 108 109 110
+        on right: 1 2 109 110 111
     $@1 (60)
         on left: 17
         on right: 18
     value <lexicalstruct> (61)
         on left: 21 22 23
-        on right: 41 44 46 50 67 68 99 103 108 109 110 113 115 120 124 127
+        on right: 41 44 46 50 68 69 100 104 109 110 111 114 116 121 125 128
     type <var_type> (62)
         on left: 24 25 26 27 28
         on right: 41 42 43 44 45 46 53 55 62 63
@@ -275,10 +277,10 @@ Nonterminals, with rules where they appear
         on right: 63
     assignment_statement (64)
         on left: 35 36 37 38 39 40
-        on right: 4 111
+        on right: 4 112
     var_declaration (65)
         on left: 41 42 43
-        on right: 5 112
+        on right: 5 113
     constant_declaration (66)
         on left: 44
         on right: 6
@@ -319,100 +321,103 @@ Nonterminals, with rules where they appear
         on left: 62 63
         on right: 60 61
     function_call <lexicalstruct> (79)
-        on left: 64
+        on left: 65
         on right: 16 40 42
-    call_parameters (80)
-        on left: 65 66
-        on right: 64
-    call_parameter (81)
-        on left: 67 68
-        on right: 65 67
-    expression <lexicalstruct> (82)
-        on left: 69 70
-        on right: 3 21 35 36 37 38 39 71 72 73 74 75 76 77 78 79 95 116 117 118 119
-    boolean_expression <lexicalstruct> (83)
-        on left: 71 72 73 74 75 76 77 78 79 80 81
-        on right: 69
-    arithmetic_expression <lexicalstruct> (84)
-        on left: 82 83
-        on right: 70 71 72 73 74 75 76 77 78
-    unary_expression <lexicalstruct> (85)
-        on left: 84 85
-        on right: 83
-    binary_expression <lexicalstruct> (86)
-        on left: 86 87 88
-        on right: 82 86 87
-    term <lexicalstruct> (87)
-        on left: 89 90 91
-        on right: 86 87 88 90 91
-    factor <lexicalstruct> (88)
-        on left: 92 93 94 95
-        on right: 89 90 91
-    if_statement (89)
-        on left: 99
+    $@8 (80)
+        on left: 64
+        on right: 65
+    call_parameters (81)
+        on left: 66 67
+        on right: 65
+    call_parameter (82)
+        on left: 68 69
+        on right: 66 68
+    expression <lexicalstruct> (83)
+        on left: 70 71
+        on right: 3 21 35 36 37 38 39 72 73 74 75 76 77 78 79 80 96 117 118 119 120
+    boolean_expression <lexicalstruct> (84)
+        on left: 72 73 74 75 76 77 78 79 80 81 82
+        on right: 70
+    arithmetic_expression <lexicalstruct> (85)
+        on left: 83 84
+        on right: 71 72 73 74 75 76 77 78 79
+    unary_expression <lexicalstruct> (86)
+        on left: 85 86
+        on right: 84
+    binary_expression <lexicalstruct> (87)
+        on left: 87 88 89
+        on right: 83 87 88
+    term <lexicalstruct> (88)
+        on left: 90 91 92
+        on right: 87 88 89 91 92
+    factor <lexicalstruct> (89)
+        on left: 93 94 95 96
+        on right: 90 91 92
+    if_statement (90)
+        on left: 100
         on right: 8
-    $@8 (90)
-        on left: 96
-        on right: 99
     $@9 (91)
         on left: 97
-        on right: 99
+        on right: 100
     $@10 (92)
         on left: 98
-        on right: 99
-    else_if_statement (93)
-        on left: 103 106 107
-        on right: 99 103
-    $@11 (94)
-        on left: 100
-        on right: 103
+        on right: 100
+    $@11 (93)
+        on left: 99
+        on right: 100
+    else_if_statement (94)
+        on left: 104 107 108
+        on right: 100 104
     $@12 (95)
         on left: 101
-        on right: 103
+        on right: 104
     $@13 (96)
         on left: 102
-        on right: 103
+        on right: 104
     $@14 (97)
-        on left: 104
-        on right: 106
+        on left: 103
+        on right: 104
     $@15 (98)
         on left: 105
-        on right: 106
-    while_statement (99)
-        on left: 108
-        on right: 9
-    do_while_statement (100)
+        on right: 107
+    $@16 (99)
+        on left: 106
+        on right: 107
+    while_statement (100)
         on left: 109
-        on right: 10
-    for_statement (101)
+        on right: 9
+    do_while_statement (101)
         on left: 110
+        on right: 10
+    for_statement (102)
+        on left: 111
         on right: 11
-    for_initialization (102)
-        on left: 111 112 113 114
-        on right: 110
-    for_expression (103)
-        on left: 115 116 117 118 119 120 121
-        on right: 110
-    switch_statement (104)
-        on left: 124
+    for_initialization (103)
+        on left: 112 113 114 115
+        on right: 111
+    for_expression (104)
+        on left: 116 117 118 119 120 121 122
+        on right: 111
+    switch_statement (105)
+        on left: 125
         on right: 12
-    $@16 (105)
-        on left: 122
-        on right: 124
     $@17 (106)
         on left: 123
-        on right: 124
-    case_list (107)
-        on left: 125 126
-        on right: 124 125
-    case_statement (108)
-        on left: 127 128
+        on right: 125
+    $@18 (107)
+        on left: 124
+        on right: 125
+    case_list (108)
+        on left: 126 127
         on right: 125 126
-    break_statement (109)
-        on left: 129
-        on right: 13
-    continue_statement (110)
+    case_statement (109)
+        on left: 128 129
+        on right: 126 127
+    break_statement (110)
         on left: 130
+        on right: 13
+    continue_statement (111)
+        on left: 131
         on right: 14
 
 
@@ -480,10 +485,10 @@ State 1
    38                     | IDENTIFIER • MULT_EQ expression SEMICOLON
    39                     | IDENTIFIER • DIV_EQ expression SEMICOLON
    40                     | IDENTIFIER • EQUAL function_call
-   64 function_call: IDENTIFIER • OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON
-   84 unary_expression: IDENTIFIER • INC
-   85                 | IDENTIFIER • DEC
-   94 factor: IDENTIFIER •
+   65 function_call: IDENTIFIER • OPENBRACKET $@8 call_parameters CLOSEDBRACKET SEMICOLON
+   85 unary_expression: IDENTIFIER • INC
+   86                 | IDENTIFIER • DEC
+   95 factor: IDENTIFIER •
 
     PLUS_EQ      shift, and go to state 50
     MINUS_EQ     shift, and go to state 51
@@ -494,35 +499,35 @@ State 1
     EQUAL        shift, and go to state 56
     OPENBRACKET  shift, and go to state 57
 
-    $default  reduce using rule 94 (factor)
+    $default  reduce using rule 95 (factor)
 
 
 State 2
 
-   92 factor: INT_NUM •
-
-    $default  reduce using rule 92 (factor)
-
-
-State 3
-
-   93 factor: FLOAT_VAL •
+   93 factor: INT_NUM •
 
     $default  reduce using rule 93 (factor)
 
 
+State 3
+
+   94 factor: FLOAT_VAL •
+
+    $default  reduce using rule 94 (factor)
+
+
 State 4
 
-   80 boolean_expression: TRUE_VAL •
+   81 boolean_expression: TRUE_VAL •
 
-    $default  reduce using rule 80 (boolean_expression)
+    $default  reduce using rule 81 (boolean_expression)
 
 
 State 5
 
-   81 boolean_expression: FALSE_VAL •
+   82 boolean_expression: FALSE_VAL •
 
-    $default  reduce using rule 81 (boolean_expression)
+    $default  reduce using rule 82 (boolean_expression)
 
 
 State 6
@@ -589,7 +594,7 @@ State 12
 
 State 13
 
-   79 boolean_expression: NOT • expression
+   80 boolean_expression: NOT • expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -610,23 +615,23 @@ State 13
 
 State 14
 
-   99 if_statement: IF • $@8 OPENBRACKET value CLOSEDBRACKET OPENCURL $@9 statements CLOSEDCURL $@10 else_if_statement
+  100 if_statement: IF • $@9 OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL $@11 else_if_statement
 
-    $default  reduce using rule 96 ($@8)
+    $default  reduce using rule 97 ($@9)
 
-    $@8  go to state 62
+    $@9  go to state 62
 
 
 State 15
 
-  108 while_statement: WHILE • OPENBRACKET value CLOSEDBRACKET statement
+  109 while_statement: WHILE • OPENBRACKET value CLOSEDBRACKET statement
 
     OPENBRACKET  shift, and go to state 63
 
 
 State 16
 
-  109 do_while_statement: DO • statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON
+  110 do_while_statement: DO • statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -681,28 +686,28 @@ State 16
 
 State 17
 
-  110 for_statement: FOR • OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement
+  111 for_statement: FOR • OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement
 
     OPENBRACKET  shift, and go to state 65
 
 
 State 18
 
-  124 switch_statement: SWITCH • OPENBRACKET value CLOSEDBRACKET OPENCURL $@16 case_list CLOSEDCURL $@17
+  125 switch_statement: SWITCH • OPENBRACKET value CLOSEDBRACKET OPENCURL $@17 case_list CLOSEDCURL $@18
 
     OPENBRACKET  shift, and go to state 66
 
 
 State 19
 
-  129 break_statement: BREAK • SEMICOLON
+  130 break_statement: BREAK • SEMICOLON
 
     SEMICOLON  shift, and go to state 67
 
 
 State 20
 
-  130 continue_statement: CONTINUE • SEMICOLON
+  131 continue_statement: CONTINUE • SEMICOLON
 
     SEMICOLON  shift, and go to state 68
 
@@ -744,7 +749,7 @@ State 22
 
 State 23
 
-   95 factor: OPENBRACKET • expression CLOSEDBRACKET
+   96 factor: OPENBRACKET • expression CLOSEDBRACKET
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -906,14 +911,14 @@ State 35
 State 36
 
     3 statement: expression • SEMICOLON
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
 
     LT         shift, and go to state 81
     GT         shift, and go to state 82
@@ -928,54 +933,54 @@ State 36
 
 State 37
 
-   69 expression: boolean_expression •
-
-    $default  reduce using rule 69 (expression)
-
-
-State 38
-
-   70 expression: arithmetic_expression •
+   70 expression: boolean_expression •
 
     $default  reduce using rule 70 (expression)
 
 
+State 38
+
+   71 expression: arithmetic_expression •
+
+    $default  reduce using rule 71 (expression)
+
+
 State 39
 
-   83 arithmetic_expression: unary_expression •
+   84 arithmetic_expression: unary_expression •
 
-    $default  reduce using rule 83 (arithmetic_expression)
+    $default  reduce using rule 84 (arithmetic_expression)
 
 
 State 40
 
-   82 arithmetic_expression: binary_expression •
-   86 binary_expression: binary_expression • PLUS term
-   87                  | binary_expression • MINUS term
+   83 arithmetic_expression: binary_expression •
+   87 binary_expression: binary_expression • PLUS term
+   88                  | binary_expression • MINUS term
 
     PLUS   shift, and go to state 90
     MINUS  shift, and go to state 91
 
-    $default  reduce using rule 82 (arithmetic_expression)
+    $default  reduce using rule 83 (arithmetic_expression)
 
 
 State 41
 
-   88 binary_expression: term •
-   90 term: term • MULT factor
-   91     | term • DIV factor
+   89 binary_expression: term •
+   91 term: term • MULT factor
+   92     | term • DIV factor
 
     MULT  shift, and go to state 92
     DIV   shift, and go to state 93
 
-    $default  reduce using rule 88 (binary_expression)
+    $default  reduce using rule 89 (binary_expression)
 
 
 State 42
 
-   89 term: factor •
+   90 term: factor •
 
-    $default  reduce using rule 89 (term)
+    $default  reduce using rule 90 (term)
 
 
 State 43
@@ -1113,16 +1118,16 @@ State 53
 
 State 54
 
-   84 unary_expression: IDENTIFIER INC •
+   85 unary_expression: IDENTIFIER INC •
 
-    $default  reduce using rule 84 (unary_expression)
+    $default  reduce using rule 85 (unary_expression)
 
 
 State 55
 
-   85 unary_expression: IDENTIFIER DEC •
+   86 unary_expression: IDENTIFIER DEC •
 
-    $default  reduce using rule 85 (unary_expression)
+    $default  reduce using rule 86 (unary_expression)
 
 
 State 56
@@ -1150,37 +1155,18 @@ State 56
 
 State 57
 
-   64 function_call: IDENTIFIER OPENBRACKET • call_parameters CLOSEDBRACKET SEMICOLON
+   65 function_call: IDENTIFIER OPENBRACKET • $@8 call_parameters CLOSEDBRACKET SEMICOLON
 
-    IDENTIFIER   shift, and go to state 60
-    INT_NUM      shift, and go to state 2
-    FLOAT_VAL    shift, and go to state 3
-    STRING_VAL   shift, and go to state 70
-    TRUE_VAL     shift, and go to state 4
-    FALSE_VAL    shift, and go to state 5
-    CHAR_VAL     shift, and go to state 71
-    NOT          shift, and go to state 13
-    OPENBRACKET  shift, and go to state 23
+    $default  reduce using rule 64 ($@8)
 
-    $default  reduce using rule 66 (call_parameters)
-
-    value                  go to state 101
-    call_parameters        go to state 102
-    call_parameter         go to state 103
-    expression             go to state 74
-    boolean_expression     go to state 37
-    arithmetic_expression  go to state 38
-    unary_expression       go to state 39
-    binary_expression      go to state 40
-    term                   go to state 41
-    factor                 go to state 42
+    $@8  go to state 101
 
 
 State 58
 
    44 constant_declaration: CONST type • IDENTIFIER EQUAL value SEMICOLON
 
-    IDENTIFIER  shift, and go to state 104
+    IDENTIFIER  shift, and go to state 102
 
 
 State 59
@@ -1188,32 +1174,32 @@ State 59
    45 extern_declartion: EXTERN type • IDENTIFIER SEMICOLON
    46                  | EXTERN type • IDENTIFIER EQUAL value SEMICOLON
 
-    IDENTIFIER  shift, and go to state 105
+    IDENTIFIER  shift, and go to state 103
 
 
 State 60
 
-   84 unary_expression: IDENTIFIER • INC
-   85                 | IDENTIFIER • DEC
-   94 factor: IDENTIFIER •
+   85 unary_expression: IDENTIFIER • INC
+   86                 | IDENTIFIER • DEC
+   95 factor: IDENTIFIER •
 
     INC  shift, and go to state 54
     DEC  shift, and go to state 55
 
-    $default  reduce using rule 94 (factor)
+    $default  reduce using rule 95 (factor)
 
 
 State 61
 
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
-   79                   | NOT expression •
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
+   80                   | NOT expression •
 
     LT     shift, and go to state 81
     GT     shift, and go to state 82
@@ -1225,19 +1211,19 @@ State 61
     AND  error (nonassociative)
     OR   error (nonassociative)
 
-    $default  reduce using rule 79 (boolean_expression)
+    $default  reduce using rule 80 (boolean_expression)
 
 
 State 62
 
-   99 if_statement: IF $@8 • OPENBRACKET value CLOSEDBRACKET OPENCURL $@9 statements CLOSEDCURL $@10 else_if_statement
+  100 if_statement: IF $@9 • OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL $@11 else_if_statement
 
-    OPENBRACKET  shift, and go to state 106
+    OPENBRACKET  shift, and go to state 104
 
 
 State 63
 
-  108 while_statement: WHILE OPENBRACKET • value CLOSEDBRACKET statement
+  109 while_statement: WHILE OPENBRACKET • value CLOSEDBRACKET statement
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1249,7 +1235,7 @@ State 63
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    value                  go to state 107
+    value                  go to state 105
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -1261,16 +1247,16 @@ State 63
 
 State 64
 
-  109 do_while_statement: DO statement • WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON
+  110 do_while_statement: DO statement • WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON
 
-    WHILE  shift, and go to state 108
+    WHILE  shift, and go to state 106
 
 
 State 65
 
-  110 for_statement: FOR OPENBRACKET • for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement
+  111 for_statement: FOR OPENBRACKET • for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement
 
-    IDENTIFIER   shift, and go to state 109
+    IDENTIFIER   shift, and go to state 107
     INT_NUM      shift, and go to state 2
     FLOAT_VAL    shift, and go to state 3
     STRING_VAL   shift, and go to state 70
@@ -1284,12 +1270,12 @@ State 65
     STRING       shift, and go to state 10
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
-    SEMICOLON    shift, and go to state 110
+    SEMICOLON    shift, and go to state 108
 
-    value                  go to state 111
-    type                   go to state 112
-    assignment_statement   go to state 113
-    var_declaration        go to state 114
+    value                  go to state 109
+    type                   go to state 110
+    assignment_statement   go to state 111
+    var_declaration        go to state 112
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -1297,12 +1283,12 @@ State 65
     binary_expression      go to state 40
     term                   go to state 41
     factor                 go to state 42
-    for_initialization     go to state 115
+    for_initialization     go to state 113
 
 
 State 66
 
-  124 switch_statement: SWITCH OPENBRACKET • value CLOSEDBRACKET OPENCURL $@16 case_list CLOSEDCURL $@17
+  125 switch_statement: SWITCH OPENBRACKET • value CLOSEDBRACKET OPENCURL $@17 case_list CLOSEDCURL $@18
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1314,7 +1300,7 @@ State 66
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    value                  go to state 116
+    value                  go to state 114
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -1326,16 +1312,16 @@ State 66
 
 State 67
 
-  129 break_statement: BREAK SEMICOLON •
+  130 break_statement: BREAK SEMICOLON •
 
-    $default  reduce using rule 129 (break_statement)
+    $default  reduce using rule 130 (break_statement)
 
 
 State 68
 
-  130 continue_statement: CONTINUE SEMICOLON •
+  131 continue_statement: CONTINUE SEMICOLON •
 
-    $default  reduce using rule 130 (continue_statement)
+    $default  reduce using rule 131 (continue_statement)
 
 
 State 69
@@ -1343,7 +1329,7 @@ State 69
    57 function_prototype: VOID IDENTIFIER • OPENBRACKET $@6 parameters CLOSEDBRACKET
    59                   | VOID IDENTIFIER • OPENBRACKET $@7 CLOSEDBRACKET
 
-    OPENBRACKET  shift, and go to state 117
+    OPENBRACKET  shift, and go to state 115
 
 
 State 70
@@ -1371,20 +1357,20 @@ State 73
 
    19 statement: RETURN return_value • SEMICOLON
 
-    SEMICOLON  shift, and go to state 118
+    SEMICOLON  shift, and go to state 116
 
 
 State 74
 
    21 value: expression •
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
 
     LT     shift, and go to state 81
     GT     shift, and go to state 82
@@ -1400,15 +1386,15 @@ State 74
 
 State 75
 
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
-   95 factor: OPENBRACKET expression • CLOSEDBRACKET
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
+   96 factor: OPENBRACKET expression • CLOSEDBRACKET
 
     LT             shift, and go to state 81
     GT             shift, and go to state 82
@@ -1418,7 +1404,7 @@ State 75
     NE             shift, and go to state 86
     AND            shift, and go to state 87
     OR             shift, and go to state 88
-    CLOSEDBRACKET  shift, and go to state 119
+    CLOSEDBRACKET  shift, and go to state 117
 
 
 State 76
@@ -1451,7 +1437,7 @@ State 76
     OPENCURL     shift, and go to state 24
     SEMICOLON    shift, and go to state 25
 
-    statements             go to state 120
+    statements             go to state 118
     statement              go to state 27
     type                   go to state 28
     assignment_statement   go to state 29
@@ -1499,9 +1485,9 @@ State 79
    53 function_prototype: type IDENTIFIER • OPENBRACKET $@4 parameters CLOSEDBRACKET
    55                   | type IDENTIFIER • OPENBRACKET $@5 CLOSEDBRACKET
 
-    EQUAL        shift, and go to state 121
-    OPENBRACKET  shift, and go to state 122
-    SEMICOLON    shift, and go to state 123
+    EQUAL        shift, and go to state 119
+    OPENBRACKET  shift, and go to state 120
+    SEMICOLON    shift, and go to state 121
 
 
 State 80
@@ -1510,12 +1496,44 @@ State 80
 
     $default  reduce using rule 47 ($@2)
 
-    $@2  go to state 124
+    $@2  go to state 122
 
 
 State 81
 
-   76 boolean_expression: expression LT • arithmetic_expression
+   77 boolean_expression: expression LT • arithmetic_expression
+
+    IDENTIFIER   shift, and go to state 60
+    INT_NUM      shift, and go to state 2
+    FLOAT_VAL    shift, and go to state 3
+    OPENBRACKET  shift, and go to state 23
+
+    arithmetic_expression  go to state 123
+    unary_expression       go to state 39
+    binary_expression      go to state 40
+    term                   go to state 41
+    factor                 go to state 42
+
+
+State 82
+
+   76 boolean_expression: expression GT • arithmetic_expression
+
+    IDENTIFIER   shift, and go to state 60
+    INT_NUM      shift, and go to state 2
+    FLOAT_VAL    shift, and go to state 3
+    OPENBRACKET  shift, and go to state 23
+
+    arithmetic_expression  go to state 124
+    unary_expression       go to state 39
+    binary_expression      go to state 40
+    term                   go to state 41
+    factor                 go to state 42
+
+
+State 83
+
+   74 boolean_expression: expression GE • arithmetic_expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1529,9 +1547,9 @@ State 81
     factor                 go to state 42
 
 
-State 82
+State 84
 
-   75 boolean_expression: expression GT • arithmetic_expression
+   75 boolean_expression: expression LE • arithmetic_expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1545,9 +1563,9 @@ State 82
     factor                 go to state 42
 
 
-State 83
+State 85
 
-   73 boolean_expression: expression GE • arithmetic_expression
+   72 boolean_expression: expression EQ_EQ • arithmetic_expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1561,9 +1579,9 @@ State 83
     factor                 go to state 42
 
 
-State 84
+State 86
 
-   74 boolean_expression: expression LE • arithmetic_expression
+   73 boolean_expression: expression NE • arithmetic_expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1577,9 +1595,9 @@ State 84
     factor                 go to state 42
 
 
-State 85
+State 87
 
-   71 boolean_expression: expression EQ_EQ • arithmetic_expression
+   78 boolean_expression: expression AND • arithmetic_expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1593,9 +1611,9 @@ State 85
     factor                 go to state 42
 
 
-State 86
+State 88
 
-   72 boolean_expression: expression NE • arithmetic_expression
+   79 boolean_expression: expression OR • arithmetic_expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1603,38 +1621,6 @@ State 86
     OPENBRACKET  shift, and go to state 23
 
     arithmetic_expression  go to state 130
-    unary_expression       go to state 39
-    binary_expression      go to state 40
-    term                   go to state 41
-    factor                 go to state 42
-
-
-State 87
-
-   77 boolean_expression: expression AND • arithmetic_expression
-
-    IDENTIFIER   shift, and go to state 60
-    INT_NUM      shift, and go to state 2
-    FLOAT_VAL    shift, and go to state 3
-    OPENBRACKET  shift, and go to state 23
-
-    arithmetic_expression  go to state 131
-    unary_expression       go to state 39
-    binary_expression      go to state 40
-    term                   go to state 41
-    factor                 go to state 42
-
-
-State 88
-
-   78 boolean_expression: expression OR • arithmetic_expression
-
-    IDENTIFIER   shift, and go to state 60
-    INT_NUM      shift, and go to state 2
-    FLOAT_VAL    shift, and go to state 3
-    OPENBRACKET  shift, and go to state 23
-
-    arithmetic_expression  go to state 132
     unary_expression       go to state 39
     binary_expression      go to state 40
     term                   go to state 41
@@ -1650,65 +1636,111 @@ State 89
 
 State 90
 
-   86 binary_expression: binary_expression PLUS • term
+   87 binary_expression: binary_expression PLUS • term
 
-    IDENTIFIER   shift, and go to state 133
+    IDENTIFIER   shift, and go to state 131
     INT_NUM      shift, and go to state 2
     FLOAT_VAL    shift, and go to state 3
     OPENBRACKET  shift, and go to state 23
 
-    term    go to state 134
+    term    go to state 132
     factor  go to state 42
 
 
 State 91
 
-   87 binary_expression: binary_expression MINUS • term
+   88 binary_expression: binary_expression MINUS • term
 
-    IDENTIFIER   shift, and go to state 133
+    IDENTIFIER   shift, and go to state 131
     INT_NUM      shift, and go to state 2
     FLOAT_VAL    shift, and go to state 3
     OPENBRACKET  shift, and go to state 23
 
-    term    go to state 135
+    term    go to state 133
     factor  go to state 42
 
 
 State 92
 
-   90 term: term MULT • factor
+   91 term: term MULT • factor
 
-    IDENTIFIER   shift, and go to state 133
+    IDENTIFIER   shift, and go to state 131
     INT_NUM      shift, and go to state 2
     FLOAT_VAL    shift, and go to state 3
     OPENBRACKET  shift, and go to state 23
 
-    factor  go to state 136
+    factor  go to state 134
 
 
 State 93
 
-   91 term: term DIV • factor
+   92 term: term DIV • factor
 
-    IDENTIFIER   shift, and go to state 133
+    IDENTIFIER   shift, and go to state 131
     INT_NUM      shift, and go to state 2
     FLOAT_VAL    shift, and go to state 3
     OPENBRACKET  shift, and go to state 23
 
-    factor  go to state 137
+    factor  go to state 135
 
 
 State 94
 
    36 assignment_statement: IDENTIFIER PLUS_EQ expression • SEMICOLON
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
+
+    LT         shift, and go to state 81
+    GT         shift, and go to state 82
+    GE         shift, and go to state 83
+    LE         shift, and go to state 84
+    EQ_EQ      shift, and go to state 85
+    NE         shift, and go to state 86
+    AND        shift, and go to state 87
+    OR         shift, and go to state 88
+    SEMICOLON  shift, and go to state 136
+
+
+State 95
+
+   37 assignment_statement: IDENTIFIER MINUS_EQ expression • SEMICOLON
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
+
+    LT         shift, and go to state 81
+    GT         shift, and go to state 82
+    GE         shift, and go to state 83
+    LE         shift, and go to state 84
+    EQ_EQ      shift, and go to state 85
+    NE         shift, and go to state 86
+    AND        shift, and go to state 87
+    OR         shift, and go to state 88
+    SEMICOLON  shift, and go to state 137
+
+
+State 96
+
+   38 assignment_statement: IDENTIFIER MULT_EQ expression • SEMICOLON
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
 
     LT         shift, and go to state 81
     GT         shift, and go to state 82
@@ -1721,17 +1753,17 @@ State 94
     SEMICOLON  shift, and go to state 138
 
 
-State 95
+State 97
 
-   37 assignment_statement: IDENTIFIER MINUS_EQ expression • SEMICOLON
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
+   39 assignment_statement: IDENTIFIER DIV_EQ expression • SEMICOLON
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
 
     LT         shift, and go to state 81
     GT         shift, and go to state 82
@@ -1744,64 +1776,18 @@ State 95
     SEMICOLON  shift, and go to state 139
 
 
-State 96
-
-   38 assignment_statement: IDENTIFIER MULT_EQ expression • SEMICOLON
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
-
-    LT         shift, and go to state 81
-    GT         shift, and go to state 82
-    GE         shift, and go to state 83
-    LE         shift, and go to state 84
-    EQ_EQ      shift, and go to state 85
-    NE         shift, and go to state 86
-    AND        shift, and go to state 87
-    OR         shift, and go to state 88
-    SEMICOLON  shift, and go to state 140
-
-
-State 97
-
-   39 assignment_statement: IDENTIFIER DIV_EQ expression • SEMICOLON
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
-
-    LT         shift, and go to state 81
-    GT         shift, and go to state 82
-    GE         shift, and go to state 83
-    LE         shift, and go to state 84
-    EQ_EQ      shift, and go to state 85
-    NE         shift, and go to state 86
-    AND        shift, and go to state 87
-    OR         shift, and go to state 88
-    SEMICOLON  shift, and go to state 141
-
-
 State 98
 
-   64 function_call: IDENTIFIER • OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON
-   84 unary_expression: IDENTIFIER • INC
-   85                 | IDENTIFIER • DEC
-   94 factor: IDENTIFIER •
+   65 function_call: IDENTIFIER • OPENBRACKET $@8 call_parameters CLOSEDBRACKET SEMICOLON
+   85 unary_expression: IDENTIFIER • INC
+   86                 | IDENTIFIER • DEC
+   95 factor: IDENTIFIER •
 
     INC          shift, and go to state 54
     DEC          shift, and go to state 55
     OPENBRACKET  shift, and go to state 57
 
-    $default  reduce using rule 94 (factor)
+    $default  reduce using rule 95 (factor)
 
 
 State 99
@@ -1814,14 +1800,14 @@ State 99
 State 100
 
    35 assignment_statement: IDENTIFIER EQUAL expression • SEMICOLON
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
 
     LT         shift, and go to state 81
     GT         shift, and go to state 82
@@ -1831,52 +1817,12 @@ State 100
     NE         shift, and go to state 86
     AND        shift, and go to state 87
     OR         shift, and go to state 88
-    SEMICOLON  shift, and go to state 142
+    SEMICOLON  shift, and go to state 140
 
 
 State 101
 
-   68 call_parameter: value •
-
-    $default  reduce using rule 68 (call_parameter)
-
-
-State 102
-
-   64 function_call: IDENTIFIER OPENBRACKET call_parameters • CLOSEDBRACKET SEMICOLON
-
-    CLOSEDBRACKET  shift, and go to state 143
-
-
-State 103
-
-   65 call_parameters: call_parameter •
-   67 call_parameter: call_parameter • COMMA value
-
-    COMMA  shift, and go to state 144
-
-    $default  reduce using rule 65 (call_parameters)
-
-
-State 104
-
-   44 constant_declaration: CONST type IDENTIFIER • EQUAL value SEMICOLON
-
-    EQUAL  shift, and go to state 145
-
-
-State 105
-
-   45 extern_declartion: EXTERN type IDENTIFIER • SEMICOLON
-   46                  | EXTERN type IDENTIFIER • EQUAL value SEMICOLON
-
-    EQUAL      shift, and go to state 146
-    SEMICOLON  shift, and go to state 147
-
-
-State 106
-
-   99 if_statement: IF $@8 OPENBRACKET • value CLOSEDBRACKET OPENCURL $@9 statements CLOSEDCURL $@10 else_if_statement
+   65 function_call: IDENTIFIER OPENBRACKET $@8 • call_parameters CLOSEDBRACKET SEMICOLON
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1888,7 +1834,11 @@ State 106
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    value                  go to state 148
+    $default  reduce using rule 67 (call_parameters)
+
+    value                  go to state 141
+    call_parameters        go to state 142
+    call_parameter         go to state 143
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -1898,21 +1848,61 @@ State 106
     factor                 go to state 42
 
 
+State 102
+
+   44 constant_declaration: CONST type IDENTIFIER • EQUAL value SEMICOLON
+
+    EQUAL  shift, and go to state 144
+
+
+State 103
+
+   45 extern_declartion: EXTERN type IDENTIFIER • SEMICOLON
+   46                  | EXTERN type IDENTIFIER • EQUAL value SEMICOLON
+
+    EQUAL      shift, and go to state 145
+    SEMICOLON  shift, and go to state 146
+
+
+State 104
+
+  100 if_statement: IF $@9 OPENBRACKET • value CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL $@11 else_if_statement
+
+    IDENTIFIER   shift, and go to state 60
+    INT_NUM      shift, and go to state 2
+    FLOAT_VAL    shift, and go to state 3
+    STRING_VAL   shift, and go to state 70
+    TRUE_VAL     shift, and go to state 4
+    FALSE_VAL    shift, and go to state 5
+    CHAR_VAL     shift, and go to state 71
+    NOT          shift, and go to state 13
+    OPENBRACKET  shift, and go to state 23
+
+    value                  go to state 147
+    expression             go to state 74
+    boolean_expression     go to state 37
+    arithmetic_expression  go to state 38
+    unary_expression       go to state 39
+    binary_expression      go to state 40
+    term                   go to state 41
+    factor                 go to state 42
+
+
+State 105
+
+  109 while_statement: WHILE OPENBRACKET value • CLOSEDBRACKET statement
+
+    CLOSEDBRACKET  shift, and go to state 148
+
+
+State 106
+
+  110 do_while_statement: DO statement WHILE • OPENBRACKET value CLOSEDBRACKET SEMICOLON
+
+    OPENBRACKET  shift, and go to state 149
+
+
 State 107
-
-  108 while_statement: WHILE OPENBRACKET value • CLOSEDBRACKET statement
-
-    CLOSEDBRACKET  shift, and go to state 149
-
-
-State 108
-
-  109 do_while_statement: DO statement WHILE • OPENBRACKET value CLOSEDBRACKET SEMICOLON
-
-    OPENBRACKET  shift, and go to state 150
-
-
-State 109
 
    35 assignment_statement: IDENTIFIER • EQUAL expression SEMICOLON
    36                     | IDENTIFIER • PLUS_EQ expression SEMICOLON
@@ -1920,9 +1910,9 @@ State 109
    38                     | IDENTIFIER • MULT_EQ expression SEMICOLON
    39                     | IDENTIFIER • DIV_EQ expression SEMICOLON
    40                     | IDENTIFIER • EQUAL function_call
-   84 unary_expression: IDENTIFIER • INC
-   85                 | IDENTIFIER • DEC
-   94 factor: IDENTIFIER •
+   85 unary_expression: IDENTIFIER • INC
+   86                 | IDENTIFIER • DEC
+   95 factor: IDENTIFIER •
 
     PLUS_EQ   shift, and go to state 50
     MINUS_EQ  shift, and go to state 51
@@ -1932,49 +1922,49 @@ State 109
     DEC       shift, and go to state 55
     EQUAL     shift, and go to state 56
 
-    $default  reduce using rule 94 (factor)
+    $default  reduce using rule 95 (factor)
+
+
+State 108
+
+  115 for_initialization: SEMICOLON •
+
+    $default  reduce using rule 115 (for_initialization)
+
+
+State 109
+
+  114 for_initialization: value • SEMICOLON
+
+    SEMICOLON  shift, and go to state 150
 
 
 State 110
-
-  114 for_initialization: SEMICOLON •
-
-    $default  reduce using rule 114 (for_initialization)
-
-
-State 111
-
-  113 for_initialization: value • SEMICOLON
-
-    SEMICOLON  shift, and go to state 151
-
-
-State 112
 
    41 var_declaration: type • IDENTIFIER EQUAL value SEMICOLON
    42                | type • IDENTIFIER EQUAL function_call
    43                | type • IDENTIFIER SEMICOLON
 
-    IDENTIFIER  shift, and go to state 152
+    IDENTIFIER  shift, and go to state 151
 
 
-State 113
+State 111
 
-  111 for_initialization: assignment_statement •
-
-    $default  reduce using rule 111 (for_initialization)
-
-
-State 114
-
-  112 for_initialization: var_declaration •
+  112 for_initialization: assignment_statement •
 
     $default  reduce using rule 112 (for_initialization)
 
 
-State 115
+State 112
 
-  110 for_statement: FOR OPENBRACKET for_initialization • value SEMICOLON for_expression CLOSEDBRACKET statement
+  113 for_initialization: var_declaration •
+
+    $default  reduce using rule 113 (for_initialization)
+
+
+State 113
+
+  111 for_statement: FOR OPENBRACKET for_initialization • value SEMICOLON for_expression CLOSEDBRACKET statement
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -1986,7 +1976,7 @@ State 115
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    value                  go to state 153
+    value                  go to state 152
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -1996,14 +1986,14 @@ State 115
     factor                 go to state 42
 
 
-State 116
+State 114
 
-  124 switch_statement: SWITCH OPENBRACKET value • CLOSEDBRACKET OPENCURL $@16 case_list CLOSEDCURL $@17
+  125 switch_statement: SWITCH OPENBRACKET value • CLOSEDBRACKET OPENCURL $@17 case_list CLOSEDCURL $@18
 
-    CLOSEDBRACKET  shift, and go to state 154
+    CLOSEDBRACKET  shift, and go to state 153
 
 
-State 117
+State 115
 
    57 function_prototype: VOID IDENTIFIER OPENBRACKET • $@6 parameters CLOSEDBRACKET
    59                   | VOID IDENTIFIER OPENBRACKET • $@7 CLOSEDBRACKET
@@ -2011,25 +2001,25 @@ State 117
     CLOSEDBRACKET  reduce using rule 58 ($@7)
     $default       reduce using rule 56 ($@6)
 
-    $@6  go to state 155
-    $@7  go to state 156
+    $@6  go to state 154
+    $@7  go to state 155
 
 
-State 118
+State 116
 
    19 statement: RETURN return_value SEMICOLON •
 
     $default  reduce using rule 19 (statement)
 
 
-State 119
+State 117
 
-   95 factor: OPENBRACKET expression CLOSEDBRACKET •
+   96 factor: OPENBRACKET expression CLOSEDBRACKET •
 
-    $default  reduce using rule 95 (factor)
+    $default  reduce using rule 96 (factor)
 
 
-State 120
+State 118
 
     1 statements: statements • statement
    18 statement: OPENCURL $@1 statements • CLOSEDCURL
@@ -2058,7 +2048,7 @@ State 120
     RETURN       shift, and go to state 22
     OPENBRACKET  shift, and go to state 23
     OPENCURL     shift, and go to state 24
-    CLOSEDCURL   shift, and go to state 157
+    CLOSEDCURL   shift, and go to state 156
     SEMICOLON    shift, and go to state 25
 
     statement              go to state 78
@@ -2086,7 +2076,7 @@ State 120
     continue_statement     go to state 49
 
 
-State 121
+State 119
 
    41 var_declaration: type IDENTIFIER EQUAL • value SEMICOLON
    42                | type IDENTIFIER EQUAL • function_call
@@ -2101,8 +2091,8 @@ State 121
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    value                  go to state 158
-    function_call          go to state 159
+    value                  go to state 157
+    function_call          go to state 158
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -2112,7 +2102,7 @@ State 121
     factor                 go to state 42
 
 
-State 122
+State 120
 
    53 function_prototype: type IDENTIFIER OPENBRACKET • $@4 parameters CLOSEDBRACKET
    55                   | type IDENTIFIER OPENBRACKET • $@5 CLOSEDBRACKET
@@ -2120,18 +2110,18 @@ State 122
     CLOSEDBRACKET  reduce using rule 54 ($@5)
     $default       reduce using rule 52 ($@4)
 
-    $@4  go to state 160
-    $@5  go to state 161
+    $@4  go to state 159
+    $@5  go to state 160
 
 
-State 123
+State 121
 
    43 var_declaration: type IDENTIFIER SEMICOLON •
 
     $default  reduce using rule 43 (var_declaration)
 
 
-State 124
+State 122
 
    49 function: function_prototype OPENCURL $@2 • statements CLOSEDCURL $@3
 
@@ -2161,7 +2151,7 @@ State 124
     OPENCURL     shift, and go to state 24
     SEMICOLON    shift, and go to state 25
 
-    statements             go to state 162
+    statements             go to state 161
     statement              go to state 27
     type                   go to state 28
     assignment_statement   go to state 29
@@ -2187,86 +2177,74 @@ State 124
     continue_statement     go to state 49
 
 
-State 125
+State 123
 
-   76 boolean_expression: expression LT arithmetic_expression •
+   77 boolean_expression: expression LT arithmetic_expression •
+
+    $default  reduce using rule 77 (boolean_expression)
+
+
+State 124
+
+   76 boolean_expression: expression GT arithmetic_expression •
 
     $default  reduce using rule 76 (boolean_expression)
 
 
+State 125
+
+   74 boolean_expression: expression GE arithmetic_expression •
+
+    $default  reduce using rule 74 (boolean_expression)
+
+
 State 126
 
-   75 boolean_expression: expression GT arithmetic_expression •
+   75 boolean_expression: expression LE arithmetic_expression •
 
     $default  reduce using rule 75 (boolean_expression)
 
 
 State 127
 
-   73 boolean_expression: expression GE arithmetic_expression •
-
-    $default  reduce using rule 73 (boolean_expression)
-
-
-State 128
-
-   74 boolean_expression: expression LE arithmetic_expression •
-
-    $default  reduce using rule 74 (boolean_expression)
-
-
-State 129
-
-   71 boolean_expression: expression EQ_EQ arithmetic_expression •
-
-    $default  reduce using rule 71 (boolean_expression)
-
-
-State 130
-
-   72 boolean_expression: expression NE arithmetic_expression •
+   72 boolean_expression: expression EQ_EQ arithmetic_expression •
 
     $default  reduce using rule 72 (boolean_expression)
 
 
-State 131
+State 128
 
-   77 boolean_expression: expression AND arithmetic_expression •
+   73 boolean_expression: expression NE arithmetic_expression •
 
-    $default  reduce using rule 77 (boolean_expression)
+    $default  reduce using rule 73 (boolean_expression)
 
 
-State 132
+State 129
 
-   78 boolean_expression: expression OR arithmetic_expression •
+   78 boolean_expression: expression AND arithmetic_expression •
 
     $default  reduce using rule 78 (boolean_expression)
 
 
-State 133
+State 130
 
-   94 factor: IDENTIFIER •
+   79 boolean_expression: expression OR arithmetic_expression •
 
-    $default  reduce using rule 94 (factor)
-
-
-State 134
-
-   86 binary_expression: binary_expression PLUS term •
-   90 term: term • MULT factor
-   91     | term • DIV factor
-
-    MULT  shift, and go to state 92
-    DIV   shift, and go to state 93
-
-    $default  reduce using rule 86 (binary_expression)
+    $default  reduce using rule 79 (boolean_expression)
 
 
-State 135
+State 131
 
-   87 binary_expression: binary_expression MINUS term •
-   90 term: term • MULT factor
-   91     | term • DIV factor
+   95 factor: IDENTIFIER •
+
+    $default  reduce using rule 95 (factor)
+
+
+State 132
+
+   87 binary_expression: binary_expression PLUS term •
+   91 term: term • MULT factor
+   92     | term • DIV factor
 
     MULT  shift, and go to state 92
     DIV   shift, and go to state 93
@@ -2274,65 +2252,94 @@ State 135
     $default  reduce using rule 87 (binary_expression)
 
 
-State 136
+State 133
 
-   90 term: term MULT factor •
+   88 binary_expression: binary_expression MINUS term •
+   91 term: term • MULT factor
+   92     | term • DIV factor
 
-    $default  reduce using rule 90 (term)
+    MULT  shift, and go to state 92
+    DIV   shift, and go to state 93
+
+    $default  reduce using rule 88 (binary_expression)
 
 
-State 137
+State 134
 
-   91 term: term DIV factor •
+   91 term: term MULT factor •
 
     $default  reduce using rule 91 (term)
 
 
-State 138
+State 135
+
+   92 term: term DIV factor •
+
+    $default  reduce using rule 92 (term)
+
+
+State 136
 
    36 assignment_statement: IDENTIFIER PLUS_EQ expression SEMICOLON •
 
     $default  reduce using rule 36 (assignment_statement)
 
 
-State 139
+State 137
 
    37 assignment_statement: IDENTIFIER MINUS_EQ expression SEMICOLON •
 
     $default  reduce using rule 37 (assignment_statement)
 
 
-State 140
+State 138
 
    38 assignment_statement: IDENTIFIER MULT_EQ expression SEMICOLON •
 
     $default  reduce using rule 38 (assignment_statement)
 
 
-State 141
+State 139
 
    39 assignment_statement: IDENTIFIER DIV_EQ expression SEMICOLON •
 
     $default  reduce using rule 39 (assignment_statement)
 
 
-State 142
+State 140
 
    35 assignment_statement: IDENTIFIER EQUAL expression SEMICOLON •
 
     $default  reduce using rule 35 (assignment_statement)
 
 
+State 141
+
+   69 call_parameter: value •
+
+    $default  reduce using rule 69 (call_parameter)
+
+
+State 142
+
+   65 function_call: IDENTIFIER OPENBRACKET $@8 call_parameters • CLOSEDBRACKET SEMICOLON
+
+    CLOSEDBRACKET  shift, and go to state 162
+
+
 State 143
 
-   64 function_call: IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET • SEMICOLON
+   66 call_parameters: call_parameter •
+   68 call_parameter: call_parameter • COMMA value
 
-    SEMICOLON  shift, and go to state 163
+    COMMA  shift, and go to state 163
+
+    $default  reduce using rule 66 (call_parameters)
 
 
 State 144
 
-   67 call_parameter: call_parameter COMMA • value
+   44 constant_declaration: CONST type IDENTIFIER EQUAL • value SEMICOLON
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -2356,7 +2363,7 @@ State 144
 
 State 145
 
-   44 constant_declaration: CONST type IDENTIFIER EQUAL • value SEMICOLON
+   46 extern_declartion: EXTERN type IDENTIFIER EQUAL • value SEMICOLON
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -2380,45 +2387,21 @@ State 145
 
 State 146
 
-   46 extern_declartion: EXTERN type IDENTIFIER EQUAL • value SEMICOLON
-
-    IDENTIFIER   shift, and go to state 60
-    INT_NUM      shift, and go to state 2
-    FLOAT_VAL    shift, and go to state 3
-    STRING_VAL   shift, and go to state 70
-    TRUE_VAL     shift, and go to state 4
-    FALSE_VAL    shift, and go to state 5
-    CHAR_VAL     shift, and go to state 71
-    NOT          shift, and go to state 13
-    OPENBRACKET  shift, and go to state 23
-
-    value                  go to state 166
-    expression             go to state 74
-    boolean_expression     go to state 37
-    arithmetic_expression  go to state 38
-    unary_expression       go to state 39
-    binary_expression      go to state 40
-    term                   go to state 41
-    factor                 go to state 42
-
-
-State 147
-
    45 extern_declartion: EXTERN type IDENTIFIER SEMICOLON •
 
     $default  reduce using rule 45 (extern_declartion)
 
 
+State 147
+
+  100 if_statement: IF $@9 OPENBRACKET value • CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL $@11 else_if_statement
+
+    CLOSEDBRACKET  shift, and go to state 166
+
+
 State 148
 
-   99 if_statement: IF $@8 OPENBRACKET value • CLOSEDBRACKET OPENCURL $@9 statements CLOSEDCURL $@10 else_if_statement
-
-    CLOSEDBRACKET  shift, and go to state 167
-
-
-State 149
-
-  108 while_statement: WHILE OPENBRACKET value CLOSEDBRACKET • statement
+  109 while_statement: WHILE OPENBRACKET value CLOSEDBRACKET • statement
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -2446,7 +2429,7 @@ State 149
     OPENCURL     shift, and go to state 24
     SEMICOLON    shift, and go to state 25
 
-    statement              go to state 168
+    statement              go to state 167
     type                   go to state 28
     assignment_statement   go to state 29
     var_declaration        go to state 30
@@ -2471,9 +2454,9 @@ State 149
     continue_statement     go to state 49
 
 
-State 150
+State 149
 
-  109 do_while_statement: DO statement WHILE OPENBRACKET • value CLOSEDBRACKET SEMICOLON
+  110 do_while_statement: DO statement WHILE OPENBRACKET • value CLOSEDBRACKET SEMICOLON
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -2485,7 +2468,7 @@ State 150
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    value                  go to state 169
+    value                  go to state 168
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -2495,38 +2478,38 @@ State 150
     factor                 go to state 42
 
 
+State 150
+
+  114 for_initialization: value SEMICOLON •
+
+    $default  reduce using rule 114 (for_initialization)
+
+
 State 151
-
-  113 for_initialization: value SEMICOLON •
-
-    $default  reduce using rule 113 (for_initialization)
-
-
-State 152
 
    41 var_declaration: type IDENTIFIER • EQUAL value SEMICOLON
    42                | type IDENTIFIER • EQUAL function_call
    43                | type IDENTIFIER • SEMICOLON
 
-    EQUAL      shift, and go to state 121
-    SEMICOLON  shift, and go to state 123
+    EQUAL      shift, and go to state 119
+    SEMICOLON  shift, and go to state 121
+
+
+State 152
+
+  111 for_statement: FOR OPENBRACKET for_initialization value • SEMICOLON for_expression CLOSEDBRACKET statement
+
+    SEMICOLON  shift, and go to state 169
 
 
 State 153
 
-  110 for_statement: FOR OPENBRACKET for_initialization value • SEMICOLON for_expression CLOSEDBRACKET statement
+  125 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET • OPENCURL $@17 case_list CLOSEDCURL $@18
 
-    SEMICOLON  shift, and go to state 170
+    OPENCURL  shift, and go to state 170
 
 
 State 154
-
-  124 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET • OPENCURL $@16 case_list CLOSEDCURL $@17
-
-    OPENCURL  shift, and go to state 171
-
-
-State 155
 
    57 function_prototype: VOID IDENTIFIER OPENBRACKET $@6 • parameters CLOSEDBRACKET
 
@@ -2536,40 +2519,40 @@ State 155
     BOOL    shift, and go to state 9
     STRING  shift, and go to state 10
 
-    type              go to state 172
-    parameters        go to state 173
-    single_parameter  go to state 174
+    type              go to state 171
+    parameters        go to state 172
+    single_parameter  go to state 173
 
 
-State 156
+State 155
 
    59 function_prototype: VOID IDENTIFIER OPENBRACKET $@7 • CLOSEDBRACKET
 
-    CLOSEDBRACKET  shift, and go to state 175
+    CLOSEDBRACKET  shift, and go to state 174
 
 
-State 157
+State 156
 
    18 statement: OPENCURL $@1 statements CLOSEDCURL •
 
     $default  reduce using rule 18 (statement)
 
 
-State 158
+State 157
 
    41 var_declaration: type IDENTIFIER EQUAL value • SEMICOLON
 
-    SEMICOLON  shift, and go to state 176
+    SEMICOLON  shift, and go to state 175
 
 
-State 159
+State 158
 
    42 var_declaration: type IDENTIFIER EQUAL function_call •
 
     $default  reduce using rule 42 (var_declaration)
 
 
-State 160
+State 159
 
    53 function_prototype: type IDENTIFIER OPENBRACKET $@4 • parameters CLOSEDBRACKET
 
@@ -2579,19 +2562,19 @@ State 160
     BOOL    shift, and go to state 9
     STRING  shift, and go to state 10
 
-    type              go to state 172
-    parameters        go to state 177
-    single_parameter  go to state 174
+    type              go to state 171
+    parameters        go to state 176
+    single_parameter  go to state 173
 
 
-State 161
+State 160
 
    55 function_prototype: type IDENTIFIER OPENBRACKET $@5 • CLOSEDBRACKET
 
-    CLOSEDBRACKET  shift, and go to state 178
+    CLOSEDBRACKET  shift, and go to state 177
 
 
-State 162
+State 161
 
     1 statements: statements • statement
    49 function: function_prototype OPENCURL $@2 statements • CLOSEDCURL $@3
@@ -2620,7 +2603,7 @@ State 162
     RETURN       shift, and go to state 22
     OPENBRACKET  shift, and go to state 23
     OPENCURL     shift, and go to state 24
-    CLOSEDCURL   shift, and go to state 179
+    CLOSEDCURL   shift, and go to state 178
     SEMICOLON    shift, and go to state 25
 
     statement              go to state 78
@@ -2648,60 +2631,18 @@ State 162
     continue_statement     go to state 49
 
 
+State 162
+
+   65 function_call: IDENTIFIER OPENBRACKET $@8 call_parameters CLOSEDBRACKET • SEMICOLON
+
+    SEMICOLON  shift, and go to state 179
+
+
 State 163
 
-   64 function_call: IDENTIFIER OPENBRACKET call_parameters CLOSEDBRACKET SEMICOLON •
+   68 call_parameter: call_parameter COMMA • value
 
-    $default  reduce using rule 64 (function_call)
-
-
-State 164
-
-   67 call_parameter: call_parameter COMMA value •
-
-    $default  reduce using rule 67 (call_parameter)
-
-
-State 165
-
-   44 constant_declaration: CONST type IDENTIFIER EQUAL value • SEMICOLON
-
-    SEMICOLON  shift, and go to state 180
-
-
-State 166
-
-   46 extern_declartion: EXTERN type IDENTIFIER EQUAL value • SEMICOLON
-
-    SEMICOLON  shift, and go to state 181
-
-
-State 167
-
-   99 if_statement: IF $@8 OPENBRACKET value CLOSEDBRACKET • OPENCURL $@9 statements CLOSEDCURL $@10 else_if_statement
-
-    OPENCURL  shift, and go to state 182
-
-
-State 168
-
-  108 while_statement: WHILE OPENBRACKET value CLOSEDBRACKET statement •
-
-    $default  reduce using rule 108 (while_statement)
-
-
-State 169
-
-  109 do_while_statement: DO statement WHILE OPENBRACKET value • CLOSEDBRACKET SEMICOLON
-
-    CLOSEDBRACKET  shift, and go to state 183
-
-
-State 170
-
-  110 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON • for_expression CLOSEDBRACKET statement
-
-    IDENTIFIER   shift, and go to state 184
+    IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
     FLOAT_VAL    shift, and go to state 3
     STRING_VAL   shift, and go to state 70
@@ -2711,9 +2652,7 @@ State 170
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    $default  reduce using rule 121 (for_expression)
-
-    value                  go to state 185
+    value                  go to state 180
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -2721,169 +2660,244 @@ State 170
     binary_expression      go to state 40
     term                   go to state 41
     factor                 go to state 42
-    for_expression         go to state 186
+
+
+State 164
+
+   44 constant_declaration: CONST type IDENTIFIER EQUAL value • SEMICOLON
+
+    SEMICOLON  shift, and go to state 181
+
+
+State 165
+
+   46 extern_declartion: EXTERN type IDENTIFIER EQUAL value • SEMICOLON
+
+    SEMICOLON  shift, and go to state 182
+
+
+State 166
+
+  100 if_statement: IF $@9 OPENBRACKET value CLOSEDBRACKET • OPENCURL $@10 statements CLOSEDCURL $@11 else_if_statement
+
+    OPENCURL  shift, and go to state 183
+
+
+State 167
+
+  109 while_statement: WHILE OPENBRACKET value CLOSEDBRACKET statement •
+
+    $default  reduce using rule 109 (while_statement)
+
+
+State 168
+
+  110 do_while_statement: DO statement WHILE OPENBRACKET value • CLOSEDBRACKET SEMICOLON
+
+    CLOSEDBRACKET  shift, and go to state 184
+
+
+State 169
+
+  111 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON • for_expression CLOSEDBRACKET statement
+
+    IDENTIFIER   shift, and go to state 185
+    INT_NUM      shift, and go to state 2
+    FLOAT_VAL    shift, and go to state 3
+    STRING_VAL   shift, and go to state 70
+    TRUE_VAL     shift, and go to state 4
+    FALSE_VAL    shift, and go to state 5
+    CHAR_VAL     shift, and go to state 71
+    NOT          shift, and go to state 13
+    OPENBRACKET  shift, and go to state 23
+
+    $default  reduce using rule 122 (for_expression)
+
+    value                  go to state 186
+    expression             go to state 74
+    boolean_expression     go to state 37
+    arithmetic_expression  go to state 38
+    unary_expression       go to state 39
+    binary_expression      go to state 40
+    term                   go to state 41
+    factor                 go to state 42
+    for_expression         go to state 187
+
+
+State 170
+
+  125 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL • $@17 case_list CLOSEDCURL $@18
+
+    $default  reduce using rule 123 ($@17)
+
+    $@17  go to state 188
 
 
 State 171
 
-  124 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL • $@16 case_list CLOSEDCURL $@17
+   62 single_parameter: type • IDENTIFIER
+   63                 | type • IDENTIFIER EQUAL constant
 
-    $default  reduce using rule 122 ($@16)
-
-    $@16  go to state 187
+    IDENTIFIER  shift, and go to state 189
 
 
 State 172
 
-   62 single_parameter: type • IDENTIFIER
-   63                 | type • IDENTIFIER EQUAL constant
-
-    IDENTIFIER  shift, and go to state 188
-
-
-State 173
-
    57 function_prototype: VOID IDENTIFIER OPENBRACKET $@6 parameters • CLOSEDBRACKET
    60 parameters: parameters • COMMA single_parameter
 
-    COMMA          shift, and go to state 189
-    CLOSEDBRACKET  shift, and go to state 190
+    COMMA          shift, and go to state 190
+    CLOSEDBRACKET  shift, and go to state 191
 
 
-State 174
+State 173
 
    61 parameters: single_parameter •
 
     $default  reduce using rule 61 (parameters)
 
 
-State 175
+State 174
 
    59 function_prototype: VOID IDENTIFIER OPENBRACKET $@7 CLOSEDBRACKET •
 
     $default  reduce using rule 59 (function_prototype)
 
 
-State 176
+State 175
 
    41 var_declaration: type IDENTIFIER EQUAL value SEMICOLON •
 
     $default  reduce using rule 41 (var_declaration)
 
 
-State 177
+State 176
 
    53 function_prototype: type IDENTIFIER OPENBRACKET $@4 parameters • CLOSEDBRACKET
    60 parameters: parameters • COMMA single_parameter
 
-    COMMA          shift, and go to state 189
-    CLOSEDBRACKET  shift, and go to state 191
+    COMMA          shift, and go to state 190
+    CLOSEDBRACKET  shift, and go to state 192
 
 
-State 178
+State 177
 
    55 function_prototype: type IDENTIFIER OPENBRACKET $@5 CLOSEDBRACKET •
 
     $default  reduce using rule 55 (function_prototype)
 
 
-State 179
+State 178
 
    49 function: function_prototype OPENCURL $@2 statements CLOSEDCURL • $@3
 
     $default  reduce using rule 48 ($@3)
 
-    $@3  go to state 192
+    $@3  go to state 193
+
+
+State 179
+
+   65 function_call: IDENTIFIER OPENBRACKET $@8 call_parameters CLOSEDBRACKET SEMICOLON •
+
+    $default  reduce using rule 65 (function_call)
 
 
 State 180
+
+   68 call_parameter: call_parameter COMMA value •
+
+    $default  reduce using rule 68 (call_parameter)
+
+
+State 181
 
    44 constant_declaration: CONST type IDENTIFIER EQUAL value SEMICOLON •
 
     $default  reduce using rule 44 (constant_declaration)
 
 
-State 181
+State 182
 
    46 extern_declartion: EXTERN type IDENTIFIER EQUAL value SEMICOLON •
 
     $default  reduce using rule 46 (extern_declartion)
 
 
-State 182
-
-   99 if_statement: IF $@8 OPENBRACKET value CLOSEDBRACKET OPENCURL • $@9 statements CLOSEDCURL $@10 else_if_statement
-
-    $default  reduce using rule 97 ($@9)
-
-    $@9  go to state 193
-
-
 State 183
 
-  109 do_while_statement: DO statement WHILE OPENBRACKET value CLOSEDBRACKET • SEMICOLON
+  100 if_statement: IF $@9 OPENBRACKET value CLOSEDBRACKET OPENCURL • $@10 statements CLOSEDCURL $@11 else_if_statement
 
-    SEMICOLON  shift, and go to state 194
+    $default  reduce using rule 98 ($@10)
+
+    $@10  go to state 194
 
 
 State 184
 
-   84 unary_expression: IDENTIFIER • INC
-   85                 | IDENTIFIER • DEC
-   94 factor: IDENTIFIER •
-  115 for_expression: IDENTIFIER • EQUAL value SEMICOLON
-  116               | IDENTIFIER • PLUS_EQ expression
-  117               | IDENTIFIER • MINUS_EQ expression
-  118               | IDENTIFIER • MULT_EQ expression
-  119               | IDENTIFIER • DIV_EQ expression
+  110 do_while_statement: DO statement WHILE OPENBRACKET value CLOSEDBRACKET • SEMICOLON
 
-    PLUS_EQ   shift, and go to state 195
-    MINUS_EQ  shift, and go to state 196
-    MULT_EQ   shift, and go to state 197
-    DIV_EQ    shift, and go to state 198
-    INC       shift, and go to state 54
-    DEC       shift, and go to state 55
-    EQUAL     shift, and go to state 199
-
-    $default  reduce using rule 94 (factor)
+    SEMICOLON  shift, and go to state 195
 
 
 State 185
 
-  120 for_expression: value •
+   85 unary_expression: IDENTIFIER • INC
+   86                 | IDENTIFIER • DEC
+   95 factor: IDENTIFIER •
+  116 for_expression: IDENTIFIER • EQUAL value SEMICOLON
+  117               | IDENTIFIER • PLUS_EQ expression
+  118               | IDENTIFIER • MINUS_EQ expression
+  119               | IDENTIFIER • MULT_EQ expression
+  120               | IDENTIFIER • DIV_EQ expression
 
-    $default  reduce using rule 120 (for_expression)
+    PLUS_EQ   shift, and go to state 196
+    MINUS_EQ  shift, and go to state 197
+    MULT_EQ   shift, and go to state 198
+    DIV_EQ    shift, and go to state 199
+    INC       shift, and go to state 54
+    DEC       shift, and go to state 55
+    EQUAL     shift, and go to state 200
+
+    $default  reduce using rule 95 (factor)
 
 
 State 186
 
-  110 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression • CLOSEDBRACKET statement
+  121 for_expression: value •
 
-    CLOSEDBRACKET  shift, and go to state 200
+    $default  reduce using rule 121 (for_expression)
 
 
 State 187
 
-  124 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@16 • case_list CLOSEDCURL $@17
+  111 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression • CLOSEDBRACKET statement
 
-    CASE     shift, and go to state 201
-    DEFAULT  shift, and go to state 202
-
-    case_list       go to state 203
-    case_statement  go to state 204
+    CLOSEDBRACKET  shift, and go to state 201
 
 
 State 188
 
+  125 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@17 • case_list CLOSEDCURL $@18
+
+    CASE     shift, and go to state 202
+    DEFAULT  shift, and go to state 203
+
+    case_list       go to state 204
+    case_statement  go to state 205
+
+
+State 189
+
    62 single_parameter: type IDENTIFIER •
    63                 | type IDENTIFIER • EQUAL constant
 
-    EQUAL  shift, and go to state 205
+    EQUAL  shift, and go to state 206
 
     $default  reduce using rule 62 (single_parameter)
 
 
-State 189
+State 190
 
    60 parameters: parameters COMMA • single_parameter
 
@@ -2893,34 +2907,34 @@ State 189
     BOOL    shift, and go to state 9
     STRING  shift, and go to state 10
 
-    type              go to state 172
-    single_parameter  go to state 206
+    type              go to state 171
+    single_parameter  go to state 207
 
 
-State 190
+State 191
 
    57 function_prototype: VOID IDENTIFIER OPENBRACKET $@6 parameters CLOSEDBRACKET •
 
     $default  reduce using rule 57 (function_prototype)
 
 
-State 191
+State 192
 
    53 function_prototype: type IDENTIFIER OPENBRACKET $@4 parameters CLOSEDBRACKET •
 
     $default  reduce using rule 53 (function_prototype)
 
 
-State 192
+State 193
 
    49 function: function_prototype OPENCURL $@2 statements CLOSEDCURL $@3 •
 
     $default  reduce using rule 49 (function)
 
 
-State 193
+State 194
 
-   99 if_statement: IF $@8 OPENBRACKET value CLOSEDBRACKET OPENCURL $@9 • statements CLOSEDCURL $@10 else_if_statement
+  100 if_statement: IF $@9 OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 • statements CLOSEDCURL $@11 else_if_statement
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -2948,7 +2962,7 @@ State 193
     OPENCURL     shift, and go to state 24
     SEMICOLON    shift, and go to state 25
 
-    statements             go to state 207
+    statements             go to state 208
     statement              go to state 27
     type                   go to state 28
     assignment_statement   go to state 29
@@ -2974,37 +2988,16 @@ State 193
     continue_statement     go to state 49
 
 
-State 194
-
-  109 do_while_statement: DO statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON •
-
-    $default  reduce using rule 109 (do_while_statement)
-
-
 State 195
 
-  116 for_expression: IDENTIFIER PLUS_EQ • expression
+  110 do_while_statement: DO statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON •
 
-    IDENTIFIER   shift, and go to state 60
-    INT_NUM      shift, and go to state 2
-    FLOAT_VAL    shift, and go to state 3
-    TRUE_VAL     shift, and go to state 4
-    FALSE_VAL    shift, and go to state 5
-    NOT          shift, and go to state 13
-    OPENBRACKET  shift, and go to state 23
-
-    expression             go to state 208
-    boolean_expression     go to state 37
-    arithmetic_expression  go to state 38
-    unary_expression       go to state 39
-    binary_expression      go to state 40
-    term                   go to state 41
-    factor                 go to state 42
+    $default  reduce using rule 110 (do_while_statement)
 
 
 State 196
 
-  117 for_expression: IDENTIFIER MINUS_EQ • expression
+  117 for_expression: IDENTIFIER PLUS_EQ • expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -3025,7 +3018,7 @@ State 196
 
 State 197
 
-  118 for_expression: IDENTIFIER MULT_EQ • expression
+  118 for_expression: IDENTIFIER MINUS_EQ • expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -3046,7 +3039,7 @@ State 197
 
 State 198
 
-  119 for_expression: IDENTIFIER DIV_EQ • expression
+  119 for_expression: IDENTIFIER MULT_EQ • expression
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -3067,7 +3060,28 @@ State 198
 
 State 199
 
-  115 for_expression: IDENTIFIER EQUAL • value SEMICOLON
+  120 for_expression: IDENTIFIER DIV_EQ • expression
+
+    IDENTIFIER   shift, and go to state 60
+    INT_NUM      shift, and go to state 2
+    FLOAT_VAL    shift, and go to state 3
+    TRUE_VAL     shift, and go to state 4
+    FALSE_VAL    shift, and go to state 5
+    NOT          shift, and go to state 13
+    OPENBRACKET  shift, and go to state 23
+
+    expression             go to state 212
+    boolean_expression     go to state 37
+    arithmetic_expression  go to state 38
+    unary_expression       go to state 39
+    binary_expression      go to state 40
+    term                   go to state 41
+    factor                 go to state 42
+
+
+State 200
+
+  116 for_expression: IDENTIFIER EQUAL • value SEMICOLON
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -3079,7 +3093,7 @@ State 199
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    value                  go to state 212
+    value                  go to state 213
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -3089,9 +3103,9 @@ State 199
     factor                 go to state 42
 
 
-State 200
+State 201
 
-  110 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET • statement
+  111 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET • statement
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -3119,7 +3133,7 @@ State 200
     OPENCURL     shift, and go to state 24
     SEMICOLON    shift, and go to state 25
 
-    statement              go to state 213
+    statement              go to state 214
     type                   go to state 28
     assignment_statement   go to state 29
     var_declaration        go to state 30
@@ -3144,9 +3158,9 @@ State 200
     continue_statement     go to state 49
 
 
-State 201
+State 202
 
-  127 case_statement: CASE • value COLON statements
+  128 case_statement: CASE • value COLON statements
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -3158,7 +3172,7 @@ State 201
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    value                  go to state 214
+    value                  go to state 215
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -3168,57 +3182,57 @@ State 201
     factor                 go to state 42
 
 
-State 202
-
-  128 case_statement: DEFAULT • COLON statements
-
-    COLON  shift, and go to state 215
-
-
 State 203
 
-  124 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@16 case_list • CLOSEDCURL $@17
-  125 case_list: case_list • case_statement
+  129 case_statement: DEFAULT • COLON statements
 
-    CASE        shift, and go to state 201
-    DEFAULT     shift, and go to state 202
-    CLOSEDCURL  shift, and go to state 216
-
-    case_statement  go to state 217
+    COLON  shift, and go to state 216
 
 
 State 204
 
-  126 case_list: case_statement •
+  125 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@17 case_list • CLOSEDCURL $@18
+  126 case_list: case_list • case_statement
 
-    $default  reduce using rule 126 (case_list)
+    CASE        shift, and go to state 202
+    DEFAULT     shift, and go to state 203
+    CLOSEDCURL  shift, and go to state 217
+
+    case_statement  go to state 218
 
 
 State 205
 
-   63 single_parameter: type IDENTIFIER EQUAL • constant
+  127 case_list: case_statement •
 
-    INT_NUM     shift, and go to state 218
-    FLOAT_VAL   shift, and go to state 219
-    STRING_VAL  shift, and go to state 220
-    TRUE_VAL    shift, and go to state 221
-    FALSE_VAL   shift, and go to state 222
-    CHAR_VAL    shift, and go to state 223
-
-    constant  go to state 224
+    $default  reduce using rule 127 (case_list)
 
 
 State 206
+
+   63 single_parameter: type IDENTIFIER EQUAL • constant
+
+    INT_NUM     shift, and go to state 219
+    FLOAT_VAL   shift, and go to state 220
+    STRING_VAL  shift, and go to state 221
+    TRUE_VAL    shift, and go to state 222
+    FALSE_VAL   shift, and go to state 223
+    CHAR_VAL    shift, and go to state 224
+
+    constant  go to state 225
+
+
+State 207
 
    60 parameters: parameters COMMA single_parameter •
 
     $default  reduce using rule 60 (parameters)
 
 
-State 207
+State 208
 
     1 statements: statements • statement
-   99 if_statement: IF $@8 OPENBRACKET value CLOSEDBRACKET OPENCURL $@9 statements • CLOSEDCURL $@10 else_if_statement
+  100 if_statement: IF $@9 OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 statements • CLOSEDCURL $@11 else_if_statement
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -3244,7 +3258,7 @@ State 207
     RETURN       shift, and go to state 22
     OPENBRACKET  shift, and go to state 23
     OPENCURL     shift, and go to state 24
-    CLOSEDCURL   shift, and go to state 225
+    CLOSEDCURL   shift, and go to state 226
     SEMICOLON    shift, and go to state 25
 
     statement              go to state 78
@@ -3272,41 +3286,17 @@ State 207
     continue_statement     go to state 49
 
 
-State 208
-
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
-  116 for_expression: IDENTIFIER PLUS_EQ expression •
-
-    LT     shift, and go to state 81
-    GT     shift, and go to state 82
-    GE     shift, and go to state 83
-    LE     shift, and go to state 84
-    EQ_EQ  shift, and go to state 85
-    NE     shift, and go to state 86
-    AND    shift, and go to state 87
-    OR     shift, and go to state 88
-
-    $default  reduce using rule 116 (for_expression)
-
-
 State 209
 
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
-  117 for_expression: IDENTIFIER MINUS_EQ expression •
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
+  117 for_expression: IDENTIFIER PLUS_EQ expression •
 
     LT     shift, and go to state 81
     GT     shift, and go to state 82
@@ -3322,15 +3312,15 @@ State 209
 
 State 210
 
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
-  118 for_expression: IDENTIFIER MULT_EQ expression •
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
+  118 for_expression: IDENTIFIER MINUS_EQ expression •
 
     LT     shift, and go to state 81
     GT     shift, and go to state 82
@@ -3346,15 +3336,15 @@ State 210
 
 State 211
 
-   71 boolean_expression: expression • EQ_EQ arithmetic_expression
-   72                   | expression • NE arithmetic_expression
-   73                   | expression • GE arithmetic_expression
-   74                   | expression • LE arithmetic_expression
-   75                   | expression • GT arithmetic_expression
-   76                   | expression • LT arithmetic_expression
-   77                   | expression • AND arithmetic_expression
-   78                   | expression • OR arithmetic_expression
-  119 for_expression: IDENTIFIER DIV_EQ expression •
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
+  119 for_expression: IDENTIFIER MULT_EQ expression •
 
     LT     shift, and go to state 81
     GT     shift, and go to state 82
@@ -3370,28 +3360,52 @@ State 211
 
 State 212
 
-  115 for_expression: IDENTIFIER EQUAL value • SEMICOLON
+   72 boolean_expression: expression • EQ_EQ arithmetic_expression
+   73                   | expression • NE arithmetic_expression
+   74                   | expression • GE arithmetic_expression
+   75                   | expression • LE arithmetic_expression
+   76                   | expression • GT arithmetic_expression
+   77                   | expression • LT arithmetic_expression
+   78                   | expression • AND arithmetic_expression
+   79                   | expression • OR arithmetic_expression
+  120 for_expression: IDENTIFIER DIV_EQ expression •
 
-    SEMICOLON  shift, and go to state 226
+    LT     shift, and go to state 81
+    GT     shift, and go to state 82
+    GE     shift, and go to state 83
+    LE     shift, and go to state 84
+    EQ_EQ  shift, and go to state 85
+    NE     shift, and go to state 86
+    AND    shift, and go to state 87
+    OR     shift, and go to state 88
+
+    $default  reduce using rule 120 (for_expression)
 
 
 State 213
 
-  110 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement •
+  116 for_expression: IDENTIFIER EQUAL value • SEMICOLON
 
-    $default  reduce using rule 110 (for_statement)
+    SEMICOLON  shift, and go to state 227
 
 
 State 214
 
-  127 case_statement: CASE value • COLON statements
+  111 for_statement: FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement •
 
-    COLON  shift, and go to state 227
+    $default  reduce using rule 111 (for_statement)
 
 
 State 215
 
-  128 case_statement: DEFAULT COLON • statements
+  128 case_statement: CASE value • COLON statements
+
+    COLON  shift, and go to state 228
+
+
+State 216
+
+  129 case_statement: DEFAULT COLON • statements
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -3419,7 +3433,7 @@ State 215
     OPENCURL     shift, and go to state 24
     SEMICOLON    shift, and go to state 25
 
-    statements             go to state 228
+    statements             go to state 229
     statement              go to state 27
     type                   go to state 28
     assignment_statement   go to state 29
@@ -3445,90 +3459,90 @@ State 215
     continue_statement     go to state 49
 
 
-State 216
-
-  124 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@16 case_list CLOSEDCURL • $@17
-
-    $default  reduce using rule 123 ($@17)
-
-    $@17  go to state 229
-
-
 State 217
 
-  125 case_list: case_list case_statement •
+  125 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@17 case_list CLOSEDCURL • $@18
 
-    $default  reduce using rule 125 (case_list)
+    $default  reduce using rule 124 ($@18)
+
+    $@18  go to state 230
 
 
 State 218
+
+  126 case_list: case_list case_statement •
+
+    $default  reduce using rule 126 (case_list)
+
+
+State 219
 
    29 constant: INT_NUM •
 
     $default  reduce using rule 29 (constant)
 
 
-State 219
+State 220
 
    30 constant: FLOAT_VAL •
 
     $default  reduce using rule 30 (constant)
 
 
-State 220
+State 221
 
    31 constant: STRING_VAL •
 
     $default  reduce using rule 31 (constant)
 
 
-State 221
+State 222
 
    32 constant: TRUE_VAL •
 
     $default  reduce using rule 32 (constant)
 
 
-State 222
+State 223
 
    33 constant: FALSE_VAL •
 
     $default  reduce using rule 33 (constant)
 
 
-State 223
+State 224
 
    34 constant: CHAR_VAL •
 
     $default  reduce using rule 34 (constant)
 
 
-State 224
+State 225
 
    63 single_parameter: type IDENTIFIER EQUAL constant •
 
     $default  reduce using rule 63 (single_parameter)
 
 
-State 225
-
-   99 if_statement: IF $@8 OPENBRACKET value CLOSEDBRACKET OPENCURL $@9 statements CLOSEDCURL • $@10 else_if_statement
-
-    $default  reduce using rule 98 ($@10)
-
-    $@10  go to state 230
-
-
 State 226
 
-  115 for_expression: IDENTIFIER EQUAL value SEMICOLON •
+  100 if_statement: IF $@9 OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL • $@11 else_if_statement
 
-    $default  reduce using rule 115 (for_expression)
+    $default  reduce using rule 99 ($@11)
+
+    $@11  go to state 231
 
 
 State 227
 
-  127 case_statement: CASE value COLON • statements
+  116 for_expression: IDENTIFIER EQUAL value SEMICOLON •
+
+    $default  reduce using rule 116 (for_expression)
+
+
+State 228
+
+  128 case_statement: CASE value COLON • statements
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -3556,7 +3570,7 @@ State 227
     OPENCURL     shift, and go to state 24
     SEMICOLON    shift, and go to state 25
 
-    statements             go to state 231
+    statements             go to state 232
     statement              go to state 27
     type                   go to state 28
     assignment_statement   go to state 29
@@ -3582,10 +3596,86 @@ State 227
     continue_statement     go to state 49
 
 
-State 228
+State 229
 
     1 statements: statements • statement
-  128 case_statement: DEFAULT COLON statements •
+  129 case_statement: DEFAULT COLON statements •
+
+    IDENTIFIER   shift, and go to state 1
+    INT_NUM      shift, and go to state 2
+    FLOAT_VAL    shift, and go to state 3
+    TRUE_VAL     shift, and go to state 4
+    FALSE_VAL    shift, and go to state 5
+    INT          shift, and go to state 6
+    FLOAT        shift, and go to state 7
+    CHAR         shift, and go to state 8
+    BOOL         shift, and go to state 9
+    STRING       shift, and go to state 10
+    CONST        shift, and go to state 11
+    EXTERN       shift, and go to state 12
+    NOT          shift, and go to state 13
+    IF           shift, and go to state 14
+    WHILE        shift, and go to state 15
+    DO           shift, and go to state 16
+    FOR          shift, and go to state 17
+    SWITCH       shift, and go to state 18
+    BREAK        shift, and go to state 19
+    CONTINUE     shift, and go to state 20
+    VOID         shift, and go to state 21
+    RETURN       shift, and go to state 22
+    OPENBRACKET  shift, and go to state 23
+    OPENCURL     shift, and go to state 24
+    SEMICOLON    shift, and go to state 25
+
+    $default  reduce using rule 129 (case_statement)
+
+    statement              go to state 78
+    type                   go to state 28
+    assignment_statement   go to state 29
+    var_declaration        go to state 30
+    constant_declaration   go to state 31
+    extern_declartion      go to state 32
+    function               go to state 33
+    function_prototype     go to state 34
+    function_call          go to state 35
+    expression             go to state 36
+    boolean_expression     go to state 37
+    arithmetic_expression  go to state 38
+    unary_expression       go to state 39
+    binary_expression      go to state 40
+    term                   go to state 41
+    factor                 go to state 42
+    if_statement           go to state 43
+    while_statement        go to state 44
+    do_while_statement     go to state 45
+    for_statement          go to state 46
+    switch_statement       go to state 47
+    break_statement        go to state 48
+    continue_statement     go to state 49
+
+
+State 230
+
+  125 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@17 case_list CLOSEDCURL $@18 •
+
+    $default  reduce using rule 125 (switch_statement)
+
+
+State 231
+
+  100 if_statement: IF $@9 OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL $@11 • else_if_statement
+
+    ELSE  shift, and go to state 233
+
+    $default  reduce using rule 108 (else_if_statement)
+
+    else_if_statement  go to state 234
+
+
+State 232
+
+    1 statements: statements • statement
+  128 case_statement: CASE value COLON statements •
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -3640,136 +3730,60 @@ State 228
     continue_statement     go to state 49
 
 
-State 229
-
-  124 switch_statement: SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL $@16 case_list CLOSEDCURL $@17 •
-
-    $default  reduce using rule 124 (switch_statement)
-
-
-State 230
-
-   99 if_statement: IF $@8 OPENBRACKET value CLOSEDBRACKET OPENCURL $@9 statements CLOSEDCURL $@10 • else_if_statement
-
-    ELSE  shift, and go to state 232
-
-    $default  reduce using rule 107 (else_if_statement)
-
-    else_if_statement  go to state 233
-
-
-State 231
-
-    1 statements: statements • statement
-  127 case_statement: CASE value COLON statements •
-
-    IDENTIFIER   shift, and go to state 1
-    INT_NUM      shift, and go to state 2
-    FLOAT_VAL    shift, and go to state 3
-    TRUE_VAL     shift, and go to state 4
-    FALSE_VAL    shift, and go to state 5
-    INT          shift, and go to state 6
-    FLOAT        shift, and go to state 7
-    CHAR         shift, and go to state 8
-    BOOL         shift, and go to state 9
-    STRING       shift, and go to state 10
-    CONST        shift, and go to state 11
-    EXTERN       shift, and go to state 12
-    NOT          shift, and go to state 13
-    IF           shift, and go to state 14
-    WHILE        shift, and go to state 15
-    DO           shift, and go to state 16
-    FOR          shift, and go to state 17
-    SWITCH       shift, and go to state 18
-    BREAK        shift, and go to state 19
-    CONTINUE     shift, and go to state 20
-    VOID         shift, and go to state 21
-    RETURN       shift, and go to state 22
-    OPENBRACKET  shift, and go to state 23
-    OPENCURL     shift, and go to state 24
-    SEMICOLON    shift, and go to state 25
-
-    $default  reduce using rule 127 (case_statement)
-
-    statement              go to state 78
-    type                   go to state 28
-    assignment_statement   go to state 29
-    var_declaration        go to state 30
-    constant_declaration   go to state 31
-    extern_declartion      go to state 32
-    function               go to state 33
-    function_prototype     go to state 34
-    function_call          go to state 35
-    expression             go to state 36
-    boolean_expression     go to state 37
-    arithmetic_expression  go to state 38
-    unary_expression       go to state 39
-    binary_expression      go to state 40
-    term                   go to state 41
-    factor                 go to state 42
-    if_statement           go to state 43
-    while_statement        go to state 44
-    do_while_statement     go to state 45
-    for_statement          go to state 46
-    switch_statement       go to state 47
-    break_statement        go to state 48
-    continue_statement     go to state 49
-
-
-State 232
-
-  106 else_if_statement: ELSE • $@14 OPENCURL $@15 statements CLOSEDCURL
-
-    $default  reduce using rule 104 ($@14)
-
-    $@14  go to state 234
-
-
 State 233
 
-   99 if_statement: IF $@8 OPENBRACKET value CLOSEDBRACKET OPENCURL $@9 statements CLOSEDCURL $@10 else_if_statement •
-  103 else_if_statement: else_if_statement • ELSEIF $@11 OPENBRACKET value CLOSEDBRACKET $@12 OPENCURL $@13 statements CLOSEDCURL
+  107 else_if_statement: ELSE • $@15 OPENCURL $@16 statements CLOSEDCURL
 
-    ELSEIF  shift, and go to state 235
+    $default  reduce using rule 105 ($@15)
 
-    $default  reduce using rule 99 (if_statement)
+    $@15  go to state 235
 
 
 State 234
 
-  106 else_if_statement: ELSE $@14 • OPENCURL $@15 statements CLOSEDCURL
+  100 if_statement: IF $@9 OPENBRACKET value CLOSEDBRACKET OPENCURL $@10 statements CLOSEDCURL $@11 else_if_statement •
+  104 else_if_statement: else_if_statement • ELSEIF $@12 OPENBRACKET value CLOSEDBRACKET $@13 OPENCURL $@14 statements CLOSEDCURL
 
-    OPENCURL  shift, and go to state 236
+    ELSEIF  shift, and go to state 236
+
+    $default  reduce using rule 100 (if_statement)
 
 
 State 235
 
-  103 else_if_statement: else_if_statement ELSEIF • $@11 OPENBRACKET value CLOSEDBRACKET $@12 OPENCURL $@13 statements CLOSEDCURL
+  107 else_if_statement: ELSE $@15 • OPENCURL $@16 statements CLOSEDCURL
 
-    $default  reduce using rule 100 ($@11)
-
-    $@11  go to state 237
+    OPENCURL  shift, and go to state 237
 
 
 State 236
 
-  106 else_if_statement: ELSE $@14 OPENCURL • $@15 statements CLOSEDCURL
+  104 else_if_statement: else_if_statement ELSEIF • $@12 OPENBRACKET value CLOSEDBRACKET $@13 OPENCURL $@14 statements CLOSEDCURL
 
-    $default  reduce using rule 105 ($@15)
+    $default  reduce using rule 101 ($@12)
 
-    $@15  go to state 238
+    $@12  go to state 238
 
 
 State 237
 
-  103 else_if_statement: else_if_statement ELSEIF $@11 • OPENBRACKET value CLOSEDBRACKET $@12 OPENCURL $@13 statements CLOSEDCURL
+  107 else_if_statement: ELSE $@15 OPENCURL • $@16 statements CLOSEDCURL
 
-    OPENBRACKET  shift, and go to state 239
+    $default  reduce using rule 106 ($@16)
+
+    $@16  go to state 239
 
 
 State 238
 
-  106 else_if_statement: ELSE $@14 OPENCURL $@15 • statements CLOSEDCURL
+  104 else_if_statement: else_if_statement ELSEIF $@12 • OPENBRACKET value CLOSEDBRACKET $@13 OPENCURL $@14 statements CLOSEDCURL
+
+    OPENBRACKET  shift, and go to state 240
+
+
+State 239
+
+  107 else_if_statement: ELSE $@15 OPENCURL $@16 • statements CLOSEDCURL
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -3797,7 +3811,7 @@ State 238
     OPENCURL     shift, and go to state 24
     SEMICOLON    shift, and go to state 25
 
-    statements             go to state 240
+    statements             go to state 241
     statement              go to state 27
     type                   go to state 28
     assignment_statement   go to state 29
@@ -3823,9 +3837,9 @@ State 238
     continue_statement     go to state 49
 
 
-State 239
+State 240
 
-  103 else_if_statement: else_if_statement ELSEIF $@11 OPENBRACKET • value CLOSEDBRACKET $@12 OPENCURL $@13 statements CLOSEDCURL
+  104 else_if_statement: else_if_statement ELSEIF $@12 OPENBRACKET • value CLOSEDBRACKET $@13 OPENCURL $@14 statements CLOSEDCURL
 
     IDENTIFIER   shift, and go to state 60
     INT_NUM      shift, and go to state 2
@@ -3837,7 +3851,7 @@ State 239
     NOT          shift, and go to state 13
     OPENBRACKET  shift, and go to state 23
 
-    value                  go to state 241
+    value                  go to state 242
     expression             go to state 74
     boolean_expression     go to state 37
     arithmetic_expression  go to state 38
@@ -3847,10 +3861,10 @@ State 239
     factor                 go to state 42
 
 
-State 240
+State 241
 
     1 statements: statements • statement
-  106 else_if_statement: ELSE $@14 OPENCURL $@15 statements • CLOSEDCURL
+  107 else_if_statement: ELSE $@15 OPENCURL $@16 statements • CLOSEDCURL
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -3876,7 +3890,7 @@ State 240
     RETURN       shift, and go to state 22
     OPENBRACKET  shift, and go to state 23
     OPENCURL     shift, and go to state 24
-    CLOSEDCURL   shift, and go to state 242
+    CLOSEDCURL   shift, and go to state 243
     SEMICOLON    shift, and go to state 25
 
     statement              go to state 78
@@ -3902,107 +3916,50 @@ State 240
     switch_statement       go to state 47
     break_statement        go to state 48
     continue_statement     go to state 49
-
-
-State 241
-
-  103 else_if_statement: else_if_statement ELSEIF $@11 OPENBRACKET value • CLOSEDBRACKET $@12 OPENCURL $@13 statements CLOSEDCURL
-
-    CLOSEDBRACKET  shift, and go to state 243
 
 
 State 242
 
-  106 else_if_statement: ELSE $@14 OPENCURL $@15 statements CLOSEDCURL •
+  104 else_if_statement: else_if_statement ELSEIF $@12 OPENBRACKET value • CLOSEDBRACKET $@13 OPENCURL $@14 statements CLOSEDCURL
 
-    $default  reduce using rule 106 (else_if_statement)
+    CLOSEDBRACKET  shift, and go to state 244
 
 
 State 243
 
-  103 else_if_statement: else_if_statement ELSEIF $@11 OPENBRACKET value CLOSEDBRACKET • $@12 OPENCURL $@13 statements CLOSEDCURL
+  107 else_if_statement: ELSE $@15 OPENCURL $@16 statements CLOSEDCURL •
 
-    $default  reduce using rule 101 ($@12)
-
-    $@12  go to state 244
+    $default  reduce using rule 107 (else_if_statement)
 
 
 State 244
 
-  103 else_if_statement: else_if_statement ELSEIF $@11 OPENBRACKET value CLOSEDBRACKET $@12 • OPENCURL $@13 statements CLOSEDCURL
+  104 else_if_statement: else_if_statement ELSEIF $@12 OPENBRACKET value CLOSEDBRACKET • $@13 OPENCURL $@14 statements CLOSEDCURL
 
-    OPENCURL  shift, and go to state 245
+    $default  reduce using rule 102 ($@13)
+
+    $@13  go to state 245
 
 
 State 245
 
-  103 else_if_statement: else_if_statement ELSEIF $@11 OPENBRACKET value CLOSEDBRACKET $@12 OPENCURL • $@13 statements CLOSEDCURL
+  104 else_if_statement: else_if_statement ELSEIF $@12 OPENBRACKET value CLOSEDBRACKET $@13 • OPENCURL $@14 statements CLOSEDCURL
 
-    $default  reduce using rule 102 ($@13)
-
-    $@13  go to state 246
+    OPENCURL  shift, and go to state 246
 
 
 State 246
 
-  103 else_if_statement: else_if_statement ELSEIF $@11 OPENBRACKET value CLOSEDBRACKET $@12 OPENCURL $@13 • statements CLOSEDCURL
+  104 else_if_statement: else_if_statement ELSEIF $@12 OPENBRACKET value CLOSEDBRACKET $@13 OPENCURL • $@14 statements CLOSEDCURL
 
-    IDENTIFIER   shift, and go to state 1
-    INT_NUM      shift, and go to state 2
-    FLOAT_VAL    shift, and go to state 3
-    TRUE_VAL     shift, and go to state 4
-    FALSE_VAL    shift, and go to state 5
-    INT          shift, and go to state 6
-    FLOAT        shift, and go to state 7
-    CHAR         shift, and go to state 8
-    BOOL         shift, and go to state 9
-    STRING       shift, and go to state 10
-    CONST        shift, and go to state 11
-    EXTERN       shift, and go to state 12
-    NOT          shift, and go to state 13
-    IF           shift, and go to state 14
-    WHILE        shift, and go to state 15
-    DO           shift, and go to state 16
-    FOR          shift, and go to state 17
-    SWITCH       shift, and go to state 18
-    BREAK        shift, and go to state 19
-    CONTINUE     shift, and go to state 20
-    VOID         shift, and go to state 21
-    RETURN       shift, and go to state 22
-    OPENBRACKET  shift, and go to state 23
-    OPENCURL     shift, and go to state 24
-    SEMICOLON    shift, and go to state 25
+    $default  reduce using rule 103 ($@14)
 
-    statements             go to state 247
-    statement              go to state 27
-    type                   go to state 28
-    assignment_statement   go to state 29
-    var_declaration        go to state 30
-    constant_declaration   go to state 31
-    extern_declartion      go to state 32
-    function               go to state 33
-    function_prototype     go to state 34
-    function_call          go to state 35
-    expression             go to state 36
-    boolean_expression     go to state 37
-    arithmetic_expression  go to state 38
-    unary_expression       go to state 39
-    binary_expression      go to state 40
-    term                   go to state 41
-    factor                 go to state 42
-    if_statement           go to state 43
-    while_statement        go to state 44
-    do_while_statement     go to state 45
-    for_statement          go to state 46
-    switch_statement       go to state 47
-    break_statement        go to state 48
-    continue_statement     go to state 49
+    $@14  go to state 247
 
 
 State 247
 
-    1 statements: statements • statement
-  103 else_if_statement: else_if_statement ELSEIF $@11 OPENBRACKET value CLOSEDBRACKET $@12 OPENCURL $@13 statements • CLOSEDCURL
+  104 else_if_statement: else_if_statement ELSEIF $@12 OPENBRACKET value CLOSEDBRACKET $@13 OPENCURL $@14 • statements CLOSEDCURL
 
     IDENTIFIER   shift, and go to state 1
     INT_NUM      shift, and go to state 2
@@ -4028,10 +3985,10 @@ State 247
     RETURN       shift, and go to state 22
     OPENBRACKET  shift, and go to state 23
     OPENCURL     shift, and go to state 24
-    CLOSEDCURL   shift, and go to state 248
     SEMICOLON    shift, and go to state 25
 
-    statement              go to state 78
+    statements             go to state 248
+    statement              go to state 27
     type                   go to state 28
     assignment_statement   go to state 29
     var_declaration        go to state 30
@@ -4058,6 +4015,63 @@ State 247
 
 State 248
 
-  103 else_if_statement: else_if_statement ELSEIF $@11 OPENBRACKET value CLOSEDBRACKET $@12 OPENCURL $@13 statements CLOSEDCURL •
+    1 statements: statements • statement
+  104 else_if_statement: else_if_statement ELSEIF $@12 OPENBRACKET value CLOSEDBRACKET $@13 OPENCURL $@14 statements • CLOSEDCURL
 
-    $default  reduce using rule 103 (else_if_statement)
+    IDENTIFIER   shift, and go to state 1
+    INT_NUM      shift, and go to state 2
+    FLOAT_VAL    shift, and go to state 3
+    TRUE_VAL     shift, and go to state 4
+    FALSE_VAL    shift, and go to state 5
+    INT          shift, and go to state 6
+    FLOAT        shift, and go to state 7
+    CHAR         shift, and go to state 8
+    BOOL         shift, and go to state 9
+    STRING       shift, and go to state 10
+    CONST        shift, and go to state 11
+    EXTERN       shift, and go to state 12
+    NOT          shift, and go to state 13
+    IF           shift, and go to state 14
+    WHILE        shift, and go to state 15
+    DO           shift, and go to state 16
+    FOR          shift, and go to state 17
+    SWITCH       shift, and go to state 18
+    BREAK        shift, and go to state 19
+    CONTINUE     shift, and go to state 20
+    VOID         shift, and go to state 21
+    RETURN       shift, and go to state 22
+    OPENBRACKET  shift, and go to state 23
+    OPENCURL     shift, and go to state 24
+    CLOSEDCURL   shift, and go to state 249
+    SEMICOLON    shift, and go to state 25
+
+    statement              go to state 78
+    type                   go to state 28
+    assignment_statement   go to state 29
+    var_declaration        go to state 30
+    constant_declaration   go to state 31
+    extern_declartion      go to state 32
+    function               go to state 33
+    function_prototype     go to state 34
+    function_call          go to state 35
+    expression             go to state 36
+    boolean_expression     go to state 37
+    arithmetic_expression  go to state 38
+    unary_expression       go to state 39
+    binary_expression      go to state 40
+    term                   go to state 41
+    factor                 go to state 42
+    if_statement           go to state 43
+    while_statement        go to state 44
+    do_while_statement     go to state 45
+    for_statement          go to state 46
+    switch_statement       go to state 47
+    break_statement        go to state 48
+    continue_statement     go to state 49
+
+
+State 249
+
+  104 else_if_statement: else_if_statement ELSEIF $@12 OPENBRACKET value CLOSEDBRACKET $@13 OPENCURL $@14 statements CLOSEDCURL •
+
+    $default  reduce using rule 104 (else_if_statement)

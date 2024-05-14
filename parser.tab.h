@@ -116,13 +116,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 36 "parser.y"
+#line 37 "parser.y"
 //this is the union for the token value from the lexer
 	char* name ;//identifier name 
 	int var_type;//type
 	struct lexical{
 		int type ;//type value 
-		// char* name2 ;// name
+	    char* name2 ;// name
 		int intval;//value int 
 		float floatval;//float value
 		char charval;//char value

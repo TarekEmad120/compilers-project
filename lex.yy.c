@@ -2196,5 +2196,5 @@ int yywrap(void)
 /* This is called by our parser whenever there is a syntactical error. In other words something that does not suit the grammar. */
 void yyerror (char *s) {
     printsemanticerror(s,yylineno);
-	programerror = true;
+
 } 
