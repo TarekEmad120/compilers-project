@@ -1,5 +1,1 @@
-int x =0;
-int y =1;
-int z =1;
-y =z+1;
-x =1.873387;
+int x;

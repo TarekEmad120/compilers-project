@@ -1,24 +1,8 @@
-Name: z
-Type: int
-Value: 1
-Scope: 0
-Used: true
-Initialized: true
-Is Function: false
-
-Name: y
-Type: int
-Value: 2
-Scope: 0
-Used: true
-Initialized: true
-Is Function: false
-
 Name: x
 Type: int
-Value: 0
+Value: (null)
 Scope: 0
-Used: true
-Initialized: true
+Used: false
+Initialized: false
 Is Function: false
 
