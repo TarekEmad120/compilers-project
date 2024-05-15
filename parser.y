@@ -18,6 +18,7 @@
 	int functiontype = 0;
 	int memaddress=0;
 	int Ifcounter=0;
+	int EndIfcounter=0;
 	int whileCounter=0;
 	int doWhileCounter=0;
 	int forCounter=0;
@@ -1870,9 +1871,9 @@ factor:
 /* If statement */
 
 if_statement:
-        IF {Ifcounter++;} OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;printJUMPtype(1);} 
-		statements
-		 CLOSEDCURL{endscope(scopeno); scopeno--;printJUMPtype(2);} else_if_statement  
+        IF {Ifcounter++;} OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;printVM("JumpFalse EndOFSection",Ifcounter);} 
+		statements {printVM("Jump EndIF",EndIfcounter);}
+		 CLOSEDCURL{endscope(scopeno); scopeno--;printVM("EndOFSection",Ifcounter);} else_if_statement  {printVM("EndIF",EndIfcounter);EndIfcounter++;}
 		{
 
 			printf("If then statement\n");
@@ -1881,9 +1882,9 @@ if_statement:
 	;
 
 else_if_statement:
-    else_if_statement ELSEIF OPENBRACKET value CLOSEDBRACKET   OPENCURL{scopeno++;} {printJUMPtype(3);}   statements CLOSEDCURL  {printJUMPtype(4);} { endscope(scopeno); scopeno--;}
-	| ELSE {printVM("ELSE_",Ifcounter);} OPENCURL{scopeno++;} statements CLOSEDCURL {endscope(scopeno); scopeno--;}
-	| {printVM("ELSE",Ifcounter);}
+    else_if_statement {Ifcounter++;} ELSEIF OPENBRACKET value CLOSEDBRACKET   OPENCURL {scopeno++;  printVM("JumpFalse EndOFSection",Ifcounter); }   statements {printVM("Jump EndIF",EndIfcounter);} CLOSEDCURL  {printVM("EndOFSection",Ifcounter);} { endscope(scopeno); scopeno--;}
+	| ELSE  OPENCURL{scopeno++; } statements  CLOSEDCURL {endscope(scopeno); scopeno--;printVM("Jump EndIF",EndIfcounter);}
+	| 
     ;
 
 /* While statement */

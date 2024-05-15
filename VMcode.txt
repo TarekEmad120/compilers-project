@@ -1,19 +1,17 @@
 PUSH 	5
 POPMEM 	0
-PUSH 	6
-POPMEM 	1
-PUSH 	7
-POPMEM 	2
-PUSH 	9
-POPMEM 	3
-PUSH 	3
-POPMEM 	4
-switchBegin
-PUSHMEM 	4
-PUSH 	0
-case:0
-PUSHMEM 	2
-PUSH 	10
-case:1
-PUSHMEM 	3
-switchEnd1
+PUSHMEM 	0
+PUSH 	4
+EQUAL
+JumpFalse EndOFSection1
+PUSH 	4
+Jump EndIF0
+EndOFSection1
+PUSHMEM 	0
+PUSH 	2
+EQUAL
+JumpFalse EndOFSection2
+PUSH 	45
+Jump EndIF0
+EndOFSection2
+EndIF0

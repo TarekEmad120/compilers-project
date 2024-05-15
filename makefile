@@ -15,7 +15,7 @@ debug:
 		bison -d -v parser.y -v
 		gcc -g lex.yy.c parser.tab.c
 rundebug:
-		gdb ./a.exe
+		gdb ./a.out
 		run
 		backtrace
 
