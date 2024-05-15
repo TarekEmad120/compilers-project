@@ -27,7 +27,7 @@
 	int argcount = 0;
 	int funcargs[30];
 	extern bool programerror = false;
-
+	bool checkBreak=false;
 
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
@@ -2196,7 +2196,7 @@ case_statement:
 
 /* Break or Continue */
 
-break_statement: BREAK SEMICOLON {printf("Break statement\n");};
+break_statement: BREAK SEMICOLON {checkBreak=true; printf("Break statement\n");};
 continue_statement: CONTINUE SEMICOLON {printf("Continue statement\n");};
 
 %%
@@ -2348,6 +2348,7 @@ void printJUMPtype( int x ){
 			case 19:
 				fprintf(VMcode, "Jump ENDSwitch%d\n",switchCounter);
 				break;
+			
 		}
 
 		fclose(VMcode);
