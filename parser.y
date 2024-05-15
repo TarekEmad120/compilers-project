@@ -1793,7 +1793,7 @@ factor:
 			$$.valueinstring = $1.valueinstring;
 			$$.intval = $1.intval;
 			if (programerror==false){
-				printPushValue($1.valueinstring);
+				// printPushValue($1.valueinstring);
 			}
 		}
         | FLOAT_VAL{
@@ -1801,7 +1801,7 @@ factor:
 			$$.valueinstring = $1.valueinstring;
 			$$.floatval = $1.floatval;
 			if (programerror==false){
-				printPushValue($1.valueinstring);
+				// printPushValue($1.valueinstring);
 			}
 		}
         | IDENTIFIER
@@ -1876,19 +1876,24 @@ factor:
 if_statement:
         IF {Ifcounter++;} OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;printVM("JumpFalse EndOFSection",Ifcounter);} 
 		statements {printVM("Jump EndIF",EndIfcounter);}
-		 CLOSEDCURL{endscope(scopeno); scopeno--;printVM("EndOFSection",Ifcounter);} else_if_statement  {printVM("EndIF",EndIfcounter);EndIfcounter++;}
+		 CLOSEDCURL{endscope(scopeno); scopeno--;printVM("EndOFSection",Ifcounter);} else_if_statement elsestatement  {printVM("EndIF",EndIfcounter);EndIfcounter++;}
 		{
 
 			printf("If then statement\n");
 			// printf("variable name  ==  %s\n",$3.s);
 		}
 	;
+elsestatement:
+		ELSE OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;}
+		| 
+		;
 
 else_if_statement:
-    else_if_statement {Ifcounter++;} ELSEIF OPENBRACKET value CLOSEDBRACKET   OPENCURL {scopeno++;  printVM("JumpFalse EndOFSection",Ifcounter); }   statements {printVM("Jump EndIF",EndIfcounter);} CLOSEDCURL  {printVM("EndOFSection",Ifcounter);} { endscope(scopeno); scopeno--;}
-	| ELSE  OPENCURL{scopeno++; } statements  CLOSEDCURL {endscope(scopeno); scopeno--;printVM("Jump EndIF",EndIfcounter);}
-	| 
+    else_if_statement  ELSEIF{Ifcounter++;} OPENBRACKET value CLOSEDBRACKET   OPENCURL {scopeno++;  printVM("JumpFalse EndOFSection",Ifcounter); }   statements {printVM("Jump EndIF",EndIfcounter);} CLOSEDCURL  {printVM("EndOFSection",Ifcounter);} { endscope(scopeno); scopeno--;}
+		| 
     ;
+
+	
 /* While statement */
 
 while_statement:
@@ -1904,7 +1909,8 @@ do_while_statement:
 /* For statement */
 
 for_statement:
-	FOR {forCounter++;}  OPENBRACKET for_initialization {printJUMPtype(16);} value {printJUMPtype(14);} {printJUMPtype(15);} SEMICOLON {printJUMPtype(13);} for_expression CLOSEDBRACKET statements {printJUMPtype(17);} {printJUMPtype(18);} {printf("for loop\n");}
+	FOR {forCounter++;}  OPENBRACKET for_initialization {printJUMPtype(16);} value{ 
+		} {printJUMPtype(14);} {printJUMPtype(15);} SEMICOLON {printJUMPtype(13);} for_expression CLOSEDBRACKET statement {printJUMPtype(17);} {printJUMPtype(18);} {printf("for loop\n");}
 	;
 
 for_initialization:

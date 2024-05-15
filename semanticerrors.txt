@@ -1,2 +1,0 @@
-Line 8: syntax error
-Line 11: syntax error

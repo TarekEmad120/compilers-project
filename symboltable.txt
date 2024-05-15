@@ -1,6 +1,22 @@
+Name: g
+Type: int
+Value: 10
+Scope: -1
+Used: true
+Initialized: true
+Is Function: false
+
+Name: i
+Type: int
+Value: 1
+Scope: 0
+Used: true
+Initialized: true
+Is Function: false
+
 Name: x
 Type: int
-Value: 45
+Value: 20
 Scope: 0
 Used: true
 Initialized: true

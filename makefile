@@ -4,8 +4,8 @@ build:
 		 gcc lex.yy.c parser.tab.c
 
 
-run: a.out
-		./a.out < instructions.txt 
+run: a.exe
+		./a.exe < instructions.txt 
 
 clean:
 	rm -f a.out y.tab.c lex.yy.c y.tab.h
