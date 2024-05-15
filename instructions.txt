@@ -1,6 +1,12 @@
-float add(float x , float y ){
-return x+y;
+int x=5;
+int y=6;
+int z=7;
+int n=9;
+int t=3;
+switch(t)
+{
+    case 0:
+    z;
+    case 10:
+    n;
 }
-
-
-float x =add(0.6);

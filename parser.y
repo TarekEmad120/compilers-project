@@ -18,6 +18,11 @@
 	int functiontype = 0;
 	int memaddress=0;
 	int Ifcounter=0;
+	int whileCounter=0;
+	int doWhileCounter=0;
+	int forCounter=0;
+	int switchCounter=0;
+	int caseCounter=0;
 	int argcount = 0;
 	int funcargs[30];
 	extern bool programerror = false;
@@ -194,7 +199,7 @@ statement :
 	| while_statement
 	| do_while_statement
 	| for_statement
-    | switch_statement
+    | switch_statement {switchCounter=0;}
     | break_statement
     | continue_statement
 	| function 	{printf("Function statement\n");}
@@ -1876,27 +1881,27 @@ if_statement:
 	;
 
 else_if_statement:
-    else_if_statement ELSEIF{printJUMPtype(3);} OPENBRACKET value CLOSEDBRACKET {printJUMPtype(4);} OPENCURL{scopeno++;} statements CLOSEDCURL { endscope(scopeno); scopeno--;}
+    else_if_statement ELSEIF OPENBRACKET value CLOSEDBRACKET   OPENCURL{scopeno++;} {printJUMPtype(3);}   statements CLOSEDCURL  {printJUMPtype(4);} { endscope(scopeno); scopeno--;}
 	| ELSE {printVM("ELSE_",Ifcounter);} OPENCURL{scopeno++;} statements CLOSEDCURL {endscope(scopeno); scopeno--;}
-	| {printVM("ENDELSE",Ifcounter);}
+	| {printVM("ELSE",Ifcounter);}
     ;
 
 /* While statement */
 
 while_statement:
-		WHILE OPENBRACKET value CLOSEDBRACKET statement   {printf("while loop\n");}
+		WHILE {whileCounter++;} {printJUMPtype(5);}  OPENBRACKET value  CLOSEDBRACKET {printJUMPtype(7);} statement {printJUMPtype(8);}  {printJUMPtype(6);} {printf("while loop\n");}
 		;
 
 /* Do while statement */
 
 do_while_statement:
-	DO statement WHILE OPENBRACKET value CLOSEDBRACKET SEMICOLON  {printf("do-while loop\n");}
+	DO {doWhileCounter++;} {printJUMPtype(9);} statement WHILE  OPENBRACKET  value {printJUMPtype(10);} {printJUMPtype(11);} CLOSEDBRACKET SEMICOLON {printJUMPtype(12);} {printf("do-while loop\n");}
 	;
 
 /* For statement */
 
 for_statement:
-	FOR OPENBRACKET for_initialization value SEMICOLON for_expression CLOSEDBRACKET statement {printf("for loop\n");}
+	FOR {forCounter++;}  OPENBRACKET for_initialization {printJUMPtype(16);} value {printJUMPtype(14);} {printJUMPtype(15);} SEMICOLON {printJUMPtype(13);} for_expression CLOSEDBRACKET statements {printJUMPtype(17);} {printJUMPtype(18);} {printf("for loop\n");}
 	;
 
 for_initialization:
@@ -2167,7 +2172,7 @@ for_expression:
 /* Switch statement */
 
 switch_statement:
-    SWITCH OPENBRACKET value CLOSEDBRACKET OPENCURL{scopeno++;} case_list CLOSEDCURL{endscope(scopeno); scopeno--;}{printf("switch case\n");}
+    SWITCH {switchCounter++;} {printVM("switchBegin",-1);}  OPENBRACKET {} value CLOSEDBRACKET OPENCURL{scopeno++;} case_list   CLOSEDCURL{endscope(scopeno); scopeno--;} {printVM("switchEnd",switchCounter);} {printf("switch case\n");}
     ;
 
 case_list:
@@ -2176,8 +2181,8 @@ case_list:
     ;
 
 case_statement:
-    CASE value COLON statements
-    | DEFAULT COLON statements
+    CASE value COLON {printVM("case:", caseCounter++);} statements
+    | DEFAULT COLON  {printVM("default_case:",-1);}statements
     ;
 
 /* Break or Continue */
@@ -2237,7 +2242,8 @@ void printBoolenOp( int x ){
 				break;
 			case 11:
 				fprintf(VMcode, "FALSE\n");
-				break;														
+				break;
+																	
 		}
 		fclose(VMcode);
 }
@@ -2284,7 +2290,59 @@ void printJUMPtype( int x ){
 				break;
 			case 4:
 				fprintf(VMcode, "ENDELSIF_%d:\n",Ifcounter);
-				break;		
+				break;	
+			case 5:
+				fprintf(VMcode, "BEGINWHILE_ %d\n",whileCounter);
+				break;
+			case 6:
+				fprintf(VMcode, "ENDWHILE_%d\n",whileCounter);
+				break;
+			case 7:
+				fprintf(VMcode, "JumpFalse ENDWHILE_%d\n",whileCounter);
+				break;
+			case 8:
+				fprintf(VMcode, "JumpTrue BEGINWHILE_%d\n",whileCounter);
+				break;
+			case 9:
+				fprintf(VMcode, "BEGINDOWHILE_%d\n",doWhileCounter);
+				break;
+			
+			case 10:
+				fprintf(VMcode, "JumpFalse ENDDoWHILE_%d\n",doWhileCounter);
+				break;
+			case 11:
+				fprintf(VMcode, "JumpTrue BEGINDOWHILE_%d\n",doWhileCounter);
+				break;
+
+			case 12:
+				fprintf(VMcode, "ENDDoWHILE_%d\n",doWhileCounter);
+				break;
+			case 13:
+				fprintf(VMcode, "BEGINFOR_%d\n",forCounter);
+				break;
+			
+			case 14:
+				fprintf(VMcode, "JumpFalse ENDFOR_%d\n",forCounter);
+				break;
+			case 15:	
+				fprintf(VMcode, "JumpTrue BEGINFOR_%d\n",forCounter);
+				break;
+			case 16:
+				fprintf(VMcode, "FORINIT_%d\n",forCounter);
+				break;
+			case 17:
+				fprintf(VMcode, "Jump FORINIT_%d\n",forCounter);
+				break;
+			case 18:
+				fprintf(VMcode, "ENDFOR_%d\n",forCounter);
+				break;
+			case 19:
+				fprintf(VMcode, "Jump ENDSwitch%d\n",switchCounter);
+				break;
+			case 20:
+			fprintf(VMcode, "jumpFalse_Case %d\n",switchCounter);
+			case 21:
+			fprintf(VMcode, "ENDSwitch%d\n",switchCounter);
 		}
 
 		fclose(VMcode);
@@ -2296,7 +2354,10 @@ void printVM(char * s,int num){
 			printf("can't open VMcode.txt file!\n");
 			exit(1);
 		}
+		if(num != -1)
 		fprintf(VMcode, "%s%d\n", s,num);
+		else
+		fprintf(VMcode, "%s\n", s);
 
 		fclose(VMcode);
 }

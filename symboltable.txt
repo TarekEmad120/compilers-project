@@ -1,26 +1,40 @@
-Name: add
-Type: float
-Value: 
+Name: t
+Type: int
+Value: 3
 Scope: 0
-Used: false
-Initialized: false
-Is Function: true
-Arg Count: 2
-Arg Types: float float 
+Used: true
+Initialized: true
+Is Function: false
+
+Name: n
+Type: int
+Value: 9
+Scope: 0
+Used: true
+Initialized: true
+Is Function: false
+
+Name: z
+Type: int
+Value: 7
+Scope: 0
+Used: true
+Initialized: true
+Is Function: false
 
 Name: y
-Type: float
-Value: 
-Scope: -1
-Used: false
-Initialized: false
+Type: int
+Value: 6
+Scope: 0
+Used: true
+Initialized: true
 Is Function: false
 
 Name: x
-Type: float
-Value: 
-Scope: -1
-Used: false
-Initialized: false
+Type: int
+Value: 5
+Scope: 0
+Used: true
+Initialized: true
 Is Function: false
 
