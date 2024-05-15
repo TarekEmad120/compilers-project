@@ -18,7 +18,7 @@
 	int functiontype = 0;
 	int memaddress=0;
 	int Ifcounter=0;
-	int EndIfcounter=0;
+  int EndIfcounter=0;
 	int whileCounter=0;
 	int doWhileCounter=0;
 	int forCounter=0;
@@ -200,7 +200,7 @@ statement :
 	| while_statement
 	| do_while_statement
 	| for_statement
-    | switch_statement {switchCounter=0;}
+    | switch_statement {caseCounter=0;}
     | break_statement
     | continue_statement
 	| function 	{printf("Function statement\n");}
@@ -234,6 +234,7 @@ value: expression
 	$$.stringval = $1.stringval;
 	$$.valueinstring = $1.valueinstring;
 	$$.type = $1.type;
+	PrintIDentifierAdress($$.intval);
 
 }
 | STRING_VAL{
@@ -246,6 +247,7 @@ value: expression
 	$$.type = CHARTYPE;
 	$$.charval = $1.charval;
 	$$.valueinstring = $1.valueinstring;
+	PrintIDentifierAdress($$.charval);
  }
 
 type:  INT | FLOAT | CHAR | STRING | BOOL;
@@ -1784,6 +1786,7 @@ term:
         ;
 
 factor:
+
         INT_NUM {
 	
 			$$.type = INTTYPE;
@@ -1886,7 +1889,6 @@ else_if_statement:
 	| ELSE  OPENCURL{scopeno++; } statements  CLOSEDCURL {endscope(scopeno); scopeno--;printVM("Jump EndIF",EndIfcounter);}
 	| 
     ;
-
 /* While statement */
 
 while_statement:
@@ -2173,16 +2175,16 @@ for_expression:
 /* Switch statement */
 
 switch_statement:
-    SWITCH {switchCounter++;} {printVM("switchBegin",-1);}  OPENBRACKET {} value CLOSEDBRACKET OPENCURL{scopeno++;} case_list   CLOSEDCURL{endscope(scopeno); scopeno--;} {printVM("switchEnd",switchCounter);} {printf("switch case\n");}
+SWITCH {switchCounter++;} {printVM("switchBegin",-1);}  OPENBRACKET   value    CLOSEDBRACKET  OPENCURL{scopeno++;}  case_list  CLOSEDCURL{endscope(scopeno); scopeno--;}  {printVM("ENDSwitch",switchCounter);} {printf("switch case\n");}
     ;
 
 case_list:
-    case_list case_statement
-    | case_statement
+    case_list  case_statement 
+    | case_statement 
     ;
 
 case_statement:
-    CASE value COLON {printVM("case:", caseCounter++);} statements
+     CASE   {if (caseCounter!=0) printVM("pop",-1); } value {printVM("EQ",-1); } COLON {printVM("JumpFalse endCase:", caseCounter);   printVM("case:", caseCounter++);} statements  {printJUMPtype(19); printVM("endCase",caseCounter-1); }
     | DEFAULT COLON  {printVM("default_case:",-1);}statements
     ;
 
@@ -2340,10 +2342,6 @@ void printJUMPtype( int x ){
 			case 19:
 				fprintf(VMcode, "Jump ENDSwitch%d\n",switchCounter);
 				break;
-			case 20:
-			fprintf(VMcode, "jumpFalse_Case %d\n",switchCounter);
-			case 21:
-			fprintf(VMcode, "ENDSwitch%d\n",switchCounter);
 		}
 
 		fclose(VMcode);
