@@ -317,6 +317,7 @@ assignment_statement:
 						Modify_Value($1, $3.valueinstring,scopevar);
 					
 				}
+				PrintPopMem(ptr->data->memaddress);
 				}
 		  }
         | IDENTIFIER PLUS_EQ expression SEMICOLON
@@ -1793,7 +1794,7 @@ factor:
 			$$.valueinstring = $1.valueinstring;
 			$$.intval = $1.intval;
 			if (programerror==false){
-				// printPushValue($1.valueinstring);
+				 printPushValue($1.valueinstring);
 			}
 		}
         | FLOAT_VAL{
@@ -1801,7 +1802,7 @@ factor:
 			$$.valueinstring = $1.valueinstring;
 			$$.floatval = $1.floatval;
 			if (programerror==false){
-				// printPushValue($1.valueinstring);
+				printPushValue($1.valueinstring);
 			}
 		}
         | IDENTIFIER
