@@ -2191,9 +2191,10 @@ case_list:
     ;
 
 case_statement:
-     CASE   {if (caseCounter!=0) printVM("pop",-1); } value {printVM("EQ",-1); } COLON { if(checkBreak) { printVM("JumpFalse endCase:", caseCounter);}     printVM("case:", caseCounter++);  } statements  {if(checkBreak) {printJUMPtype(19);} if(!checkBreak){printVM("Jump Case:", caseCounter);} checkBreak=false ;   printVM("endCase",caseCounter-1); }
+     CASE   {if (caseCounter!=0) printVM("pop",-1); } value {printVM("EQ",-1); } COLON {  { printVM("JumpFalse endCase:", caseCounter);}     printVM("case:", caseCounter++);  } statements  {if(checkBreak) {printJUMPtype(19);} if(!checkBreak){printVM("Jump Case:", caseCounter);} checkBreak=false ;   printVM("endCase",caseCounter-1); }
     | DEFAULT COLON  {printVM("default_case:",-1);}statements
     ;
+
 
 /* Break or Continue */
 

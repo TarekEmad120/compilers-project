@@ -1,19 +1,19 @@
-int x=5;//0
+int x=0;
+int z=5;
+int y =6;
+int u=10;
 
-if(x==4){
+switch (x){
+   case 1:
+x=20;
+break;
+case 2:
+x=100;
+break;
+case 4:
+x=1000;
+break;
 
-    x=4;
-
-}
-else if(x==2){
-    x=45;
-}
-else {
-    x=20;
-}
-
-
-
-for (int i=0; i<10;i++){
-    int g=10;
+default:
+break;
 }
