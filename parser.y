@@ -234,7 +234,7 @@ value: expression
 	$$.stringval = $1.stringval;
 	$$.valueinstring = $1.valueinstring;
 	$$.type = $1.type;
-	PrintIDentifierAdress($$.intval);
+	//PrintIDentifierAdress($$.intval);
 
 }
 | STRING_VAL{
@@ -247,7 +247,7 @@ value: expression
 	$$.type = CHARTYPE;
 	$$.charval = $1.charval;
 	$$.valueinstring = $1.valueinstring;
-	PrintIDentifierAdress($$.charval);
+	//PrintIDentifierAdress($$.charval);
  }
 
 type:  INT | FLOAT | CHAR | STRING | BOOL;
