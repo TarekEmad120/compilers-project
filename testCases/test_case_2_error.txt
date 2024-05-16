@@ -1,6 +1,4 @@
-int func(int x,int y){
-    return x+7;
-}
+
 
 int main(){
     int x=24;
@@ -31,3 +29,6 @@ int main(){
 }
 
 
+int func(int x,int y){
+    return x+7;
+}

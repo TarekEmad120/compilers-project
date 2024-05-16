@@ -964,7 +964,7 @@ function_call: 			IDENTIFIER OPENBRACKET{argcount=0;} call_parameters CLOSEDBRAC
 							}
 							printf("Function call\n");
 
-							char *str = malloc(strlen("call ") + strlen($1) + 1);
+							char *str = malloc(strlen("\tcall ") + strlen($1) + 1);
 							strcpy(str, "call ");
 							strcat(str, $1);
 							printVM(str,-1);
@@ -2276,7 +2276,7 @@ case_list:
     ;
 
 case_statement:
-     CASE   {if (caseCounter!=0) printVM("pop",-1); } value {printVM("EQ",-1); } COLON {  { printVM("JumpFalse endCase:", caseCounter);}     printVM("case:", caseCounter++);  } statements  {if(checkBreak) {printJUMPtype(19);} if(!checkBreak){printVM("Jump Case:", caseCounter);} checkBreak=false ;   printVM("endCase",caseCounter-1); }
+     CASE   {if (caseCounter!=0) printVM("\tPop",-1); } value {printVM("\tEQ",-1); } COLON {  { printVM("JumpFalse endCase:", caseCounter);}     printVM("case:", caseCounter++);  } statements  {if(checkBreak) {printJUMPtype(19);} if(!checkBreak){printVM("Jump Case:", caseCounter);} checkBreak=false ;   printVM("endCase",caseCounter-1); }
     | DEFAULT COLON  {printVM("default_case:",-1);}statements
     ;
 
@@ -2295,7 +2295,7 @@ void printPushValue( char* x ){
 			printf("can't open VMcode.txt file!\n");
 			exit(1);
 		}
-		fprintf(VMcode, "PUSH \t%s\n", x);
+		fprintf(VMcode, "\tPUSH \t%s\n", x);
 		fclose(VMcode);
 	}
 void printBoolenOp( int x ){
@@ -2307,37 +2307,37 @@ void printBoolenOp( int x ){
 		switch(x)
 		{
 			case 1:
-				fprintf(VMcode, "EQUAL\n");
+				fprintf(VMcode, "\tEQUAL\n");
 				break;
 			case 2:
-				fprintf(VMcode, "NOTEQUAL\n");
+				fprintf(VMcode, "\tNOTEQUAL\n");
 				break;
 			case 3:
-				fprintf(VMcode, "GREATERTOREQUAL\n");
+				fprintf(VMcode, "\tGREATERTOREQUAL\n");
 				break;	
 			case 4:
-				fprintf(VMcode, "LESSOREQUAL\n");
+				fprintf(VMcode, "\tLESSOREQUAL\n");
 				break;
 			case 5:
-				fprintf(VMcode, "GREATERTHAN\n");
+				fprintf(VMcode, "\tGREATERTHAN\n");
 				break;
 			case 6:
-				fprintf(VMcode, "LESSTHAN\n");
+				fprintf(VMcode, "\tLESSTHAN\n");
 				break;
 			case 7:
-				fprintf(VMcode, "AND\n");
+				fprintf(VMcode, "\tAND\n");
 				break;
 			case 8:
-				fprintf(VMcode, "OR\n");
+				fprintf(VMcode, "\tOR\n");
 				break;
 			case 9:
-				fprintf(VMcode, "NOT\n");
+				fprintf(VMcode, "\tNOT\n");
 				break;
 			case 10:
-				fprintf(VMcode, "TRUE\n");
+				fprintf(VMcode, "\tTRUE\n");
 				break;
 			case 11:
-				fprintf(VMcode, "FALSE\n");
+				fprintf(VMcode, "\tFALSE\n");
 				break;
 																	
 		}
@@ -2352,16 +2352,16 @@ void printPushOp( int x ){
 		switch(x)
 		{
 			case 1:
-				fprintf(VMcode, "ADD\n");
+				fprintf(VMcode, "\tADD\n");
 				break;
 			case 2:
-				fprintf(VMcode, "MNIUS\n");
+				fprintf(VMcode, "\tMNIUS\n");
 				break;
 			case 3:
-				fprintf(VMcode, "MUTI\n");
+				fprintf(VMcode, "\tMUTI\n");
 				break;	
 			case 4:
-				fprintf(VMcode, "DIV\n");
+				fprintf(VMcode, "\tDIV\n");
 				break;		
 		}
 
@@ -2460,7 +2460,7 @@ void printVM(char * s,int num){
 			printf("can't open VMcode.txt file!\n");
 			exit(1);
 		}
-		fprintf(VMcode, "PUSHMEM \t%d\n", y);
+		fprintf(VMcode, "\tPUSHMEM \t%d\n", y);
 
 		fclose(VMcode);
 		}
@@ -2470,7 +2470,7 @@ void printVM(char * s,int num){
 			printf("can't open VMcode.txt file!\n");
 			exit(1);
 		}
-		fprintf(VMcode, "POPMEM \t%d\n", y);
+		fprintf(VMcode, "\tPOPMEM \t%d\n", y);
 
 		fclose(VMcode);
 	}
