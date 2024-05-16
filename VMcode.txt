@@ -1,10 +1,39 @@
 yasser:
-PUSH 	0
+PUSH 	99
 POPMEM 	3
 PUSHMEM 	1
 PUSHMEM 	0
 ADD
+jmp return_yasser
+ana_sayed:
+PUSH 	0
+POPMEM 	8
+PUSH 	151
+POPMEM 	9
+zizo:
+jmp return_label_zizo
+PUSH 	8888
+POPMEM 	13
+PUSH 	77777
+POPMEM 	14
+PUSHMEM 	14
+jmp return_zizo
+return_label_zizo:
+PUSH 	19988
+POPMEM 	15
+jmp return_
+main:
 PUSH 	5
-POPMEM 	6
-PUSHMEM 	6
-PUSHMEM 	6
+POPMEM 	18
+PUSH 	0
+POPMEM 	19
+PUSHMEM 	18
+PUSHMEM 	19
+call yasser
+return_yasser:
+PUSH 	8
+PUSH 	0.5
+call ana_sayed
+return_ana_sayed:
+PUSH 	0
+jmp return_main

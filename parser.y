@@ -217,10 +217,7 @@ statement :
 		scopeno--;
 		printf("Scope Closed\n");
 	}
-	| RETURN return_value SEMICOLON         
-		{	printf("Return statement\n");
-		printVM((strcat($2, ":"),-1))
-		}
+	
     | SEMICOLON
 	;
 
@@ -699,7 +696,57 @@ extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
 /*same comments
 for the function declaration
 */
-function: 			function_prototype OPENCURL{scopeno++;} statements  CLOSEDCURL{endscope(scopeno); scopeno--;currentfunctionname = "";argcount=0;} {printf("Function Definition\n");};
+		
+Return_Statement: RETURN return_value SEMICOLON 
+{	
+						printf("Return statement\n");
+						char *str4 = currentfunctionname;
+						char *str3 = malloc(strlen("jmp return_") + strlen(str4) + 1);
+						strcpy(str3, "jmp return_");
+						strcat(str3, str4);
+						printf("str333333333333333333 %s\n",str3);
+						printVM( str3 , -1 );
+						if(scopeno > 1 ){
+						char* str = malloc(strlen("return_label_") + strlen(str4) + strlen(":") + 1);
+						strcpy(str, "return_label_");
+						strcat(str, str4);
+						strcat(str, ":");
+						printVM(str,-1);
+						}
+}
+					|
+					{	char *str4 = currentfunctionname;
+						char *str3 = malloc(strlen("jmp return_") + strlen(str4) + 1);
+						strcpy(str3, "jmp return_");
+						strcat(str3, str4);
+						printf("str333333333333333333 %s\n",str3);
+						printVM( str3 , -1 );
+
+						if(scopeno > 1 ){
+						char* str = malloc(strlen("return_label_") + strlen(str4) + strlen(":") + 1);
+						strcpy(str, "return_label_");
+						strcat(str, str4);
+						strcat(str, ":");
+						printVM(str,-1);
+						}
+					}
+					;
+function: 			function_prototype {
+								if(scopeno > 0){
+								char *str4 = currentfunctionname;	
+								char* str = malloc(strlen("jmp return_label_") + strlen(str4) + 1);
+								strcpy(str, "jmp return_label_");
+								strcat(str, str4);
+								printVM(str,-1);}
+} OPENCURL{scopeno++;} statements  Return_Statement  CLOSEDCURL
+{
+	endscope(scopeno); 
+	scopeno--;
+	currentfunctionname = "";
+	argcount=0;
+
+	printf("Function Definition\n");
+};
 
 return_value: 	
 			value
@@ -730,9 +777,15 @@ return_value:
 					}
 				}
 			}
- 			| ;
+ 			|
+			 ;
 function_prototype:
-    type IDENTIFIER  OPENBRACKET { printVM(strcat($2, ":"),-1);
+    type IDENTIFIER  OPENBRACKET { 
+		
+		char *str = malloc(strlen(":") + strlen($2) + 1);
+		strcpy(str, $2);
+		strcat(str, ":");
+		printVM(str,-1);
 		argcount = 0;
 
 	} parameters CLOSEDBRACKET{
@@ -756,6 +809,10 @@ function_prototype:
 	}
     | type IDENTIFIER OPENBRACKET{
 	
+		char *str = malloc(strlen(":") + strlen($2) + 1);
+		strcpy(str, $2);
+		strcat(str, ":");
+		printVM(str,-1);
 
 	} CLOSEDBRACKET{ 
 		if (checkidentifiernameAndScope($2, scopeno) == 1){
@@ -790,10 +847,17 @@ function_prototype:
 				memaddress++;
 				createnode(ptr, count++);
 				argcount = 0;
+				char *str = malloc(strlen(":") + strlen($2) + 1);
+				strcpy(str, $2);
+				strcat(str, ":");
+				printVM(str,-1);
 			}
 		 }
     | VOID IDENTIFIER OPENBRACKET{
-	
+		char *str = malloc(strlen(":") + strlen($2) + 1);
+		strcpy(str, $2);
+		strcat(str, ":");
+		printVM(str,-1);
 	}
 	 CLOSEDBRACKET{ 
 		if (checkidentifiernameAndScope($2, scopeno) == 1){
@@ -870,34 +934,46 @@ single_parameter: 		type IDENTIFIER
 function_call: 			IDENTIFIER OPENBRACKET{argcount=0;} call_parameters CLOSEDBRACKET SEMICOLON  
 						{
 							int scopevar;
-			struct SymbolNode *ptr;
-			if(checkidentifiernameAndScope($1, scopeno) == 0){
-				if (checkidentifiername($1)==1){
-					ptr =getsymbolAndScope($1, scopeno);
-					scopevar= ptr->data->scope;
-				}
-				else{
-					printsemanticerror("Function variable is not declared",yylineno);
-					programerror = true;
-				}
-			}else{
-				ptr =getsymbolAndScope($1, scopeno);
-				scopevar= ptr->data->scope;
-			}
-			if (programerror==false){
-			//check on argcount and argtypes using bool checkargs
-				if (checkargs(argcount,funcargs,ptr) == false){
-					printsemanticerror("Function arguments mismatch",yylineno);
-					printf("argcount %d\n",argcount);
-					programerror = true;
-				
-				}
-			}
-			if (programerror == false){
-				$$.name2 = $1;
+							struct SymbolNode *ptr;
+							if(checkidentifiernameAndScope($1, scopeno) == 0){
+								if (checkidentifiername($1)==1){
+									ptr =getsymbolAndScope($1, scopeno);
+									scopevar= ptr->data->scope;
+								}
+								else{
+									printsemanticerror("Function variable is not declared",yylineno);
+									programerror = true;
+								}
+							}else{
+								ptr =getsymbolAndScope($1, scopeno);
+								scopevar= ptr->data->scope;
+							}
+							if (programerror==false){
+							//check on argcount and argtypes using bool checkargs
+								if (checkargs(argcount,funcargs,ptr) == false){
+									printsemanticerror("Function arguments mismatch",yylineno);
+									printf("argcount %d\n",argcount);
+									programerror = true;
+								
+								}
+							}
+							if (programerror == false){
+								$$.name2 = $1;
 
-			}
-			printf("Function call\n");
+							}
+							printf("Function call\n");
+
+							char *str = malloc(strlen("call ") + strlen($1) + 1);
+							strcpy(str, "call ");
+							strcat(str, $1);
+							printVM(str,-1);
+
+
+							char *str1 = malloc(strlen("return_") + strlen($1) + strlen(":") + 1);
+							strcpy(str1, "return_");
+							strcat(str1, $1);
+							strcat(str1, ":");
+							printVM(str1,-1);
 						}
 						;
 

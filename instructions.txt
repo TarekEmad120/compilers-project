@@ -1,17 +1,31 @@
 int yasser(int z,int x)
 {
-      int sayed=0;
+      int sayed=99;
      return x+z;
 }
+void ana_sayed(int tarek, float snowtezz)
+{
+   int x= 0;
+   int jj = 151;
 
+   int zizo(int k , int o){
+      int uu = 8888;
+      int xx = 77777;
+      return xx;
+   }
+
+
+   int ii = 19988;
+}
 
 
 int main()
 
 {
    int snow=5;
-yasser(snow,snow);
-
+   int gg = 0;
+yasser(snow,gg);
+ana_sayed(8 , 0.5);
 return 0;
 
 

@@ -102,6 +102,7 @@ void printSymbolTable()
         fprintf(file, "Used: %s\n", temp->data->used ? "true" : "false");
         fprintf(file, "Initialized: %s\n", temp->data->intialized ? "true" : "false");
         fprintf(file, "Is Function: %s\n", temp->data->isfunc ? "true" : "false");
+        fprintf(file, "memaddress: %d\n", temp->data->memaddress);
         if (temp->data->isfunc)
         {
             fprintf(file, "Arg Count: %d\n", temp->data->argcount);
