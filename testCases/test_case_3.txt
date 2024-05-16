@@ -1,0 +1,21 @@
+bool x =false;
+bool y =true;
+int u=0;
+int b=0;
+bool z;
+bool g;
+bool e;
+bool l;
+bool complex;
+int main(){
+
+z= x && y;
+z=y||x;
+
+
+e=(u==b);
+g=(u>b);
+l= u<b;
+
+complex=((u==b)||(y||x));
+}

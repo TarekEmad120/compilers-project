@@ -1,0 +1,56 @@
+bool x =false;
+bool y =true;
+int u=0;
+int b=0;
+bool z;
+bool g;
+bool e;
+bool l;
+bool complex;
+int main(){
+
+
+if (u>0){
+int x =10;
+}else if (u<0){
+int y =9;
+}
+else if (u==0){
+int z =17;
+}
+else
+{
+int e=10;
+}
+
+for (int i =0;i<19;i++){
+
+int z =10;
+}
+
+while(u!=9){
+
+u++;
+}
+
+do {
+u++;
+}
+while(u==0);
+
+switch (u){
+
+case 1: int x =19;
+break;
+
+case 2: int y =10;
+break;
+
+case 3 : int z =112;
+break;
+default:
+break;
+}
+
+
+}
