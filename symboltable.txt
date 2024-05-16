@@ -1,94 +1,18 @@
-Name: j
-Type: int
-Value: 4
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 11
-
-Name: c
-Type: char
-Value: '2'
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 10
-
-Name: i
-Type: int
-Value: 1
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 9
-
-Name: y
-Type: int
-Value: 2
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 8
-
-Name: x
-Type: int
-Value: 24
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 7
-
-Name: main
-Type: int
-Value: 
+Name: g
+Type: constint
+Value: 0
 Scope: 0
-Used: false
-Initialized: false
-Is Function: true
-memaddress: 5
-Arg Count: 0
-Arg Types: 
-
-Name: u
-Type: int
-Value: 10
-Scope: -1
 Used: true
-Initialized: true
-Is Function: false
-memaddress: 4
-
-Name: func
-Type: void
-Value: 
-Scope: 0
-Used: false
-Initialized: false
-Is Function: true
-memaddress: 2
-Arg Count: 2
-Arg Types: int int 
-
-Name: y
-Type: int
-Value: 
-Scope: -1
-Used: false
 Initialized: false
 Is Function: false
 memaddress: 1
 
 Name: x
 Type: int
-Value: 
-Scope: -1
-Used: false
-Initialized: false
+Value: 25
+Scope: 0
+Used: true
+Initialized: true
 Is Function: false
 memaddress: 0
 

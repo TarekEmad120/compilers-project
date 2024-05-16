@@ -271,10 +271,7 @@ assignment_statement:
 					scopevar= ptr->data->scope;
 					printf("scopevar %d\n",scopevar);
 					//check if they expression and the variable are the same type
-					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printsemanticerror("Type mismatch",yylineno);
-						programerror = true;
-					}
+
 				}
 				else{
 				 printsemanticerror("variable is not declared",yylineno);
@@ -305,7 +302,7 @@ assignment_statement:
 						}
 					}else
 					{
-						printsemanticerror("Type mismatch",yylineno);
+						printsemanticerror("Type mismatch4",yylineno);
 						programerror = true;
 					}
 				}
@@ -1648,7 +1645,7 @@ binary_expression:
 					$$.floatval = value;
 				}
 				else{
-					printsemanticerror("Type mismatch",yylineno);
+					printsemanticerror("Type mismatch0",yylineno);
 					programerror = true;
 				}
 			}
@@ -1670,7 +1667,7 @@ binary_expression:
 					$$.floatval = value;
 				}
 				else{
-					printsemanticerror("Type mismatch",yylineno);
+					printsemanticerror("Type mismatch1",yylineno);
 					programerror = true;
 				}
 			}else if ($1.type == STRINGTYPE){
@@ -1683,12 +1680,12 @@ binary_expression:
 					$$.stringval = value;
 				}
 				else{
-					printsemanticerror("Type mismatch",yylineno);
+					printsemanticerror("Type mismatch2",yylineno);
 					programerror = true;
 				}
 			}
 			else{
-				printsemanticerror("Type mismatch",yylineno);
+				printsemanticerror("Type mismatch6",yylineno);
 				programerror = true;
 			}
 			if (programerror==false){
@@ -1899,10 +1896,6 @@ factor:
 					ptr =getsymbolAndScope($1, scopeno);
 					scopevar= ptr->data->scope;
 					//check if they expression and the variable are the same type
-					if (ptr->data->type!= INTTYPE && ptr->data->type!= FLOATTYPE){
-						printsemanticerror("Type mismatch",yylineno);
-						programerror = true;
-					}
 				}
 				else{
 					printsemanticerror("variable is not declared",yylineno);
@@ -1996,7 +1989,15 @@ for_statement:
 	FOR {forCounter++;}  OPENBRACKET for_initialization {printJUMPtype(16);} value{ 
 		} {printJUMPtype(14);} 
 		/*{printJUMPtype(15);}*/ 
-		SEMICOLON /*{printJUMPtype(13);}*/ for_expression CLOSEDBRACKET statement {printJUMPtype(17);} {printJUMPtype(18);} {printf("for loop\n");}
+		SEMICOLON /*{printJUMPtype(13);}*/ 
+		{printVM("Jumpin to for  ",-1);}
+		{printVM("label for loop ",-1);}
+
+		for_expression CLOSEDBRACKET //
+		{printVM("Jumpsnow EndOFSection",forCounter);}
+	{printVM("labelfor loop  ",-1);}
+
+		statement {printJUMPtype(17);} {printJUMPtype(18);} {printf("for loop\n");}
 	;
 
 for_initialization:

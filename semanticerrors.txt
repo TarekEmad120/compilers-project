@@ -1,0 +1,15 @@
+Line 3: variable is aleady declared
+Line 5: variable is not declared
+Line 5: variable is not initialized
+Line 5: Type mismatch
+Line 5: Type mismatch
+Line 8: variable is not declared
+Line 8: variable is not initialized
+Line 8: variable is not modifiable
+Line 9: Type mismatch
+Line 9: variable is not modifiable
+Line 10: variable is not declared
+Line 10: variable is not declared
+Line 10: variable is not initialized
+Line 10: Type mismatch
+Line 10: syntax error

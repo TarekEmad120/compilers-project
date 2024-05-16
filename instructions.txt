@@ -1,31 +1,26 @@
-void func(int x,int y){
-  int u =10;
-}
+int x=25;
+const int g=0;
+int x=14;
+
+int y =z*5;
 
 int main(){
-    int x=24;
-    int y=1;
-    while(x){
-        x--;
+    p++;
+g++;
+    for(i=0;i<8:i--){
+        int k="252";
     }
 
-    for(int i=0;i<=24;i++){
-        x=x+i;
+    if(x==2{
+
     }
+}
 
-    char c='2';
-    int j=4;
 
-    switch(j){
-        case 1 :
-            y++;
-            break;
-        case 2 :
-            y--;
-            break;
-        default:
-            y++;        
-    } 
-    
-    func(x,y);
+void add(int s,int c){
+    return 25;
+}
+
+int addx(int x,int y){
+    return x+y;
 }

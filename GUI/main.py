@@ -201,8 +201,8 @@ class MainWindow(QMainWindow):
             with open("symboltable.txt", "r") as f:
                 entries = f.read().split("\n\n")
                 self.symbolTable.setRowCount(len(entries))
-                self.symbolTable.setColumnCount(7)
-                self.symbolTable.setHorizontalHeaderLabels(["Name", "Type", "Value", "Scope", "Used", "Initialized", "Is Function"])  # Set header labels
+                self.symbolTable.setColumnCount(8)
+                self.symbolTable.setHorizontalHeaderLabels(["Name", "Type", "Value", "Scope", "Used", "Initialized", "Is Function","memaddress"])  # Set header labels
                 for i, entry in enumerate(entries):
                     lines = entry.split("\n")
                     fields = [line.split(": ")[1] for line in lines]
