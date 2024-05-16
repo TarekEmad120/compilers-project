@@ -1,24 +1,52 @@
-Name: g
+Name: snow
 Type: int
-Value: 10
+Value: 5
 Scope: -1
 Used: true
 Initialized: true
 Is Function: false
 
-Name: i
+Name: main
 Type: int
-Value: 1
+Value: 
 Scope: 0
+Used: false
+Initialized: false
+Is Function: true
+Arg Count: 0
+Arg Types: 
+
+Name: sayed
+Type: int
+Value: 0
+Scope: -1
 Used: true
 Initialized: true
 Is Function: false
 
+Name: yasser:
+Type: int
+Value: 
+Scope: 0
+Used: false
+Initialized: false
+Is Function: true
+Arg Count: 2
+Arg Types: int int 
+
 Name: x
 Type: int
-Value: 20
-Scope: 0
-Used: true
-Initialized: true
+Value: 
+Scope: -1
+Used: false
+Initialized: false
+Is Function: false
+
+Name: z
+Type: int
+Value: 
+Scope: -1
+Used: false
+Initialized: false
 Is Function: false
 

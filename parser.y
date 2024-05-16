@@ -219,6 +219,7 @@ statement :
 	}
 	| RETURN return_value SEMICOLON         
 		{	printf("Return statement\n");
+		printVM((strcat($2, ":"),-1))
 		}
     | SEMICOLON
 	;
@@ -698,7 +699,7 @@ extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
 /*same comments
 for the function declaration
 */
-function: 			function_prototype OPENCURL{scopeno++;} statements CLOSEDCURL{endscope(scopeno); scopeno--;currentfunctionname = "";argcount=0;} {printf("Function Definition\n");};
+function: 			function_prototype OPENCURL{scopeno++;} statements  CLOSEDCURL{endscope(scopeno); scopeno--;currentfunctionname = "";argcount=0;} {printf("Function Definition\n");};
 
 return_value: 	
 			value
@@ -730,9 +731,8 @@ return_value:
 				}
 			}
  			| ;
-/*it is not yet implemented Do you want to give it a try ?*/
 function_prototype:
-    type IDENTIFIER OPENBRACKET {
+    type IDENTIFIER  OPENBRACKET { printVM(strcat($2, ":"),-1);
 		argcount = 0;
 
 	} parameters CLOSEDBRACKET{

@@ -1,19 +1,18 @@
-int x=0;
-int z=5;
-int y =6;
-int u=10;
+int yasser(int z,int x)
+{
+      int sayed=0;
+     return x+z;
+}
 
-switch (x){
-   case 1:
-x=20;
-break;
-case 2:
-x=100;
-break;
-case 4:
-x=1000;
-break;
 
-default:
-break;
+
+int main()
+
+{
+   int snow=5;
+yasser(snow,snow);
+
+return 0;
+
+
 }
