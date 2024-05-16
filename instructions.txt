@@ -1,32 +1,31 @@
-int yasser(int z,int x)
-{
-      int sayed=99;
-     return x+z;
-}
-void ana_sayed(int tarek, float snowtezz)
-{
-   int x= 0;
-   int jj = 151;
-
-   int zizo(int k , int o){
-      int uu = 8888;
-      int xx = 77777;
-      return xx;
-   }
-
-
-   int ii = 19988;
+void func(int x,int y){
+  int u =10;
 }
 
+int main(){
+    int x=24;
+    int y=1;
+    while(x){
+        x--;
+    }
 
-int main()
+    for(int i=0;i<=24;i++){
+        x=x+i;
+    }
 
-{
-   int snow=5;
-   int gg = 0;
-yasser(snow,gg);
-ana_sayed(8 , 0.5);
-return 0;
+    char c='2';
+    int j=4;
 
-
+    switch(j){
+        case 1 :
+            y++;
+            break;
+        case 2 :
+            y--;
+            break;
+        default:
+            y++;        
+    } 
+    
+    func(x,y);
 }

@@ -217,7 +217,7 @@ statement :
 		scopeno--;
 		printf("Scope Closed\n");
 	}
-	
+	|RETURN return_value SEMICOLON 
     | SEMICOLON
 	;
 
@@ -697,7 +697,7 @@ extern_declartion:  EXTERN type IDENTIFIER SEMICOLON
 for the function declaration
 */
 		
-Return_Statement: RETURN return_value SEMICOLON 
+Return_Statement: 
 {	
 						printf("Return statement\n");
 						char *str4 = currentfunctionname;
@@ -715,21 +715,7 @@ Return_Statement: RETURN return_value SEMICOLON
 						}
 }
 					|
-					{	char *str4 = currentfunctionname;
-						char *str3 = malloc(strlen("jmp return_") + strlen(str4) + 1);
-						strcpy(str3, "jmp return_");
-						strcat(str3, str4);
-						printf("str333333333333333333 %s\n",str3);
-						printVM( str3 , -1 );
-
-						if(scopeno > 1 ){
-						char* str = malloc(strlen("return_label_") + strlen(str4) + strlen(":") + 1);
-						strcpy(str, "return_label_");
-						strcat(str, str4);
-						strcat(str, ":");
-						printVM(str,-1);
-						}
-					}
+					
 					;
 function: 			function_prototype {
 								if(scopeno > 0){
@@ -738,7 +724,7 @@ function: 			function_prototype {
 								strcpy(str, "jmp return_label_");
 								strcat(str, str4);
 								printVM(str,-1);}
-} OPENCURL{scopeno++;} statements  Return_Statement  CLOSEDCURL
+} OPENCURL{scopeno++;} statements   CLOSEDCURL
 {
 	endscope(scopeno); 
 	scopeno--;
@@ -777,7 +763,22 @@ return_value:
 					}
 				}
 			}
- 			|
+			|
+			{	char *str4 = currentfunctionname;
+						char *str3 = malloc(strlen("jmp return_") + strlen(str4) + 1);
+						strcpy(str3, "jmp return_");
+						strcat(str3, str4);
+						printf("str333333333333333333 %s\n",str3);
+						printVM( str3 , -1 );
+
+						if(scopeno > 1 ){
+						char* str = malloc(strlen("return_label_") + strlen(str4) + strlen(":") + 1);
+						strcpy(str, "return_label_");
+						strcat(str, str4);
+						strcat(str, ":");
+						printVM(str,-1);
+						}
+					}
 			 ;
 function_prototype:
     type IDENTIFIER  OPENBRACKET { 

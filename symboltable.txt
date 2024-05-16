@@ -1,20 +1,47 @@
-Name: gg
+Name: j
 Type: int
-Value: 0
+Value: 4
 Scope: -1
 Used: true
 Initialized: true
 Is Function: false
-memaddress: 19
+memaddress: 11
 
-Name: snow
-Type: int
-Value: 5
+Name: c
+Type: char
+Value: '2'
 Scope: -1
 Used: true
 Initialized: true
 Is Function: false
-memaddress: 18
+memaddress: 10
+
+Name: i
+Type: int
+Value: 1
+Scope: -1
+Used: true
+Initialized: true
+Is Function: false
+memaddress: 9
+
+Name: y
+Type: int
+Value: 2
+Scope: -1
+Used: true
+Initialized: true
+Is Function: false
+memaddress: 8
+
+Name: x
+Type: int
+Value: 24
+Scope: -1
+Used: true
+Initialized: true
+Is Function: false
+memaddress: 7
 
 Name: main
 Type: int
@@ -23,124 +50,21 @@ Scope: 0
 Used: false
 Initialized: false
 Is Function: true
-memaddress: 16
+memaddress: 5
 Arg Count: 0
 Arg Types: 
 
-Name: ii
+Name: u
 Type: int
-Value: 19988
+Value: 10
 Scope: -1
 Used: true
 Initialized: true
-Is Function: false
-memaddress: 15
-
-Name: xx
-Type: int
-Value: 77777
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 14
-
-Name: uu
-Type: int
-Value: 8888
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 13
-
-Name: zizo
-Type: int
-Value: 
-Scope: -1
-Used: false
-Initialized: false
-Is Function: true
-memaddress: 12
-Arg Count: 2
-Arg Types: int int 
-
-Name: o
-Type: int
-Value: 
-Scope: -1
-Used: false
-Initialized: false
-Is Function: false
-memaddress: 11
-
-Name: k
-Type: int
-Value: 
-Scope: -1
-Used: false
-Initialized: false
-Is Function: false
-memaddress: 10
-
-Name: jj
-Type: int
-Value: 151
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 9
-
-Name: x
-Type: int
-Value: 0
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 8
-
-Name: ana_sayed
-Type: void
-Value: 
-Scope: 0
-Used: false
-Initialized: false
-Is Function: true
-memaddress: 6
-Arg Count: 2
-Arg Types: int float 
-
-Name: snowtezz
-Type: float
-Value: 
-Scope: -1
-Used: false
-Initialized: false
-Is Function: false
-memaddress: 5
-
-Name: tarek
-Type: int
-Value: 
-Scope: -1
-Used: false
-Initialized: false
 Is Function: false
 memaddress: 4
 
-Name: sayed
-Type: int
-Value: 99
-Scope: -1
-Used: true
-Initialized: true
-Is Function: false
-memaddress: 3
-
-Name: yasser
-Type: int
+Name: func
+Type: void
 Value: 
 Scope: 0
 Used: false
@@ -150,7 +74,7 @@ memaddress: 2
 Arg Count: 2
 Arg Types: int int 
 
-Name: x
+Name: y
 Type: int
 Value: 
 Scope: -1
@@ -159,7 +83,7 @@ Initialized: false
 Is Function: false
 memaddress: 1
 
-Name: z
+Name: x
 Type: int
 Value: 
 Scope: -1

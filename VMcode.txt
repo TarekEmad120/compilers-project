@@ -1,39 +1,55 @@
-yasser:
-PUSH 	99
-POPMEM 	3
-PUSHMEM 	1
-PUSHMEM 	0
-ADD
-jmp return_yasser
-ana_sayed:
-PUSH 	0
-POPMEM 	8
-PUSH 	151
-POPMEM 	9
-zizo:
-jmp return_label_zizo
-PUSH 	8888
-POPMEM 	13
-PUSH 	77777
-POPMEM 	14
-PUSHMEM 	14
-jmp return_zizo
-return_label_zizo:
-PUSH 	19988
-POPMEM 	15
-jmp return_
+func:
+PUSH 	10
+POPMEM 	4
 main:
-PUSH 	5
-POPMEM 	18
+PUSH 	24
+POPMEM 	7
+PUSH 	1
+POPMEM 	8
+BEGINWHILE_ 1
+PUSHMEM 	7
+JumpFalse ENDWHILE_1
+DEC 7
+JumpTrue BEGINWHILE_1
+ENDWHILE_1
 PUSH 	0
-POPMEM 	19
-PUSHMEM 	18
-PUSHMEM 	19
-call yasser
-return_yasser:
-PUSH 	8
-PUSH 	0.5
-call ana_sayed
-return_ana_sayed:
-PUSH 	0
-jmp return_main
+POPMEM 	9
+FORINIT_1
+PUSHMEM 	9
+PUSH 	24
+LESSOREQUAL
+JumpFalse ENDFOR_1
+INC 9
+PUSHMEM 	7
+PUSHMEM 	9
+ADD
+POPMEM 	7
+Jump FORINIT_1
+ENDFOR_1
+POPMEM 	10
+PUSH 	4
+POPMEM 	11
+switchBegin
+PUSHMEM 	11
+PUSH 	1
+EQ
+JumpFalse endCase:0
+case:0
+INC 8
+Jump ENDSwitch1
+endCase0
+pop
+PUSH 	2
+EQ
+JumpFalse endCase:1
+case:1
+DEC 8
+Jump ENDSwitch1
+endCase1
+default_case:
+INC 8
+ENDSwitch1
+PUSHMEM 	7
+PUSHMEM 	8
+call func
+return_func:
