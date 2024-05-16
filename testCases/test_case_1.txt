@@ -1,0 +1,14 @@
+int x=45+1;
+int y=47;
+
+int main(){
+    int x=74;
+    y=75;
+    int z=y+x;
+    
+}
+
+void Function2(int var){
+    var=7;
+    var++;
+}

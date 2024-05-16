@@ -1555,6 +1555,9 @@ unary_expression:
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
 			}
+			if(programerror==false){
+				printVM("INC ",ptr->data->memaddress);
+			}
 		}
 		}
         | IDENTIFIER DEC
@@ -1614,6 +1617,9 @@ unary_expression:
 			else{
 				printsemanticerror("Type mismatch",yylineno);
 				programerror = true;
+			}
+			if(programerror==false){
+				printVM("DEC ",ptr->data->memaddress);
 			}
 			}
 		}
@@ -1987,7 +1993,9 @@ do_while_statement:
 
 for_statement:
 	FOR {forCounter++;}  OPENBRACKET for_initialization {printJUMPtype(16);} value{ 
-		} {printJUMPtype(14);} {printJUMPtype(15);} SEMICOLON {printJUMPtype(13);} for_expression CLOSEDBRACKET statement {printJUMPtype(17);} {printJUMPtype(18);} {printf("for loop\n");}
+		} {printJUMPtype(14);} 
+		/*{printJUMPtype(15);}*/ 
+		SEMICOLON /*{printJUMPtype(13);}*/ for_expression CLOSEDBRACKET statement {printJUMPtype(17);} {printJUMPtype(18);} {printf("for loop\n");}
 	;
 
 for_initialization:
