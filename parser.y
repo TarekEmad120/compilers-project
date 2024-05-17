@@ -721,7 +721,23 @@ function: 			function_prototype {
 								strcpy(str, "jmp return_label_");
 								strcat(str, str4);
 								printVM(str,-1);}
-} OPENCURL{scopeno++;} statements   CLOSEDCURL
+} OPENCURL{scopeno++;} statements {
+	printf("functionname%s",currentfunctionname);
+	if (checkidentifiername(currentfunctionname) == 1){
+		struct SymbolNode *ptr = getsymbolAndScope(currentfunctionname, scopeno);
+		printf("function name from table %s\n",ptr->data->name);
+		if (ptr->data->type == VOIDTYPE){
+			
+			char *str4 = currentfunctionname;
+						char *str3 = malloc(strlen("jmp return_") + strlen(str4) + 1);
+						strcpy(str3, "jmp return_");
+						strcat(str3, str4);
+						printVM( str3 , -1 );
+		}
+	}
+}
+
+CLOSEDCURL
 {
 	endscope(scopeno); 
 	scopeno--;
@@ -753,6 +769,20 @@ return_value:
 						$$.boolval = $1.boolval;
 						$$.stringval = $1.stringval;
 						$$.valueinstring = $1.valueinstring;
+						char *str4 = currentfunctionname;
+						char *str3 = malloc(strlen("jmp return_") + strlen(str4) + 1);
+						strcpy(str3, "jmp return_");
+						strcat(str3, str4);
+						printf("str333333333333333333 %s\n",str3);
+						printVM( str3 , -1 );
+
+						if(scopeno > 1 ){
+						char* str = malloc(strlen("return_label_") + strlen(str4) + strlen(":") + 1);
+						strcpy(str, "return_label_");
+						strcat(str, str4);
+						strcat(str, ":");
+						printVM(str,-1);
+						}
 					}
 					else{
 						printsemanticerror("Type mismatch",yylineno);
@@ -1974,13 +2004,13 @@ else_if_statement:
 /* While statement */
 
 while_statement:
-		WHILE {whileCounter++;} {printJUMPtype(5);}  OPENBRACKET value  CLOSEDBRACKET {printJUMPtype(7);} statement {printJUMPtype(8);}  {printJUMPtype(6);} {printf("while loop\n");}
+		WHILE {whileCounter++;} {printJUMPtype(5);}  OPENBRACKET value  CLOSEDBRACKET {printJUMPtype(7);} statement  {if(checkBreak){printVM("jump ENDWHILE_",whileCounter);} checkBreak=false; printJUMPtype(8);}  {printJUMPtype(6);} {printf("while loop\n");}
 		;
 
 /* Do while statement */
 
 do_while_statement:
-	DO {doWhileCounter++;} {printJUMPtype(9);} statement WHILE  OPENBRACKET  value {printJUMPtype(10);} {printJUMPtype(11);} CLOSEDBRACKET SEMICOLON {printJUMPtype(12);} {printf("do-while loop\n");}
+	DO {doWhileCounter++;} {printJUMPtype(9);} statement {if(checkBreak) {printVM("jump ENDDoWHILE_",doWhileCounter);} checkBreak=false;} WHILE  OPENBRACKET  value {printJUMPtype(10);} {printJUMPtype(11);} CLOSEDBRACKET SEMICOLON {printJUMPtype(12);} {printf("do-while loop\n");}
 	;
 
 /* For statement */
@@ -1990,14 +2020,15 @@ for_statement:
 		} {printJUMPtype(14);} 
 		/*{printJUMPtype(15);}*/ 
 		SEMICOLON /*{printJUMPtype(13);}*/ 
-		{printVM("Jumpin to for  ",-1);}
-		{printVM("label for loop ",-1);}
+		{printVM("Jump startLoopBody",forCounter);}
+		{printVM("incCounter",forCounter);}
 
 		for_expression CLOSEDBRACKET //
-		{printVM("Jumpsnow EndOFSection",forCounter);}
-	{printVM("labelfor loop  ",-1);}
+		{printVM("jump endLoopBody",forCounter);}
 
-		statement {printJUMPtype(17);} {printJUMPtype(18);} {printf("for loop\n");}
+		{printVM("startLoopBody",forCounter);}
+
+		statement  {if(checkBreak){printVM("jump ENDFOR_",forCounter);}  checkBreak=false;   printVM("jump incCounter",forCounter);} {printVM("endLoopBody",forCounter);} {printJUMPtype(17);} {printJUMPtype(18);} {printf("for loop\n");}
 	;
 
 for_initialization:

@@ -1,7 +1,11 @@
-	PUSH 	25
+add:
+	PUSHMEM 	1
 	POPMEM 	0
-	PUSH 	0
-	PUSH 	14
+jmp return_add
 main:
-FORINIT_1
-JumpFalse ENDFOR_1
+	PUSH 	5
+	POPMEM 	6
+	PUSH 	4
+	POPMEM 	7
+	PUSH 	0
+jmp return_main

@@ -1,18 +1,58 @@
-Name: g
-Type: constint
-Value: 0
-Scope: 0
+Name: n
+Type: int
+Value: 4
+Scope: -1
 Used: true
+Initialized: true
+Is Function: false
+memaddress: 7
+
+Name: m
+Type: int
+Value: 5
+Scope: -1
+Used: true
+Initialized: true
+Is Function: false
+memaddress: 6
+
+Name: main
+Type: int
+Value: 
+Scope: 0
+Used: false
+Initialized: false
+Is Function: true
+memaddress: 4
+Arg Count: 0
+Arg Types: 
+
+Name: add
+Type: void
+Value: 
+Scope: 0
+Used: false
+Initialized: false
+Is Function: true
+memaddress: 2
+Arg Count: 2
+Arg Types: int int 
+
+Name: y
+Type: int
+Value: 
+Scope: -1
+Used: false
 Initialized: false
 Is Function: false
 memaddress: 1
 
 Name: x
 Type: int
-Value: 25
-Scope: 0
-Used: true
-Initialized: true
+Value: 
+Scope: -1
+Used: false
+Initialized: false
 Is Function: false
 memaddress: 0
 
