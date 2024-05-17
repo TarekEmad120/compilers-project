@@ -1,13 +1,12 @@
-void add(int x,int y)
-{
-x=y;
-}
+int x=0;
 
 
-int main()
-{
-int m=5;
-int n=4;
-//int z=add(m,n);
-return 0;
+int y =0;
+
+int z =0;
+
+int main (){
+    do {
+        x++;
+    }while(x!=0);
 }

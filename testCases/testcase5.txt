@@ -7,6 +7,6 @@ int z =0;
 
 int main (){
     do {
-        x++
-    }while(x!);
+        x++;
+    }while(x!=0);
 }

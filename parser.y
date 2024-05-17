@@ -37,6 +37,7 @@
 	void printBoolenOp( int x );
 	void printJUMPtype( int x );
 	void printVM(char * s,int num);
+	void printVM2(char * s,char * num);
 	void PrintIDentifierAdress(int y);
 	
 %}
@@ -933,6 +934,7 @@ single_parameter: 		type IDENTIFIER
 							createnode(ptr, count++);
 							funcargs[argcount] = type;
 							argcount++;
+							printVM2("pop",ptr->value);
 							}
 						}
 						| type IDENTIFIER EQUAL constant 
@@ -955,6 +957,7 @@ single_parameter: 		type IDENTIFIER
 								funcargs[argcount] = type;
 								argcount++;
 								createnode(ptr, count++);
+								printVM2("pop",ptr->value);
 							}
 						}
 						;
@@ -1012,12 +1015,14 @@ call_parameter:			call_parameter COMMA value
 							int type= $3 .type;
 							funcargs[argcount] = type;
 							argcount++;
+							
 						}
 						 | value 
 						 {
 							int type= $1 .type;
 							funcargs[argcount] = type;
 							argcount++;
+							printVM2("push", $1.valueinstring);
 						 }
 						 ;
 
@@ -2485,6 +2490,17 @@ void printVM(char * s,int num){
 		fprintf(VMcode, "%s\n", s);
 
 		fclose(VMcode);
+}
+void printVM2(char * s,char * num){
+	FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		fprintf(VMcode, "%s %s\n", s,num);
+
+		fclose(VMcode);
+
 }
 	void PrintIDentifierAdress( int y){
 			FILE *VMcode = fopen("VMcode.txt", "a");

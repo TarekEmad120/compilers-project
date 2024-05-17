@@ -116,7 +116,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 43 "parser.y"
+#line 44 "parser.y"
 //this is the union for the token value from the lexer
 	char* name ;//identifier name 
 	int var_type;//type

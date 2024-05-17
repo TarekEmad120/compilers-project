@@ -107,10 +107,11 @@
 	void printBoolenOp( int x );
 	void printJUMPtype( int x );
 	void printVM(char * s,int num);
+	void printVM2(char * s,char * num);
 	void PrintIDentifierAdress(int y);
 	
 
-#line 114 "parser.tab.c"
+#line 115 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -675,23 +676,23 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   189,   189,   190,   194,   195,   196,   197,   198,   199,
-     200,   201,   202,   203,   204,   205,   206,   207,   208,   208,
-     220,   221,   226,   238,   244,   251,   251,   251,   251,   251,
-     253,   253,   253,   253,   253,   253,   264,   318,   373,   426,
-     479,   531,   535,   569,   631,   646,   689,   690,   717,   724,
-     724,   717,   751,   794,   811,   811,   838,   838,   862,   862,
-     884,   884,   908,   908,   910,   938,   962,   962,  1008,  1008,
-    1010,  1016,  1028,  1041,  1051,  1144,  1232,  1277,  1322,  1367,
-    1413,  1442,  1471,  1497,  1506,  1520,  1524,  1528,  1591,  1657,
-    1727,  1782,  1786,  1787,  1842,  1901,  1910,  1918,  1968,  1984,
-    1984,  1985,  1986,  1986,  1984,  1994,  1994,  1995,  1999,  1999,
-    1999,  1999,  1999,  2000,  2007,  2007,  2007,  2007,  2007,  2007,
-    2013,  2013,  2013,  2013,  2013,  2013,  2013,  2019,  2019,  2019,
-    2020,  2023,  2024,  2027,  2029,  2031,  2031,  2031,  2031,  2019,
-    2035,  2036,  2037,  2038,  2042,  2091,  2142,  2193,  2244,  2295,
-    2296,  2302,  2302,  2302,  2302,  2302,  2302,  2306,  2307,  2311,
-    2311,  2311,  2311,  2312,  2312,  2318,  2319
+       0,   190,   190,   191,   195,   196,   197,   198,   199,   200,
+     201,   202,   203,   204,   205,   206,   207,   208,   209,   209,
+     221,   222,   227,   239,   245,   252,   252,   252,   252,   252,
+     254,   254,   254,   254,   254,   254,   265,   319,   374,   427,
+     480,   532,   536,   570,   632,   647,   690,   691,   718,   725,
+     725,   718,   752,   795,   812,   812,   839,   839,   863,   863,
+     885,   885,   909,   909,   911,   940,   965,   965,  1011,  1011,
+    1013,  1020,  1033,  1046,  1056,  1149,  1237,  1282,  1327,  1372,
+    1418,  1447,  1476,  1502,  1511,  1525,  1529,  1533,  1596,  1662,
+    1732,  1787,  1791,  1792,  1847,  1906,  1915,  1923,  1973,  1989,
+    1989,  1990,  1991,  1991,  1989,  1999,  1999,  2000,  2004,  2004,
+    2004,  2004,  2004,  2005,  2012,  2012,  2012,  2012,  2012,  2012,
+    2018,  2018,  2018,  2018,  2018,  2018,  2018,  2024,  2024,  2024,
+    2025,  2028,  2029,  2032,  2034,  2036,  2036,  2036,  2036,  2024,
+    2040,  2041,  2042,  2043,  2047,  2096,  2147,  2198,  2249,  2300,
+    2301,  2307,  2307,  2307,  2307,  2307,  2307,  2311,  2312,  2316,
+    2316,  2316,  2316,  2317,  2317,  2323,  2324
 };
 #endif
 
@@ -1508,54 +1509,54 @@ yyreduce:
   switch (yyn)
     {
   case 4: /* statement: expression SEMICOLON  */
-#line 194 "parser.y"
+#line 195 "parser.y"
                                 {printf("Expression statement\n");}
-#line 1514 "parser.tab.c"
+#line 1515 "parser.tab.c"
     break;
 
   case 5: /* statement: assignment_statement  */
-#line 195 "parser.y"
+#line 196 "parser.y"
                                 {printf("Assignment Statement \n");}
-#line 1520 "parser.tab.c"
+#line 1521 "parser.tab.c"
     break;
 
   case 6: /* statement: var_declaration  */
-#line 196 "parser.y"
+#line 197 "parser.y"
                                 {printf("Variable declaration\n");}
-#line 1526 "parser.tab.c"
+#line 1527 "parser.tab.c"
     break;
 
   case 13: /* statement: switch_statement  */
-#line 203 "parser.y"
+#line 204 "parser.y"
                        {caseCounter=0;}
-#line 1532 "parser.tab.c"
+#line 1533 "parser.tab.c"
     break;
 
   case 16: /* statement: function  */
-#line 206 "parser.y"
+#line 207 "parser.y"
                         {printf("Function statement\n");}
-#line 1538 "parser.tab.c"
+#line 1539 "parser.tab.c"
     break;
 
   case 17: /* statement: function_call  */
-#line 207 "parser.y"
+#line 208 "parser.y"
                        {printf("Function call statement\n");}
-#line 1544 "parser.tab.c"
+#line 1545 "parser.tab.c"
     break;
 
   case 18: /* $@1: %empty  */
-#line 208 "parser.y"
+#line 209 "parser.y"
                    {
 		//when open curly bracket is found the scope is opened so scope number is increased
 		scopeno++;
 		printf("Scope Opened\n");
 	
 	}
-#line 1555 "parser.tab.c"
+#line 1556 "parser.tab.c"
     break;
 
   case 19: /* statement: OPENCURL $@1 statements CLOSEDCURL  */
-#line 213 "parser.y"
+#line 214 "parser.y"
                                 {
 		//when close curly bracket is found the scope is closed so we use end scope function to close the scope
 		// we decrease the scope number
@@ -1563,11 +1564,11 @@ yyreduce:
 		scopeno--;
 		printf("Scope Closed\n");
 	}
-#line 1567 "parser.tab.c"
+#line 1568 "parser.tab.c"
     break;
 
   case 22: /* value: expression  */
-#line 227 "parser.y"
+#line 228 "parser.y"
 {
 	(yyval.lexicalstruct).intval = (yyvsp[0].lexicalstruct).intval;
 	(yyval.lexicalstruct).floatval = (yyvsp[0].lexicalstruct).floatval;
@@ -1579,33 +1580,33 @@ yyreduce:
 	//PrintIDentifierAdress($$.intval);
 
 }
-#line 1583 "parser.tab.c"
+#line 1584 "parser.tab.c"
     break;
 
   case 23: /* value: STRING_VAL  */
-#line 238 "parser.y"
+#line 239 "parser.y"
             {
 	(yyval.lexicalstruct).type = STRINGTYPE;
 	(yyval.lexicalstruct).stringval = (yyvsp[0].lexicalstruct).valueinstring;
 	(yyval.lexicalstruct).valueinstring = (yyvsp[0].lexicalstruct).valueinstring;
 
 }
-#line 1594 "parser.tab.c"
+#line 1595 "parser.tab.c"
     break;
 
   case 24: /* value: CHAR_VAL  */
-#line 244 "parser.y"
+#line 245 "parser.y"
            {
 	(yyval.lexicalstruct).type = CHARTYPE;
 	(yyval.lexicalstruct).charval = (yyvsp[0].lexicalstruct).charval;
 	(yyval.lexicalstruct).valueinstring = (yyvsp[0].lexicalstruct).valueinstring;
 	//PrintIDentifierAdress($$.charval);
  }
-#line 1605 "parser.tab.c"
+#line 1606 "parser.tab.c"
     break;
 
   case 36: /* assignment_statement: IDENTIFIER EQUAL expression SEMICOLON  */
-#line 265 "parser.y"
+#line 266 "parser.y"
                   {
 					int scopevar;
 			struct SymbolNode *ptr;
@@ -1659,11 +1660,11 @@ yyreduce:
 				PrintPopMem(ptr->data->memaddress);
 				}
 		  }
-#line 1663 "parser.tab.c"
+#line 1664 "parser.tab.c"
     break;
 
   case 37: /* assignment_statement: IDENTIFIER PLUS_EQ expression SEMICOLON  */
-#line 319 "parser.y"
+#line 320 "parser.y"
                 {
 					int scopevar;
 			struct SymbolNode *ptr;
@@ -1718,11 +1719,11 @@ yyreduce:
 			}
 			
 		}
-#line 1722 "parser.tab.c"
+#line 1723 "parser.tab.c"
     break;
 
   case 38: /* assignment_statement: IDENTIFIER MINUS_EQ expression SEMICOLON  */
-#line 374 "parser.y"
+#line 375 "parser.y"
                 {
 					int scopevar;
 			struct SymbolNode *ptr;
@@ -1775,11 +1776,11 @@ yyreduce:
 				}
 			}
 		}
-#line 1779 "parser.tab.c"
+#line 1780 "parser.tab.c"
     break;
 
   case 39: /* assignment_statement: IDENTIFIER MULT_EQ expression SEMICOLON  */
-#line 426 "parser.y"
+#line 427 "parser.y"
                                                          {
 					int scopevar;
 			struct SymbolNode *ptr;
@@ -1833,11 +1834,11 @@ yyreduce:
 				}
 			}
 		}
-#line 1837 "parser.tab.c"
+#line 1838 "parser.tab.c"
     break;
 
   case 40: /* assignment_statement: IDENTIFIER DIV_EQ expression SEMICOLON  */
-#line 479 "parser.y"
+#line 480 "parser.y"
                                                         {
 			int scopevar;
 			struct SymbolNode *ptr;
@@ -1890,11 +1891,11 @@ yyreduce:
 				}
 			}
 		}
-#line 1894 "parser.tab.c"
+#line 1895 "parser.tab.c"
     break;
 
   case 42: /* var_declaration: type IDENTIFIER EQUAL value SEMICOLON  */
-#line 536 "parser.y"
+#line 537 "parser.y"
                   {
 			
 			//here we check if the variable is already declared in the scope or not
@@ -1928,11 +1929,11 @@ yyreduce:
 			}
 			
 		}
-#line 1932 "parser.tab.c"
+#line 1933 "parser.tab.c"
     break;
 
   case 43: /* var_declaration: type IDENTIFIER EQUAL function_call  */
-#line 570 "parser.y"
+#line 571 "parser.y"
                 {
 			struct SymbolNode *ptr ;
 			int scopevar = 0;
@@ -1991,11 +1992,11 @@ yyreduce:
 			}
 			}
 		}
-#line 1995 "parser.tab.c"
+#line 1996 "parser.tab.c"
     break;
 
   case 44: /* var_declaration: type IDENTIFIER SEMICOLON  */
-#line 631 "parser.y"
+#line 632 "parser.y"
                                    {
 			// same as above 
 			if (checkidentifiernameAndScope((yyvsp[-1].name), scopeno) == 1){
@@ -2010,11 +2011,11 @@ yyreduce:
 			createnode(ptr, count++);
 			}
 		}
-#line 2014 "parser.tab.c"
+#line 2015 "parser.tab.c"
     break;
 
   case 45: /* constant_declaration: CONST type IDENTIFIER EQUAL value SEMICOLON  */
-#line 646 "parser.y"
+#line 647 "parser.y"
                                                                      {printf("Constant declaration\n");
 			// same as above
 			if (checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 1){
@@ -2054,11 +2055,11 @@ yyreduce:
 			}
 			}
 				}
-#line 2058 "parser.tab.c"
+#line 2059 "parser.tab.c"
     break;
 
   case 48: /* $@2: %empty  */
-#line 717 "parser.y"
+#line 718 "parser.y"
                                                    {
 								if(scopeno > 0){
 								char *str4 = currentfunctionname;	
@@ -2067,17 +2068,17 @@ yyreduce:
 								strcat(str, str4);
 								printVM(str,-1);}
 }
-#line 2071 "parser.tab.c"
+#line 2072 "parser.tab.c"
     break;
 
   case 49: /* $@3: %empty  */
-#line 724 "parser.y"
+#line 725 "parser.y"
           {scopeno++;}
-#line 2077 "parser.tab.c"
+#line 2078 "parser.tab.c"
     break;
 
   case 50: /* $@4: %empty  */
-#line 724 "parser.y"
+#line 725 "parser.y"
                                   {
 	printf("functionname%s",currentfunctionname);
 	if (checkidentifiername(currentfunctionname) == 1){
@@ -2093,11 +2094,11 @@ yyreduce:
 		}
 	}
 }
-#line 2097 "parser.tab.c"
+#line 2098 "parser.tab.c"
     break;
 
   case 51: /* function: function_prototype $@2 OPENCURL $@3 statements $@4 CLOSEDCURL  */
-#line 741 "parser.y"
+#line 742 "parser.y"
 {
 	endscope(scopeno); 
 	scopeno--;
@@ -2106,11 +2107,11 @@ yyreduce:
 
 	printf("Function Definition\n");
 }
-#line 2110 "parser.tab.c"
+#line 2111 "parser.tab.c"
     break;
 
   case 52: /* return_value: value  */
-#line 752 "parser.y"
+#line 753 "parser.y"
                         {
 				if (currentfunctionname == ""){
 					printsemanticerror("return statement is not in the function",yylineno);
@@ -2152,11 +2153,11 @@ yyreduce:
 					}
 				}
 			}
-#line 2156 "parser.tab.c"
+#line 2157 "parser.tab.c"
     break;
 
   case 53: /* return_value: %empty  */
-#line 794 "parser.y"
+#line 795 "parser.y"
                         {	char *str4 = currentfunctionname;
 						char *str3 = malloc(strlen("jmp return_") + strlen(str4) + 1);
 						strcpy(str3, "jmp return_");
@@ -2172,11 +2173,11 @@ yyreduce:
 						printVM(str,-1);
 						}
 					}
-#line 2176 "parser.tab.c"
+#line 2177 "parser.tab.c"
     break;
 
   case 54: /* $@5: %empty  */
-#line 811 "parser.y"
+#line 812 "parser.y"
                                  { 
 		
 		char *str = malloc(strlen(":") + strlen((yyvsp[-1].name)) + 1);
@@ -2186,11 +2187,11 @@ yyreduce:
 		argcount = 0;
 
 	}
-#line 2190 "parser.tab.c"
+#line 2191 "parser.tab.c"
     break;
 
   case 55: /* function_prototype: type IDENTIFIER OPENBRACKET $@5 parameters CLOSEDBRACKET  */
-#line 819 "parser.y"
+#line 820 "parser.y"
                                   {
 				//check if the function is already declared or not
 		if (checkidentifiernameAndScope((yyvsp[-4].name), scopeno) == 1){
@@ -2210,11 +2211,11 @@ yyreduce:
 		}
 		argcount = 0;
 	}
-#line 2214 "parser.tab.c"
+#line 2215 "parser.tab.c"
     break;
 
   case 56: /* $@6: %empty  */
-#line 838 "parser.y"
+#line 839 "parser.y"
                                  {
 	
 		char *str = malloc(strlen(":") + strlen((yyvsp[-1].name)) + 1);
@@ -2223,11 +2224,11 @@ yyreduce:
 		printVM(str,-1);
 
 	}
-#line 2227 "parser.tab.c"
+#line 2228 "parser.tab.c"
     break;
 
   case 57: /* function_prototype: type IDENTIFIER OPENBRACKET $@6 CLOSEDBRACKET  */
-#line 845 "parser.y"
+#line 846 "parser.y"
                        { 
 		if (checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 1){
 			printsemanticerror("function name is aleady declared",yylineno);
@@ -2245,17 +2246,17 @@ yyreduce:
 		createnode(ptr, count++);
 		}
 	}
-#line 2249 "parser.tab.c"
+#line 2250 "parser.tab.c"
     break;
 
   case 58: /* $@7: %empty  */
-#line 862 "parser.y"
+#line 863 "parser.y"
                                  {argcount=0;}
-#line 2255 "parser.tab.c"
+#line 2256 "parser.tab.c"
     break;
 
   case 59: /* function_prototype: VOID IDENTIFIER OPENBRACKET $@7 parameters CLOSEDBRACKET  */
-#line 863 "parser.y"
+#line 864 "parser.y"
                                 {
 			if (checkidentifiernameAndScope((yyvsp[-4].name), scopeno) == 1){
 				printsemanticerror("function name is aleady declared",yylineno);
@@ -2277,22 +2278,22 @@ yyreduce:
 				printVM(str,-1);
 			}
 		 }
-#line 2281 "parser.tab.c"
+#line 2282 "parser.tab.c"
     break;
 
   case 60: /* $@8: %empty  */
-#line 884 "parser.y"
+#line 885 "parser.y"
                                  {
 		char *str = malloc(strlen(":") + strlen((yyvsp[-1].name)) + 1);
 		strcpy(str, (yyvsp[-1].name));
 		strcat(str, ":");
 		printVM(str,-1);
 	}
-#line 2292 "parser.tab.c"
+#line 2293 "parser.tab.c"
     break;
 
   case 61: /* function_prototype: VOID IDENTIFIER OPENBRACKET $@8 CLOSEDBRACKET  */
-#line 890 "parser.y"
+#line 891 "parser.y"
                       { 
 		if (checkidentifiernameAndScope((yyvsp[-3].name), scopeno) == 1){
 			printsemanticerror("function name is aleady declared",yylineno);
@@ -2309,11 +2310,11 @@ yyreduce:
 		 argcount = 0;
 		 }
 	 }
-#line 2313 "parser.tab.c"
+#line 2314 "parser.tab.c"
     break;
 
   case 64: /* single_parameter: type IDENTIFIER  */
-#line 911 "parser.y"
+#line 912 "parser.y"
                                                 {
 							//check if the variable is already declared or not but scope is increased by 1
 							//because the varible  will be used in the function so it is in the scope of the function
@@ -2339,13 +2340,14 @@ yyreduce:
 							createnode(ptr, count++);
 							funcargs[argcount] = type;
 							argcount++;
+							printVM2("pop",ptr->value);
 							}
 						}
-#line 2345 "parser.tab.c"
+#line 2347 "parser.tab.c"
     break;
 
   case 65: /* single_parameter: type IDENTIFIER EQUAL constant  */
-#line 939 "parser.y"
+#line 941 "parser.y"
                                                 {
 							if (chekidentifiernameandScopeoutofscope((yyvsp[-2].name), scopeno+1) == 1){
 								printsemanticerror("variable is aleady declared",yylineno);
@@ -2365,19 +2367,20 @@ yyreduce:
 								funcargs[argcount] = type;
 								argcount++;
 								createnode(ptr, count++);
+								printVM2("pop",ptr->value);
 							}
 						}
-#line 2371 "parser.tab.c"
+#line 2374 "parser.tab.c"
     break;
 
   case 66: /* $@9: %empty  */
-#line 962 "parser.y"
+#line 965 "parser.y"
                                                       {argcount=0;}
-#line 2377 "parser.tab.c"
+#line 2380 "parser.tab.c"
     break;
 
   case 67: /* function_call: IDENTIFIER OPENBRACKET $@9 call_parameters CLOSEDBRACKET SEMICOLON  */
-#line 963 "parser.y"
+#line 966 "parser.y"
                                                 {
 							int scopevar;
 							struct SymbolNode *ptr;
@@ -2421,31 +2424,33 @@ yyreduce:
 							strcat(str1, ":");
 							printVM(str1,-1);
 						}
-#line 2425 "parser.tab.c"
+#line 2428 "parser.tab.c"
     break;
 
   case 70: /* call_parameter: call_parameter COMMA value  */
-#line 1011 "parser.y"
+#line 1014 "parser.y"
                                                 {
 							int type= (yyvsp[0].lexicalstruct) .type;
 							funcargs[argcount] = type;
 							argcount++;
+							
 						}
-#line 2435 "parser.tab.c"
+#line 2439 "parser.tab.c"
     break;
 
   case 71: /* call_parameter: value  */
-#line 1017 "parser.y"
+#line 1021 "parser.y"
                                                  {
 							int type= (yyvsp[0].lexicalstruct) .type;
 							funcargs[argcount] = type;
 							argcount++;
+							printVM2("push", (yyvsp[0].lexicalstruct).valueinstring);
 						 }
-#line 2445 "parser.tab.c"
+#line 2450 "parser.tab.c"
     break;
 
   case 72: /* expression: boolean_expression  */
-#line 1028 "parser.y"
+#line 1033 "parser.y"
                             {
 			char* var_name = (yyvsp[0].lexicalstruct).stringval;
 			// printf("variable name  =   =  %s\n",var_name);
@@ -2459,19 +2464,19 @@ yyreduce:
 				}
 			}
 		}
-#line 2463 "parser.tab.c"
+#line 2468 "parser.tab.c"
     break;
 
   case 73: /* expression: arithmetic_expression  */
-#line 1042 "parser.y"
+#line 1047 "parser.y"
                 {
 			// $$.stringval = $1.stringval; // 8aleban malo4 lazma
 		}
-#line 2471 "parser.tab.c"
+#line 2476 "parser.tab.c"
     break;
 
   case 74: /* boolean_expression: expression EQ_EQ arithmetic_expression  */
-#line 1052 "parser.y"
+#line 1057 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2564,11 +2569,11 @@ yyreduce:
 				printBoolenOp(1);
 			}
 		}
-#line 2568 "parser.tab.c"
+#line 2573 "parser.tab.c"
     break;
 
   case 75: /* boolean_expression: expression NE arithmetic_expression  */
-#line 1145 "parser.y"
+#line 1150 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2656,11 +2661,11 @@ yyreduce:
 				printBoolenOp(2);
 			}
 		}
-#line 2660 "parser.tab.c"
+#line 2665 "parser.tab.c"
     break;
 
   case 76: /* boolean_expression: expression GE arithmetic_expression  */
-#line 1233 "parser.y"
+#line 1238 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2705,11 +2710,11 @@ yyreduce:
 				printBoolenOp(3);
 			}
 		}
-#line 2709 "parser.tab.c"
+#line 2714 "parser.tab.c"
     break;
 
   case 77: /* boolean_expression: expression LE arithmetic_expression  */
-#line 1278 "parser.y"
+#line 1283 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2754,11 +2759,11 @@ yyreduce:
 				printBoolenOp(4);
 			}
 		}
-#line 2758 "parser.tab.c"
+#line 2763 "parser.tab.c"
     break;
 
   case 78: /* boolean_expression: expression GT arithmetic_expression  */
-#line 1323 "parser.y"
+#line 1328 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2803,11 +2808,11 @@ yyreduce:
 				printBoolenOp(5);
 			}
 		}
-#line 2807 "parser.tab.c"
+#line 2812 "parser.tab.c"
     break;
 
   case 79: /* boolean_expression: expression LT arithmetic_expression  */
-#line 1368 "parser.y"
+#line 1373 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2853,11 +2858,11 @@ yyreduce:
 					printBoolenOp(6);
 				}
 		}
-#line 2857 "parser.tab.c"
+#line 2862 "parser.tab.c"
     break;
 
   case 80: /* boolean_expression: expression AND arithmetic_expression  */
-#line 1414 "parser.y"
+#line 1419 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2886,11 +2891,11 @@ yyreduce:
 					printBoolenOp(7);
 				}
 		}
-#line 2890 "parser.tab.c"
+#line 2895 "parser.tab.c"
     break;
 
   case 81: /* boolean_expression: expression OR arithmetic_expression  */
-#line 1443 "parser.y"
+#line 1448 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2919,11 +2924,11 @@ yyreduce:
 					printBoolenOp(8);
 				}
 		}
-#line 2923 "parser.tab.c"
+#line 2928 "parser.tab.c"
     break;
 
   case 82: /* boolean_expression: NOT expression  */
-#line 1472 "parser.y"
+#line 1477 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			//check if the expression is true or false
@@ -2949,11 +2954,11 @@ yyreduce:
 					printBoolenOp(9);
 				}
 		}
-#line 2953 "parser.tab.c"
+#line 2958 "parser.tab.c"
     break;
 
   case 83: /* boolean_expression: TRUE_VAL  */
-#line 1498 "parser.y"
+#line 1503 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			(yyval.lexicalstruct).boolval = true;
@@ -2962,11 +2967,11 @@ yyreduce:
 					printBoolenOp(10);
 				
 		}
-#line 2966 "parser.tab.c"
+#line 2971 "parser.tab.c"
     break;
 
   case 84: /* boolean_expression: FALSE_VAL  */
-#line 1507 "parser.y"
+#line 1512 "parser.y"
                 {
 			(yyval.lexicalstruct).type = BOOLTYPE;
 			(yyval.lexicalstruct).boolval = false;
@@ -2975,20 +2980,20 @@ yyreduce:
 					printBoolenOp(11);
 			
 		}
-#line 2979 "parser.tab.c"
+#line 2984 "parser.tab.c"
     break;
 
   case 85: /* arithmetic_expression: binary_expression  */
-#line 1520 "parser.y"
+#line 1525 "parser.y"
                           { 
 			// $$.stringval = $1.stringval;
 			
 		 }
-#line 2988 "parser.tab.c"
+#line 2993 "parser.tab.c"
     break;
 
   case 87: /* unary_expression: IDENTIFIER INC  */
-#line 1528 "parser.y"
+#line 1533 "parser.y"
                       {
 			//check if the variable is declared or not
 			//check if the variable is declared or not
@@ -3052,11 +3057,11 @@ yyreduce:
 			}
 		}
 		}
-#line 3056 "parser.tab.c"
+#line 3061 "parser.tab.c"
     break;
 
   case 88: /* unary_expression: IDENTIFIER DEC  */
-#line 1592 "parser.y"
+#line 1597 "parser.y"
                 {
 			//check if the variable is declared or not
 						int scopevar;
@@ -3119,11 +3124,11 @@ yyreduce:
 			}
 			}
 		}
-#line 3123 "parser.tab.c"
+#line 3128 "parser.tab.c"
     break;
 
   case 89: /* binary_expression: binary_expression PLUS term  */
-#line 1658 "parser.y"
+#line 1663 "parser.y"
                 {
 			//check on the type of the expression
 			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
@@ -3193,11 +3198,11 @@ yyreduce:
 			}
 			
 		}
-#line 3197 "parser.tab.c"
+#line 3202 "parser.tab.c"
     break;
 
   case 90: /* binary_expression: binary_expression MINUS term  */
-#line 1728 "parser.y"
+#line 1733 "parser.y"
                 {
 			//check on the type of the expression
 			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
@@ -3252,11 +3257,11 @@ yyreduce:
     
 			}
 		}
-#line 3256 "parser.tab.c"
+#line 3261 "parser.tab.c"
     break;
 
   case 93: /* term: term MULT factor  */
-#line 1788 "parser.y"
+#line 1793 "parser.y"
                 {
 			//check on the type of the expression
 			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
@@ -3311,11 +3316,11 @@ yyreduce:
 	
 			}
 		}
-#line 3315 "parser.tab.c"
+#line 3320 "parser.tab.c"
     break;
 
   case 94: /* term: term DIV factor  */
-#line 1843 "parser.y"
+#line 1848 "parser.y"
                 {
 			//check on the type of the expression
 			if ((yyvsp[-2].lexicalstruct).type == INTTYPE || (yyvsp[-2].lexicalstruct).type == CONSTINTTYPE){
@@ -3370,11 +3375,11 @@ yyreduce:
 	
 			}
 		}
-#line 3374 "parser.tab.c"
+#line 3379 "parser.tab.c"
     break;
 
   case 95: /* factor: INT_NUM  */
-#line 1901 "parser.y"
+#line 1906 "parser.y"
                 {
 	
 			(yyval.lexicalstruct).type = INTTYPE;
@@ -3384,11 +3389,11 @@ yyreduce:
 				 printPushValue((yyvsp[0].lexicalstruct).valueinstring);
 			}
 		}
-#line 3388 "parser.tab.c"
+#line 3393 "parser.tab.c"
     break;
 
   case 96: /* factor: FLOAT_VAL  */
-#line 1910 "parser.y"
+#line 1915 "parser.y"
                    {
 			(yyval.lexicalstruct).type = FLOATTYPE;
 			(yyval.lexicalstruct).valueinstring = (yyvsp[0].lexicalstruct).valueinstring;
@@ -3397,11 +3402,11 @@ yyreduce:
 				printPushValue((yyvsp[0].lexicalstruct).valueinstring);
 			}
 		}
-#line 3401 "parser.tab.c"
+#line 3406 "parser.tab.c"
     break;
 
   case 97: /* factor: IDENTIFIER  */
-#line 1919 "parser.y"
+#line 1924 "parser.y"
                 {
 			// check if the variable is declared or not
 			//check if the variable is declared or not
@@ -3451,11 +3456,11 @@ yyreduce:
 			}
 			}
 		}
-#line 3455 "parser.tab.c"
+#line 3460 "parser.tab.c"
     break;
 
   case 98: /* factor: OPENBRACKET expression CLOSEDBRACKET  */
-#line 1969 "parser.y"
+#line 1974 "parser.y"
                 {
 			(yyval.lexicalstruct).type = (yyvsp[-1].lexicalstruct).type;
 			(yyval.lexicalstruct).valueinstring = (yyvsp[-1].lexicalstruct).valueinstring;
@@ -3465,250 +3470,250 @@ yyreduce:
 			(yyval.lexicalstruct).stringval = (yyvsp[-1].lexicalstruct).stringval;
 			(yyval.lexicalstruct).boolval = (yyvsp[-1].lexicalstruct).boolval;
 		}
-#line 3469 "parser.tab.c"
+#line 3474 "parser.tab.c"
     break;
 
   case 99: /* $@10: %empty  */
-#line 1984 "parser.y"
+#line 1989 "parser.y"
            {Ifcounter++;}
-#line 3475 "parser.tab.c"
+#line 3480 "parser.tab.c"
     break;
 
   case 100: /* $@11: %empty  */
-#line 1984 "parser.y"
+#line 1989 "parser.y"
                                                                   {scopeno++;printVM("JumpFalse EndOFSection",Ifcounter);}
-#line 3481 "parser.tab.c"
+#line 3486 "parser.tab.c"
     break;
 
   case 101: /* $@12: %empty  */
-#line 1985 "parser.y"
+#line 1990 "parser.y"
                            {printVM("Jump EndIF",EndIfcounter);}
-#line 3487 "parser.tab.c"
+#line 3492 "parser.tab.c"
     break;
 
   case 102: /* $@13: %empty  */
-#line 1986 "parser.y"
+#line 1991 "parser.y"
                            {endscope(scopeno); scopeno--;printVM("EndOFSection",Ifcounter);}
-#line 3493 "parser.tab.c"
+#line 3498 "parser.tab.c"
     break;
 
   case 103: /* $@14: %empty  */
-#line 1986 "parser.y"
+#line 1991 "parser.y"
                                                                                                                               {printVM("EndIF",EndIfcounter);EndIfcounter++;}
-#line 3499 "parser.tab.c"
+#line 3504 "parser.tab.c"
     break;
 
   case 104: /* if_statement: IF $@10 OPENBRACKET value CLOSEDBRACKET OPENCURL $@11 statements $@12 CLOSEDCURL $@13 else_if_statement elsestatement $@14  */
-#line 1987 "parser.y"
+#line 1992 "parser.y"
                 {
 
 			printf("If then statement\n");
 			// printf("variable name  ==  %s\n",$3.s);
 		}
-#line 3509 "parser.tab.c"
+#line 3514 "parser.tab.c"
     break;
 
   case 105: /* $@15: %empty  */
-#line 1994 "parser.y"
+#line 1999 "parser.y"
                              {scopeno++;}
-#line 3515 "parser.tab.c"
+#line 3520 "parser.tab.c"
     break;
 
   case 106: /* elsestatement: ELSE OPENCURL $@15 statements CLOSEDCURL  */
-#line 1994 "parser.y"
+#line 1999 "parser.y"
                                                                {endscope(scopeno); scopeno--;}
-#line 3521 "parser.tab.c"
+#line 3526 "parser.tab.c"
     break;
 
   case 108: /* $@16: %empty  */
-#line 1999 "parser.y"
+#line 2004 "parser.y"
                              {Ifcounter++;}
-#line 3527 "parser.tab.c"
+#line 3532 "parser.tab.c"
     break;
 
   case 109: /* $@17: %empty  */
-#line 1999 "parser.y"
+#line 2004 "parser.y"
                                                                                        {scopeno++;  printVM("JumpFalse EndOFSection",Ifcounter); }
-#line 3533 "parser.tab.c"
+#line 3538 "parser.tab.c"
     break;
 
   case 110: /* $@18: %empty  */
-#line 1999 "parser.y"
+#line 2004 "parser.y"
                                                                                                                                                                 {printVM("Jump EndIF",EndIfcounter);}
-#line 3539 "parser.tab.c"
+#line 3544 "parser.tab.c"
     break;
 
   case 111: /* $@19: %empty  */
-#line 1999 "parser.y"
+#line 2004 "parser.y"
                                                                                                                                                                                                                   {printVM("EndOFSection",Ifcounter);}
-#line 3545 "parser.tab.c"
+#line 3550 "parser.tab.c"
     break;
 
   case 112: /* else_if_statement: else_if_statement ELSEIF $@16 OPENBRACKET value CLOSEDBRACKET OPENCURL $@17 statements $@18 CLOSEDCURL $@19  */
-#line 1999 "parser.y"
+#line 2004 "parser.y"
                                                                                                                                                                                                                                                        { endscope(scopeno); scopeno--;}
-#line 3551 "parser.tab.c"
+#line 3556 "parser.tab.c"
     break;
 
   case 114: /* $@20: %empty  */
-#line 2007 "parser.y"
+#line 2012 "parser.y"
                       {whileCounter++;}
-#line 3557 "parser.tab.c"
+#line 3562 "parser.tab.c"
     break;
 
   case 115: /* $@21: %empty  */
-#line 2007 "parser.y"
+#line 2012 "parser.y"
                                         {printJUMPtype(5);}
-#line 3563 "parser.tab.c"
+#line 3568 "parser.tab.c"
     break;
 
   case 116: /* $@22: %empty  */
-#line 2007 "parser.y"
+#line 2012 "parser.y"
                                                                                               {printJUMPtype(7);}
-#line 3569 "parser.tab.c"
+#line 3574 "parser.tab.c"
     break;
 
   case 117: /* $@23: %empty  */
-#line 2007 "parser.y"
+#line 2012 "parser.y"
                                                                                                                              {if(checkBreak){printVM("jump ENDWHILE_",whileCounter);} checkBreak=false; printJUMPtype(8);}
-#line 3575 "parser.tab.c"
+#line 3580 "parser.tab.c"
     break;
 
   case 118: /* $@24: %empty  */
-#line 2007 "parser.y"
+#line 2012 "parser.y"
                                                                                                                                                                                                                             {printJUMPtype(6);}
-#line 3581 "parser.tab.c"
+#line 3586 "parser.tab.c"
     break;
 
   case 119: /* while_statement: WHILE $@20 $@21 OPENBRACKET value CLOSEDBRACKET $@22 statement $@23 $@24  */
-#line 2007 "parser.y"
+#line 2012 "parser.y"
                                                                                                                                                                                                                                                 {printf("while loop\n");}
-#line 3587 "parser.tab.c"
+#line 3592 "parser.tab.c"
     break;
 
   case 120: /* $@25: %empty  */
-#line 2013 "parser.y"
+#line 2018 "parser.y"
            {doWhileCounter++;}
-#line 3593 "parser.tab.c"
+#line 3598 "parser.tab.c"
     break;
 
   case 121: /* $@26: %empty  */
-#line 2013 "parser.y"
+#line 2018 "parser.y"
                                {printJUMPtype(9);}
-#line 3599 "parser.tab.c"
+#line 3604 "parser.tab.c"
     break;
 
   case 122: /* $@27: %empty  */
-#line 2013 "parser.y"
+#line 2018 "parser.y"
                                                              {if(checkBreak) {printVM("jump ENDDoWHILE_",doWhileCounter);} checkBreak=false;}
-#line 3605 "parser.tab.c"
+#line 3610 "parser.tab.c"
     break;
 
   case 123: /* $@28: %empty  */
-#line 2013 "parser.y"
+#line 2018 "parser.y"
                                                                                                                                                                         {printJUMPtype(10);}
-#line 3611 "parser.tab.c"
+#line 3616 "parser.tab.c"
     break;
 
   case 124: /* $@29: %empty  */
-#line 2013 "parser.y"
+#line 2018 "parser.y"
                                                                                                                                                                                              {printJUMPtype(11);}
-#line 3617 "parser.tab.c"
+#line 3622 "parser.tab.c"
     break;
 
   case 125: /* $@30: %empty  */
-#line 2013 "parser.y"
+#line 2018 "parser.y"
                                                                                                                                                                                                                                           {printJUMPtype(12);}
-#line 3623 "parser.tab.c"
+#line 3628 "parser.tab.c"
     break;
 
   case 126: /* do_while_statement: DO $@25 $@26 statement $@27 WHILE OPENBRACKET value $@28 $@29 CLOSEDBRACKET SEMICOLON $@30  */
-#line 2013 "parser.y"
+#line 2018 "parser.y"
                                                                                                                                                                                                                                                                {printf("do-while loop\n");}
-#line 3629 "parser.tab.c"
+#line 3634 "parser.tab.c"
     break;
 
   case 127: /* $@31: %empty  */
-#line 2019 "parser.y"
+#line 2024 "parser.y"
             {forCounter++;}
-#line 3635 "parser.tab.c"
+#line 3640 "parser.tab.c"
     break;
 
   case 128: /* $@32: %empty  */
-#line 2019 "parser.y"
+#line 2024 "parser.y"
                                                             {printJUMPtype(16);}
-#line 3641 "parser.tab.c"
+#line 3646 "parser.tab.c"
     break;
 
   case 129: /* $@33: %empty  */
-#line 2019 "parser.y"
+#line 2024 "parser.y"
                                                                                       { 
 		}
-#line 3648 "parser.tab.c"
+#line 3653 "parser.tab.c"
     break;
 
   case 130: /* $@34: %empty  */
-#line 2020 "parser.y"
+#line 2025 "parser.y"
                   {printJUMPtype(14);}
-#line 3654 "parser.tab.c"
+#line 3659 "parser.tab.c"
     break;
 
   case 131: /* $@35: %empty  */
-#line 2023 "parser.y"
+#line 2028 "parser.y"
                 {printVM("Jump startLoopBody",forCounter);}
-#line 3660 "parser.tab.c"
+#line 3665 "parser.tab.c"
     break;
 
   case 132: /* $@36: %empty  */
-#line 2024 "parser.y"
+#line 2029 "parser.y"
                 {printVM("incCounter",forCounter);}
-#line 3666 "parser.tab.c"
+#line 3671 "parser.tab.c"
     break;
 
   case 133: /* $@37: %empty  */
-#line 2027 "parser.y"
+#line 2032 "parser.y"
                 {printVM("jump endLoopBody",forCounter);}
-#line 3672 "parser.tab.c"
+#line 3677 "parser.tab.c"
     break;
 
   case 134: /* $@38: %empty  */
-#line 2029 "parser.y"
+#line 2034 "parser.y"
                 {printVM("startLoopBody",forCounter);}
-#line 3678 "parser.tab.c"
+#line 3683 "parser.tab.c"
     break;
 
   case 135: /* $@39: %empty  */
-#line 2031 "parser.y"
+#line 2036 "parser.y"
                            {if(checkBreak){printVM("jump ENDFOR_",forCounter);}  checkBreak=false;   printVM("jump incCounter",forCounter);}
-#line 3684 "parser.tab.c"
+#line 3689 "parser.tab.c"
     break;
 
   case 136: /* $@40: %empty  */
-#line 2031 "parser.y"
+#line 2036 "parser.y"
                                                                                                                                              {printVM("endLoopBody",forCounter);}
-#line 3690 "parser.tab.c"
+#line 3695 "parser.tab.c"
     break;
 
   case 137: /* $@41: %empty  */
-#line 2031 "parser.y"
+#line 2036 "parser.y"
                                                                                                                                                                                   {printJUMPtype(17);}
-#line 3696 "parser.tab.c"
+#line 3701 "parser.tab.c"
     break;
 
   case 138: /* $@42: %empty  */
-#line 2031 "parser.y"
+#line 2036 "parser.y"
                                                                                                                                                                                                        {printJUMPtype(18);}
-#line 3702 "parser.tab.c"
+#line 3707 "parser.tab.c"
     break;
 
   case 139: /* for_statement: FOR $@31 OPENBRACKET for_initialization $@32 value $@33 $@34 SEMICOLON $@35 $@36 for_expression CLOSEDBRACKET $@37 $@38 statement $@39 $@40 $@41 $@42  */
-#line 2031 "parser.y"
+#line 2036 "parser.y"
                                                                                                                                                                                                                             {printf("for loop\n");}
-#line 3708 "parser.tab.c"
+#line 3713 "parser.tab.c"
     break;
 
   case 144: /* for_expression: IDENTIFIER EQUAL value SEMICOLON  */
-#line 2043 "parser.y"
+#line 2048 "parser.y"
                  {
 			//check if the variable is declared or not
 			int scopevar;
@@ -3757,11 +3762,11 @@ yyreduce:
 				return 0;
 			}
 		 }
-#line 3761 "parser.tab.c"
+#line 3766 "parser.tab.c"
     break;
 
   case 145: /* for_expression: IDENTIFIER PLUS_EQ expression  */
-#line 2092 "parser.y"
+#line 2097 "parser.y"
                 {
 			//check if the variable is declared or not
 			int scopevar;
@@ -3812,11 +3817,11 @@ yyreduce:
 				return 0;
 			}
 		}
-#line 3816 "parser.tab.c"
+#line 3821 "parser.tab.c"
     break;
 
   case 146: /* for_expression: IDENTIFIER MINUS_EQ expression  */
-#line 2143 "parser.y"
+#line 2148 "parser.y"
                 {
 			//check if the variable is declared or not
 			int scopevar;
@@ -3867,11 +3872,11 @@ yyreduce:
 				return 0;
 			}
 		}
-#line 3871 "parser.tab.c"
+#line 3876 "parser.tab.c"
     break;
 
   case 147: /* for_expression: IDENTIFIER MULT_EQ expression  */
-#line 2194 "parser.y"
+#line 2199 "parser.y"
                 {
 			//check if the variable is declared or not
 			int scopevar;
@@ -3922,11 +3927,11 @@ yyreduce:
 				return 0;
 			}
 		}
-#line 3926 "parser.tab.c"
+#line 3931 "parser.tab.c"
     break;
 
   case 148: /* for_expression: IDENTIFIER DIV_EQ expression  */
-#line 2245 "parser.y"
+#line 2250 "parser.y"
                 {
 			//check if the variable is declared or not
 			int scopevar;
@@ -3977,89 +3982,89 @@ yyreduce:
 				return 0;
 			}
 		}
-#line 3981 "parser.tab.c"
+#line 3986 "parser.tab.c"
     break;
 
   case 151: /* $@43: %empty  */
-#line 2302 "parser.y"
+#line 2307 "parser.y"
        {switchCounter++;}
-#line 3987 "parser.tab.c"
+#line 3992 "parser.tab.c"
     break;
 
   case 152: /* $@44: %empty  */
-#line 2302 "parser.y"
+#line 2307 "parser.y"
                           {printVM("switchBegin",-1);}
-#line 3993 "parser.tab.c"
+#line 3998 "parser.tab.c"
     break;
 
   case 153: /* $@45: %empty  */
-#line 2302 "parser.y"
+#line 2307 "parser.y"
                                                                                                       {scopeno++;}
-#line 3999 "parser.tab.c"
+#line 4004 "parser.tab.c"
     break;
 
   case 154: /* $@46: %empty  */
-#line 2302 "parser.y"
+#line 2307 "parser.y"
                                                                                                                                          {endscope(scopeno); scopeno--;}
-#line 4005 "parser.tab.c"
+#line 4010 "parser.tab.c"
     break;
 
   case 155: /* $@47: %empty  */
-#line 2302 "parser.y"
+#line 2307 "parser.y"
                                                                                                                                                                           {printVM("ENDSwitch",switchCounter);}
-#line 4011 "parser.tab.c"
+#line 4016 "parser.tab.c"
     break;
 
   case 156: /* switch_statement: SWITCH $@43 $@44 OPENBRACKET value CLOSEDBRACKET OPENCURL $@45 case_list CLOSEDCURL $@46 $@47  */
-#line 2302 "parser.y"
+#line 2307 "parser.y"
                                                                                                                                                                                                                 {printf("switch case\n");}
-#line 4017 "parser.tab.c"
+#line 4022 "parser.tab.c"
     break;
 
   case 159: /* $@48: %empty  */
-#line 2311 "parser.y"
+#line 2316 "parser.y"
             {if (caseCounter!=0) printVM("\tPop",-1); }
-#line 4023 "parser.tab.c"
+#line 4028 "parser.tab.c"
     break;
 
   case 160: /* $@49: %empty  */
-#line 2311 "parser.y"
+#line 2316 "parser.y"
                                                               {printVM("\tEQ",-1); }
-#line 4029 "parser.tab.c"
+#line 4034 "parser.tab.c"
     break;
 
   case 161: /* $@50: %empty  */
-#line 2311 "parser.y"
+#line 2316 "parser.y"
                                                                                            {  { printVM("JumpFalse endCase:", caseCounter);}     printVM("case:", caseCounter++);  }
-#line 4035 "parser.tab.c"
+#line 4040 "parser.tab.c"
     break;
 
   case 162: /* case_statement: CASE $@48 value $@49 COLON $@50 statements  */
-#line 2311 "parser.y"
+#line 2316 "parser.y"
                                                                                                                                                                                                  {if(checkBreak) {printJUMPtype(19);} if(!checkBreak){printVM("Jump Case:", caseCounter);} checkBreak=false ;   printVM("endCase",caseCounter-1); }
-#line 4041 "parser.tab.c"
+#line 4046 "parser.tab.c"
     break;
 
   case 163: /* $@51: %empty  */
-#line 2312 "parser.y"
+#line 2317 "parser.y"
                      {printVM("default_case:",-1);}
-#line 4047 "parser.tab.c"
+#line 4052 "parser.tab.c"
     break;
 
   case 165: /* break_statement: BREAK SEMICOLON  */
-#line 2318 "parser.y"
+#line 2323 "parser.y"
                                  {checkBreak=true; printf("Break statement\n");}
-#line 4053 "parser.tab.c"
+#line 4058 "parser.tab.c"
     break;
 
   case 166: /* continue_statement: CONTINUE SEMICOLON  */
-#line 2319 "parser.y"
+#line 2324 "parser.y"
                                        {printf("Continue statement\n");}
-#line 4059 "parser.tab.c"
+#line 4064 "parser.tab.c"
     break;
 
 
-#line 4063 "parser.tab.c"
+#line 4068 "parser.tab.c"
 
       default: break;
     }
@@ -4252,7 +4257,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 2321 "parser.y"
+#line 2326 "parser.y"
 
 
 
@@ -4420,6 +4425,17 @@ void printVM(char * s,int num){
 		fprintf(VMcode, "%s\n", s);
 
 		fclose(VMcode);
+}
+void printVM2(char * s,char * num){
+	FILE *VMcode = fopen("VMcode.txt", "a");
+		if(VMcode == NULL) {
+			printf("can't open VMcode.txt file!\n");
+			exit(1);
+		}
+		fprintf(VMcode, "%s %s\n", s,num);
+
+		fclose(VMcode);
+
 }
 	void PrintIDentifierAdress( int y){
 			FILE *VMcode = fopen("VMcode.txt", "a");

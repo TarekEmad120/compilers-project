@@ -1,11 +1,15 @@
-add:
-	PUSHMEM 	1
-	POPMEM 	0
-jmp return_add
-main:
-	PUSH 	5
-	POPMEM 	6
-	PUSH 	4
-	POPMEM 	7
 	PUSH 	0
-jmp return_main
+	POPMEM 	0
+	PUSH 	0
+	POPMEM 	1
+	PUSH 	0
+	POPMEM 	2
+main:
+BEGINDOWHILE_1
+INC 0
+	PUSHMEM 	0
+	PUSH 	0
+	NOTEQUAL
+JumpFalse ENDDoWHILE_1
+JumpTrue BEGINDOWHILE_1
+ENDDoWHILE_1
